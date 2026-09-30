@@ -1,4 +1,4 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -68,26 +68,47 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
-import com.conreo.couchytv.Actions
-import com.conreo.couchytv.R
-import com.conreo.couchytv.data.AppEntry
-import com.conreo.couchytv.data.AppRepository
-import com.conreo.couchytv.data.CategoryCfg
-import com.conreo.couchytv.data.ConfigStore
-import com.conreo.couchytv.data.DATE_FORMATS
-import com.conreo.couchytv.data.LAYOUT_DOCK
-import com.conreo.couchytv.data.LAYOUT_GRID
-import com.conreo.couchytv.data.LauncherConfig
+import com.rws.kittylauncher.Actions
+import com.rws.kittylauncher.R
+import com.rws.kittylauncher.data.AppEntry
+import com.rws.kittylauncher.data.AppRepository
+import com.rws.kittylauncher.data.CategoryCfg
+import com.rws.kittylauncher.data.ConfigStore
+import com.rws.kittylauncher.data.DATE_FORMATS
+import com.rws.kittylauncher.data.LAYOUT_DOCK
+import com.rws.kittylauncher.data.LAYOUT_GRID
+import com.rws.kittylauncher.data.LauncherConfig
 import kotlinx.coroutines.Dispatchers
 import androidx.compose.runtime.withFrameNanos
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import kotlinx.serialization.json.Json
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.tv.material3.Switch
+import android.util.Log
+import androidx.compose.runtime.key
+import androidx.tv.material3.LocalContentColor
+import java.net.Inet4Address
+import java.net.NetworkInterface
+import java.util.Collections
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import android.os.Environment
+import android.content.Intent
+import kotlinx.coroutines.delay
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
+import com.rws.kittylauncher.data.GlobalConfig
 
 private val format = Json { ignoreUnknownKeys = true; prettyPrint = true; encodeDefaults = true }
 
-private enum class SettingsScreen { Main, Wallpaper, Display, StatusBar, Apps, Categories, Launcher, About }
+private enum class SettingsScreen { Main, Wallpaper, Display, StatusBar, Apps, Categories, Launcher, About, UserInterface } //rws ui
 
 /**
  * Settings panel built entirely from focusable rows and buttons — every
@@ -106,7 +127,12 @@ fun SettingsSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var screen by remember { mutableStateOf(SettingsScreen.Main) }
-
+    //rws menu focus
+    var mainFocus by remember { mutableStateOf(SettingsScreen.Apps) }
+    fun openScreen(target: SettingsScreen) {
+        mainFocus = target
+        screen = target
+    }
     // Same document-picker flow as videos: opens the system file manager,
     // works with USB drives and network storage providers.
     val photoPicker = rememberLauncherForActivityResult(
@@ -133,6 +159,8 @@ fun SettingsSheet(
         }
     }
 
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     // Video wallpaper: keep a persistable read grant and stream in place —
     // aerial files are hundreds of MB, never copied.
     val videoPicker = rememberLauncherForActivityResult(
@@ -159,6 +187,7 @@ fun SettingsSheet(
 
     Dialog(
         onDismissRequest = {
+            playBackSound(view, isMuted)
             if (screen != SettingsScreen.Main) screen = SettingsScreen.Main else onDismiss()
         },
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -178,9 +207,18 @@ fun SettingsSheet(
         // so the launcher's ScaledUi doesn't reach here — re-apply it. The
         // dialog's LocalConfiguration is the real (unscaled) device width.
         ScaledUi(uiScaleFactor(config.uiScale, androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp)) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterEnd) {
+        //rws menu
+        //Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterEnd) {
+          
+        val isMenuRightAligned = config.menuAlign == 1
+        val ui = GlobalConfig.ui
+        Box(Modifier.fillMaxSize(), contentAlignment = if (isMenuRightAligned) Alignment.CenterEnd else Alignment.CenterStart) {
             Surface(
-                shape = RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp),
+                shape = if (isMenuRightAligned) {
+                    RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp)
+                } else {
+                    RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp)
+                },
                 colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
                 modifier = Modifier
                     .width(440.dp)
@@ -192,7 +230,21 @@ fun SettingsSheet(
                     targetState = screen,
                     transitionSpec = {
                         val forward = targetState != SettingsScreen.Main
-                        val dir = if (forward) 1 else -1
+                        //rws menu
+                        //val dir = if (forward) 1 else -1
+                        // Dynamically change slide direction based on alignment (always to center)
+                        val dir = if (ui.menuSlidesToCenter) {
+                            //If true slide to center
+                            if (forward) {
+                                if (isMenuRightAligned) 1 else -1
+                            } else {
+                                if (isMenuRightAligned) -1 else 1
+                            }
+                        } else {
+                            //If false slide in from right
+                            if (forward) 1 else -1
+                        }
+
                         (androidx.compose.animation.slideInHorizontally(tween(260)) { w -> dir * w } +
                             androidx.compose.animation.fadeIn(tween(260))) togetherWith
                             (androidx.compose.animation.slideOutHorizontally(tween(260)) { w -> -dir * w } +
@@ -202,14 +254,45 @@ fun SettingsSheet(
                 ) { target ->
                 when (target) {
                     SettingsScreen.Main -> MainScreen(
-                        onWallpaper = { screen = SettingsScreen.Wallpaper },
-                        onDisplay = { screen = SettingsScreen.Display },
-                        onStatusBar = { screen = SettingsScreen.StatusBar },
-                        onApps = { screen = SettingsScreen.Apps },
-                        onCategories = { screen = SettingsScreen.Categories },
-                        onLauncher = { screen = SettingsScreen.Launcher },
+                        //rws menu focus
+                        mainFocus = mainFocus,
+                        //rws menu align
+                        config = config,
+                        store = store,
+                        onWallpaper = {
+                            mainFocus = SettingsScreen.Wallpaper
+                            screen = SettingsScreen.Wallpaper
+                        },
+                        onDisplay = {
+                            mainFocus = SettingsScreen.Display
+                            screen = SettingsScreen.Display
+                        },
+                        onStatusBar = {
+                            mainFocus = SettingsScreen.StatusBar
+                            screen = SettingsScreen.StatusBar
+                        },
+                        onApps = {
+                            mainFocus = SettingsScreen.Apps
+                            screen = SettingsScreen.Apps
+                        },
+                        onCategories = {
+                            mainFocus = SettingsScreen.Categories
+                            screen = SettingsScreen.Categories
+                        },
+                        onLauncher = {
+                            mainFocus = SettingsScreen.Launcher
+                            screen = SettingsScreen.Launcher
+                        },
                         onAndroidSettings = { Actions.openSystemSettings(context) },
-                        onAbout = { screen = SettingsScreen.About },
+                        onAbout = {
+                            mainFocus = SettingsScreen.About
+                            screen = SettingsScreen.About
+                        },
+                        //rws ui
+                        onUserInterface = {
+                            mainFocus = SettingsScreen.UserInterface
+                            screen = SettingsScreen.UserInterface
+                        },
                     )
                     SettingsScreen.Wallpaper -> WallpaperScreen(
                         config = config,
@@ -289,6 +372,12 @@ fun SettingsSheet(
                     SettingsScreen.About -> AboutScreen(
                         onBack = { screen = SettingsScreen.Main },
                     )
+                    //rws menu
+                    SettingsScreen.UserInterface -> UserInterfaceScreen(
+                        config = config,
+                        store = store,
+                        onBack = { screen = SettingsScreen.Main },
+                    )
                     SettingsScreen.Launcher -> LauncherSettingsSubscreen(
                         config = config,
                         store = store,
@@ -307,6 +396,9 @@ fun SettingsSheet(
 
 @Composable
 private fun MainScreen(
+    mainFocus: SettingsScreen, //rws menu focus
+    config: LauncherConfig, //rws menu align
+    store: ConfigStore, //rws menu align
     onWallpaper: () -> Unit,
     onDisplay: () -> Unit,
     onStatusBar: () -> Unit,
@@ -315,9 +407,17 @@ private fun MainScreen(
     onLauncher: () -> Unit,
     onAndroidSettings: () -> Unit,
     onAbout: () -> Unit,
+    onUserInterface: () -> Unit, //rws ui
 ) {
+    //rws menu align
+    val scope = rememberCoroutineScope()
+
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -326,6 +426,8 @@ private fun MainScreen(
             modifier = Modifier.padding(bottom = 12.dp, start = 8.dp),
         )
         val f = initialFocus()
+        fun focusModifier(target: SettingsScreen): Modifier =
+            if (mainFocus == target) Modifier.focusRequester(f) else Modifier
 
         // ---- Content: what shows on the home screen ----
         SectionLabel(stringResource(R.string.group_content))
@@ -334,13 +436,15 @@ private fun MainScreen(
             headlineContent = { Text(stringResource(R.string.item_app)) },
             supportingContent = { Text(stringResource(R.string.item_app_sub)) },
             leadingContent = { Icon(AppIcons.Apps, contentDescription = null) },
-            modifier = Modifier.focusRequester(f),
+            //modifier = Modifier.focusRequester(f),
+            modifier = focusModifier(SettingsScreen.Apps), //rws menu focus
         )
         SettingsItem(
             selected = false, onClick = onCategories,
             headlineContent = { Text(stringResource(R.string.item_sections)) },
             supportingContent = { Text(stringResource(R.string.item_sections_sub)) },
             leadingContent = { Icon(AppIcons.Folder, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.Categories), //rws menu focus
         )
 
         // ---- Appearance: how it looks ----
@@ -350,18 +454,64 @@ private fun MainScreen(
             headlineContent = { Text(stringResource(R.string.item_display)) },
             supportingContent = { Text(stringResource(R.string.item_display_sub)) },
             leadingContent = { Icon(AppIcons.Display, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.Display), //rws menu focus
         )
         SettingsItem(
             selected = false, onClick = onWallpaper,
             headlineContent = { Text(stringResource(R.string.item_wallpaper)) },
             supportingContent = { Text(stringResource(R.string.item_wallpaper_sub)) },
             leadingContent = { Icon(AppIcons.Image, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.Wallpaper), //rws menu focus
         )
         SettingsItem(
             selected = false, onClick = onStatusBar,
             headlineContent = { Text(stringResource(R.string.item_statusbar)) },
             supportingContent = { Text(stringResource(R.string.item_statusbar_sub)) },
             leadingContent = { Icon(AppIcons.Wifi, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.StatusBar), //rws menu focus
+        )
+        //rws User Interface
+        //Only has menu alignment, comment out, menu alignment will be there when other settings are added
+        /*
+        SettingsItem(
+            selected = false,
+            onClick = onUserInterface,
+            headlineContent = { Text(stringResource(R.string.item_userinterface)) },
+            supportingContent = { Text(stringResource(R.string.item_userinterface_sub)) },
+            leadingContent = { Icon(AppIcons.UserInterface, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.UserInterface), //rws menu focus
+        )
+        */
+
+        //rws Menu Alignment, put here, better than having a sub-menu with one item
+        val alignStep = config.menuAlign.coerceIn(0, 1)
+        val alignLabels = listOf(stringResource(R.string.menu_left), stringResource(R.string.menu_right))
+
+        SettingsItem(
+            selected = false,
+            onClick = {}, // Action consumed by d-pad preview keys to avoid text flash
+            headlineContent = { Text(stringResource(R.string.menu_alignment)) },
+            supportingContent = { Text(stringResource(R.string.menu_alignment_sub)) },
+            leadingContent = { Icon(AppIcons.Menu, contentDescription = null) },
+            trailingContent = {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("◄", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(alignLabels[alignStep])
+                    Text("►", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            },
+            modifier = Modifier
+                .horizontalNavSound()
+                .onPreviewKeyEvent { e ->
+                    if (e.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                    when (e.key) {
+                        Key.DirectionLeft, Key.DirectionRight, Key.DirectionCenter, Key.Enter, Key.NumPadEnter -> {
+                            scope.launch { store.update { it.copy(menuAlign = (alignStep + 1) % 2) } }
+                            true // Consumes the event so focus doesn't jump
+                        }
+                        else -> false
+                    }
+                }
         )
 
         // ---- System ----
@@ -370,18 +520,21 @@ private fun MainScreen(
             selected = false, onClick = onLauncher,
             headlineContent = { Text(stringResource(R.string.item_launcher_settings)) },
             supportingContent = { Text(stringResource(R.string.item_launcher_settings_sub)) },
-            leadingContent = { Icon(painter = androidx.compose.ui.res.painterResource(R.drawable.ic_couch), contentDescription = null, modifier = Modifier.size(24.dp)) },
-        )
+            leadingContent = { Icon(painter = androidx.compose.ui.res.painterResource(R.drawable.ic_kitty), contentDescription = null, modifier = Modifier.size(24.dp)) },
+            modifier = focusModifier(SettingsScreen.Launcher), //rws menu focus
+            )
         SettingsItem(
             selected = false, onClick = onAndroidSettings,
             headlineContent = { Text(stringResource(R.string.item_android_settings)) },
             supportingContent = { Text(stringResource(R.string.item_android_settings_sub)) },
             leadingContent = { Icon(AppIcons.Gear, contentDescription = null) },
+            //rws no menu focus needed, leaves launcher
         )
         SettingsItem(
             selected = false, onClick = onAbout,
             headlineContent = { Text(stringResource(R.string.item_about)) },
             leadingContent = { Icon(AppIcons.Info, contentDescription = null) },
+            modifier = focusModifier(SettingsScreen.About), //rws menu focus
         )
     }
 }
@@ -394,7 +547,10 @@ private fun AboutScreen(
 ) {
     val context = LocalContext.current
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -408,7 +564,7 @@ private fun AboutScreen(
             modifier = Modifier.padding(start = 8.dp, top = 4.dp),
         ) {
             Image(
-                painter = androidx.compose.ui.res.painterResource(R.drawable.ic_couch),
+                painter = androidx.compose.ui.res.painterResource(R.drawable.ic_kitty),
                 contentDescription = null,
                 modifier = Modifier.size(44.dp),
             )
@@ -490,7 +646,11 @@ private fun DisplayScreen(
         scope.launch { store.update(transform) }
     }
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -523,7 +683,14 @@ private fun DisplayScreen(
                 trailingContent = { CheckMark(checked = config.showCategoryNames) },
             )
         }
-        SectionLabel(stringResource(R.string.section_size))
+        //rws col
+        SectionLabel(
+            if (config.columnCount == null) {
+                stringResource(R.string.section_size)
+            } else {
+                stringResource(R.string.section_size_for_columns)
+            }
+        )
         run {
             val labels = listOf(stringResource(R.string.scale_auto), "75%", "90%", "100%", "115%", "130%")
             val idx = config.uiScale.coerceIn(0, labels.size - 1)
@@ -543,6 +710,22 @@ private fun DisplayScreen(
             current = config.cornerRadius.coerceIn(0, 4),
             onSelect = { v -> update { it.copy(cornerRadius = v) } },
         )
+        //rws For column  --- NEW MENU CONTROLS START HERE ---
+        SettingsItem(
+            selected = false,
+            onClick = {
+                update {
+                    if (it.columnCount != null) {
+                        it.copy(columnCount = null)
+                    } else {
+                        it.copy(columnCount = 6) // Safe default between 4 and 20
+                    }
+                }
+            },
+            headlineContent = { Text(stringResource(R.string.column_layout)) },
+            trailingContent = { CheckMark(checked = config.columnCount != null) }
+        )
+        if (config.columnCount == null) {
         SelectorRow(
             label = stringResource(R.string.icon_size),
             value = listOf(stringResource(R.string.size_xs), stringResource(R.string.size_s), stringResource(R.string.size_n), stringResource(R.string.size_l), stringResource(R.string.size_xl))[config.iconScale.coerceIn(0, 4)],
@@ -557,6 +740,27 @@ private fun DisplayScreen(
             current = config.spacing.coerceIn(0, 4),
             onSelect = { v -> update { it.copy(spacing = v) } },
         )
+        } else {
+            val currentCols = config.columnCount.coerceIn(4, 20)
+            SelectorRow(
+                label = stringResource(R.string.column_num_columns),
+                value = currentCols.toString(),
+                steps = 17,
+                current = currentCols - 4,
+                onSelect = { v -> update { it.copy(columnCount = v + 4) } }
+            )
+            // --- NEW GAP CONTROL ---
+            // Assumes you have added `columnGap` to your config data class
+            val currentGap = config.columnGap.coerceIn(0, 40)
+            SelectorRow(
+                label = stringResource(R.string.column_gap),
+                value = "$currentGap dp",
+                steps = 41,
+                current = currentGap,
+                onSelect = { v -> update { it.copy(columnGap = v) } }
+            )
+        }
+        // --- NEW MENU CONTROLS END HERE ---
     }
 }
 
@@ -574,9 +778,11 @@ private fun SelectorRow(
     description: String? = null,
     modifier: Modifier = Modifier,
 ) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     SettingsItem(
         selected = false,
-        onClick = { onSelect((current + 1) % steps) },
+        onClick = {}, //rws fix text flash
         headlineContent = { Text(label) },
         supportingContent = { if (description != null) Text(description) },
         trailingContent = {
@@ -589,8 +795,17 @@ private fun SelectorRow(
         modifier = modifier.onPreviewKeyEvent { e ->
             if (e.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
             when (e.key) {
-                Key.DirectionLeft -> { onSelect((current - 1 + steps) % steps); true }
-                Key.DirectionRight -> { onSelect((current + 1) % steps); true }
+                Key.DirectionLeft -> {
+                    playNavSound(view, isMuted)
+                    onSelect((current - 1 + steps) % steps); true }
+                Key.DirectionRight -> {
+                    playNavSound(view, isMuted)
+                    onSelect((current + 1) % steps); true }
+                Key.DirectionCenter, Key.Enter, Key.NumPadEnter -> {
+                    //rws sound played in parent //playClickSound(view)
+                    onSelect((current + 1) % steps)
+                    true // Consumes the event here so it never reaches SettingsItem's press animation
+                }
                 else -> false
             }
         },
@@ -611,7 +826,10 @@ private fun AppsScreen(
 ) {
     val catNames = remember(config.categories) { config.categories.associate { it.id to it.name } }
 
-    Column(Modifier.fillMaxSize().padding(20.dp)) {
+    Column(Modifier
+        .verticalNavSound()
+        .fillMaxSize()
+        .padding(20.dp)) {
         Text(
             stringResource(R.string.item_app),
             style = MaterialTheme.typography.titleLarge,
@@ -631,7 +849,9 @@ private fun AppsScreen(
             items(apps.size, key = { apps[it].pkg }) { i ->
                 val app = apps[i]
                 Row(
-                    Modifier.fillMaxWidth(),
+                    Modifier
+                        .horizontalNavSound()
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -664,6 +884,7 @@ private fun AppsScreen(
 }
 
 /** Small leading artwork for list rows: banner if the app ships one, else icon. */
+/*rws Don't use banner icon
 @Composable
 private fun AppThumb(app: AppEntry) {
     when {
@@ -687,6 +908,26 @@ private fun AppThumb(app: AppEntry) {
         )
     }
 }
+*/
+@Composable
+private fun AppThumb(app: AppEntry) {
+    if (app.icon != null) {
+        Image(
+            bitmap = app.icon,
+            contentDescription = null,
+            modifier = Modifier.size(30.dp),
+        )
+    } else {
+        Box(
+            Modifier
+                .size(30.dp)
+                .background(
+                    Color.White.copy(alpha = 0.1f),
+                    RoundedCornerShape(5.dp),
+                )
+        )
+    }
+}
 
 /* ---------- section apps picker: vertical grid, checked = included ---------- */
 
@@ -695,9 +936,14 @@ private fun SectionAppsDialog(
     cat: CategoryCfg,
     apps: List<AppEntry>,
     config: LauncherConfig,
+    //rws Toggle to show all apps or those with no section
+    showAllApps: Boolean,
+    onShowAllAppsChange: (Boolean) -> Unit,
     onToggle: (AppEntry) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -705,10 +951,40 @@ private fun SectionAppsDialog(
         Surface(
             shape = RoundedCornerShape(16.dp),
             colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
-            modifier = Modifier.width(720.dp).height(520.dp),
+            modifier = Modifier
+                .horizontalNavSound()
+                .verticalNavSound()
+                .width(720.dp)
+                .height(520.dp),
         ) {
-            Column(Modifier.fillMaxSize().padding(20.dp)) {
-                Text(cat.name, style = MaterialTheme.typography.titleMedium)
+            Column(Modifier
+                .fillMaxSize()
+                .padding(20.dp)) {
+                //rws Toggle to show all apps or those with no section
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(cat.name, style = MaterialTheme.typography.titleMedium)
+                    SettingsItem(
+                        selected = false,
+                        onClick = { onShowAllAppsChange(!showAllApps) },
+                        headlineContent = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                Switch(
+                                    checked = showAllApps,
+                                    onCheckedChange = null,
+                                )
+                                Text(stringResource(R.string.section_apps_dialog_all_apps_toggle_label))
+                            }
+                        },
+                        modifier = Modifier.width(180.dp),
+                    )
+                }
                 Text(
                     stringResource(R.string.section_apps_sub),
                     style = MaterialTheme.typography.bodySmall,
@@ -726,7 +1002,7 @@ private fun SectionAppsDialog(
                         val app = apps[i]
                         val inSection = cat.id in AppRepository.sectionsOf(app, config)
                         Surface(
-                            onClick = { onToggle(app) },
+                            onClick = { playClickSound(view, isMuted); onToggle(app) },
                             modifier = if (i == 0) Modifier.focusRequester(f) else Modifier,
                             shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(10.dp)),
                             colors = ClickableSurfaceDefaults.colors(
@@ -735,7 +1011,9 @@ private fun SectionAppsDialog(
                             ),
                             scale = ClickableSurfaceDefaults.scale(focusedScale = 1.06f),
                         ) {
-                            Box(Modifier.fillMaxWidth().padding(8.dp)) {
+                            Box(Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)) {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     if (app.banner != null) {
                                         Image(
@@ -752,7 +1030,10 @@ private fun SectionAppsDialog(
                                             Modifier
                                                 .fillMaxWidth()
                                                 .aspectRatio(16f / 9f)
-                                                .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(6.dp)),
+                                                .background(
+                                                    Color.White.copy(alpha = 0.08f),
+                                                    RoundedCornerShape(6.dp)
+                                                ),
                                             contentAlignment = Alignment.Center,
                                         ) {
                                             if (app.icon != null) {
@@ -768,14 +1049,16 @@ private fun SectionAppsDialog(
                                         modifier = Modifier.padding(top = 6.dp),
                                     )
                                 }
-                                Box(Modifier.align(Alignment.TopEnd).padding(4.dp)) {
+                                Box(Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(4.dp)) {
                                     CheckMark(checked = inSection)
                                 }
                             }
                         }
                     }
                 }
-                Button(onClick = onDismiss, modifier = Modifier.padding(top = 12.dp)) {
+                Button(onClick={ playClickSound(view, isMuted); onDismiss()}, modifier = Modifier.padding(top = 12.dp)) {
                     Text(stringResource(R.string.done))
                 }
             }
@@ -802,18 +1085,47 @@ private fun LauncherSettingsSubscreen(
         return
     }
 
+    //rws Don't say it was saved when it wasn't, add debug to see why if it didn't
     fun saveConfig() {
+        val filename = "KittyBackup-${SimpleDateFormat("yyMMdd-HHmmss", Locale.US).format(Date())}.json"
+        val dir = android.os.Environment.getExternalStoragePublicDirectory(
+            android.os.Environment.DIRECTORY_DOWNLOADS
+        )
         scope.launch {
-            withContext(Dispatchers.IO) {
+            val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val dir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
                     dir.mkdirs()
-                    File(dir, "CouchyBackup.json").writeText(format.encodeToString(LauncherConfig.serializer(), config))
+
+                    //rws store ip address in backup file so I know which device it came from
+                    val deviceIP = NetworkInterface.getByName("wlan0")
+                        ?.let { Collections.list(it.inetAddresses) }
+                        ?.firstOrNull { it is Inet4Address && !it.isLoopbackAddress }
+                        ?.hostAddress
+
+                    Log.d("KittyLauncher", "Device IP: $deviceIP")
+
+                    Log.d("KittyLauncher", "SAVING columnCount=${config.columnCount}")
+                    val backupConfig = config.copy(deviceIP = deviceIP ?: "")
+
+                    File(dir, filename).writeText(
+                        format.encodeToString(LauncherConfig.serializer(), backupConfig)
+                    )
                 }
             }
-            Actions.toast(context, "Saved to Downloads/CouchyBackup.json")
+
+            result.onSuccess {
+                Log.d("KittyLauncher", "Saved $filename")
+                Actions.toast(context, "Saved to $dir/$filename")
+            }.onFailure {
+                Log.e("KittyLauncher", "Failed to save $filename", it)
+                Actions.toast(context, "Save failed: ${it}")
+            }
         }
     }
+
+    //rws pick
+    var showFallbackDialog by remember { mutableStateOf(false) }
+    val systemSoundsEnabled = LocalSystemNavSoundsEnabled.current
 
     val loadPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -828,6 +1140,8 @@ private fun LauncherSettingsSubscreen(
                     }.getOrNull()
                 }
                 if (loaded != null) {
+                    //rws debug
+                    Log.d("KittyLauncher", "LOADED columnCount=${loaded.columnCount}")
                     store.update { loaded.copy(knownApps = config.knownApps, setupDone = true) }
                     Actions.toast(context, context.getString(R.string.toast_config_loaded))
                 } else {
@@ -838,7 +1152,11 @@ private fun LauncherSettingsSubscreen(
     }
 
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -853,6 +1171,50 @@ private fun LauncherSettingsSubscreen(
             supportingContent = { Text(stringResource(R.string.item_language_sub)) },
             leadingContent = { Icon(AppIcons.Language, contentDescription = null) },
         )
+        //rws --- Mute Navigation Sounds Option ---
+        SettingsItem(
+            selected = false,
+            enabled = systemSoundsEnabled,  // ← Greys out & disables when system sounds OFF
+
+            onClick = {
+                if (systemSoundsEnabled) {  // Safety guard
+
+                    scope.launch {
+                        store.update { it.copy(muteNavSounds = !config.muteNavSounds) }
+                    }
+                }
+            },
+            headlineContent = {
+                Text(
+                    stringResource(R.string.nav_sound_headline),
+                    color = if (systemSoundsEnabled)
+                        LocalContentColor.current
+                    else
+                        LocalContentColor.current.copy(alpha = .38f)
+                )
+
+            }, 
+            supportingContent = {
+                Text(
+                    context.getString(R.string.nav_sound_supporting),
+                    color = if (systemSoundsEnabled)
+                        LocalContentColor.current
+                    else
+                        LocalContentColor.current.copy(alpha = .38f)
+                    )
+            },
+
+            leadingContent = {
+                Icon(AppIcons.VolumeOff,
+                    contentDescription = null,
+                    tint = if (systemSoundsEnabled)
+                        LocalContentColor.current
+                    else
+                        LocalContentColor.current.copy(alpha = .38f)
+
+                    ) },
+            trailingContent = { CheckMark(checked = config.muteNavSounds, enabled=systemSoundsEnabled) },
+        )
         SettingsItem(
             selected = false,
             onClick = { saveConfig() },
@@ -862,7 +1224,31 @@ private fun LauncherSettingsSubscreen(
         )
         SettingsItem(
             selected = false,
-            onClick = { runCatching { loadPicker.launch(arrayOf("application/json", "*/*")) }.onFailure { Actions.toast(context, context.getString(R.string.toast_no_picker)) } },
+            //rws pick
+            onClick = {
+                // 1. Create a dummy test intent matching the OpenDocument parameters
+                val checkIntent = android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(android.content.Intent.CATEGORY_OPENABLE)
+                    type = "*/*"
+                }
+
+                // 2. Query package manager to see if AOSP's DocumentsUI handles this action
+                val resolveInfo = context.packageManager.resolveActivity(checkIntent, 0)
+
+                if (resolveInfo != null) {
+                    // System component is healthy! Launch natively.
+                    runCatching {
+                        loadPicker.launch(arrayOf("application/json", "*/*"))
+                    }.onFailure {
+                        showFallbackDialog = true
+                    }
+                } else {
+                    // Fire OS 8 scenario: Bypasses the warning toast entirely
+                    // and flips our switch to open the inline directory layout.
+                    showFallbackDialog = true
+                }
+            },
+            //onClick = { runCatching { loadPicker.launch(arrayOf("application/json", "*/*")) }.onFailure { Actions.toast(context, context.getString(R.string.toast_no_picker)) } },
             headlineContent = { Text(stringResource(R.string.item_load_config)) },
             supportingContent = { Text(stringResource(R.string.item_load_config_sub)) },
             leadingContent = { Icon(AppIcons.Folder, contentDescription = null) },
@@ -874,7 +1260,148 @@ private fun LauncherSettingsSubscreen(
             supportingContent = { Text(stringResource(R.string.rerun_wizard_sub)) },
             leadingContent = { Icon(AppIcons.Play, contentDescription = null) },
         )
+        // New "Restart Launcher" item added at the end of the list
+        SettingsItem(
+            selected = false,
+            onClick = {
+                val pm = context.packageManager
+                val intent = pm.getLaunchIntentForPackage(context.packageName)
+                val componentName = intent?.component
+                if (componentName != null) {
+                    val restartIntent = android.content.Intent.makeRestartActivityTask(componentName)
+                    context.startActivity(restartIntent)
+                    Runtime.getRuntime().exit(0)
+                }
+            },
+            headlineContent = { Text(stringResource(R.string.restart_launcher_headline)) }, // Verify this matches your strings.xml ID
+            supportingContent = { Text(stringResource(R.string.restart_launcher_supporting)) },
+            leadingContent = { Icon(AppIcons.Cycle, contentDescription = null) }, // Update if you have an AppIcons.Refresh or AppIcons.Power mapped
+        )
     }
+
+    //rws pick
+    //Fallback if there is nothing to handle Intent.ACTION_OPEN_DOCUMENT when
+    //doing "Load configuration". Ths was stripped out of FireOS8. 
+    //It will use the system option if it exists from the system or another
+    //application such as https://github.com/zhanghai/MaterialFiles otherwise
+    //it will use this simple fallback. No extra permissions needed to read our own files.
+    if (showFallbackDialog) {
+        val readableFiles = remember(showFallbackDialog) {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            downloadDir.listFiles()?.filter { it.isFile }?.sortedBy { it.name.lowercase() } ?: emptyList()
+        }
+
+        val cancelFocus = remember { FocusRequester() }
+        val lastFileFocus = remember { FocusRequester() } // NEW: Target for the last file
+        val listState = rememberLazyListState()
+        val view = LocalView.current
+        val isMuted = LocalMuteNavSounds.current
+
+        LaunchedEffect(Unit) {
+            // Guarantee the list is scrolled down so the last item is composed
+            if (readableFiles.isNotEmpty()) {
+                listState.scrollToItem(readableFiles.lastIndex)
+            }
+            delay(100)
+            runCatching { cancelFocus.requestFocus() }
+        }
+
+        Dialog(
+            onDismissRequest = { playBackSound(view, isMuted); showFallbackDialog = false }
+        ) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .verticalNavSound()
+                    .width(400.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.file_picker_dialog_title),
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    if (readableFiles.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.file_picker_dialog_error_msg),
+                            modifier = Modifier.padding(bottom = 24.dp)
+                        )
+                    } else {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(250.dp)
+                                .padding(bottom = 16.dp)
+                        ) {
+                            items(readableFiles.size) { index ->
+                                val file = readableFiles[index]
+                                val isLastItem = index == readableFiles.lastIndex // Check if this is the newest file
+
+                                Button(
+                                    onClick = {
+                                        playClickSound(view, isMuted)
+                                        showFallbackDialog = false
+                                        scope.launch {
+                                            val loaded = withContext(Dispatchers.IO) {
+                                                runCatching {
+                                                    val fileContent = file.readText()
+                                                    format.decodeFromString(LauncherConfig.serializer(), fileContent)
+                                                }.getOrNull()
+                                            }
+                                            if (loaded != null) {
+                                                Log.d("KittyLauncher", "LOADED fallback columnCount=${loaded.columnCount}")
+                                                store.update { loaded.copy(knownApps = config.knownApps, setupDone = true) }
+                                                Actions.toast(context, context.getString(R.string.toast_config_loaded))
+                                            } else {
+                                                Actions.toast(context, context.getString(R.string.toast_config_bad))
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp)
+                                        // NEW: Attach the FocusRequester ONLY to the very last item in the list
+                                        .then(if (isLastItem) Modifier.focusRequester(lastFileFocus) else Modifier)
+                                ) {
+                                    Text(
+                                        text = file.name,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = androidx.compose.ui.text.style.TextAlign.Start,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(
+                            onClick = { playClickSound(view, isMuted); showFallbackDialog = false },
+                            modifier = Modifier
+                                .focusRequester(cancelFocus)
+                                // NEW: Hardwire the D-pad UP action to jump to the last file
+                                .focusProperties {
+                                    if (readableFiles.isNotEmpty()) {
+                                        up = lastFileFocus
+                                    }
+                                }
+                        ) {
+                            Text(stringResource(R.string.file_picker_dialog_cancel))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 /* ------------------------------ language ------------------------------ */
@@ -887,7 +1414,11 @@ private fun LanguageScreen(
 ) {
     val scope = rememberCoroutineScope()
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -896,7 +1427,7 @@ private fun LanguageScreen(
             modifier = Modifier.padding(bottom = 12.dp, start = 8.dp),
         )
         val f = initialFocus()
-        com.conreo.couchytv.data.LANGUAGES.forEachIndexed { i, code ->
+        com.rws.kittylauncher.data.LANGUAGES.forEachIndexed { i, code ->
             // Endonym: each language named in its own tongue (no per-language strings)
             val label = if (code.isEmpty()) stringResource(R.string.lang_system)
             else java.util.Locale(code).let { it.getDisplayName(it) }
@@ -929,9 +1460,15 @@ private fun StatusBarScreen(
     val scope = rememberCoroutineScope()
     var pickVpn by remember { mutableStateOf(false) }
     val vpnLabel = apps.firstOrNull { it.pkg == config.vpnApp }?.label ?: stringResource(R.string.vpn_system)
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
 
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -993,13 +1530,18 @@ private fun StatusBarScreen(
     }
 
     if (pickVpn) {
-        Dialog(onDismissRequest = { pickVpn = false }) {
+        Dialog(onDismissRequest = { playBackSound(view, isMuted); pickVpn = false }) {
             Surface(
                 shape = RoundedCornerShape(16.dp),
                 colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
-                modifier = Modifier.width(380.dp).height(480.dp),
+                modifier = Modifier
+                    .verticalNavSound()
+                    .width(380.dp)
+                    .height(480.dp),
             ) {
-                Column(Modifier.fillMaxSize().padding(16.dp)) {
+                Column(Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)) {
                     Text(
                         stringResource(R.string.vpn_dialog_title),
                         style = MaterialTheme.typography.titleMedium,
@@ -1051,9 +1593,15 @@ private fun CategoriesScreen(
     val scope = rememberCoroutineScope()
     var renameFor by remember { mutableStateOf<CategoryCfg?>(null) }
     var appsFor by remember { mutableStateOf<CategoryCfg?>(null) }
+    var showAllApps by rememberSaveable { mutableStateOf(false) } //rws all apps toggle
+    var deleteCategoryFor by remember { mutableStateOf<CategoryCfg?>(null) } //rws delete confirmation
 
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(
@@ -1062,7 +1610,11 @@ private fun CategoriesScreen(
             modifier = Modifier.padding(bottom = 12.dp, start = 8.dp),
         )
         val f = initialFocus()
+        //rws move section focus fix
+        val upFocus = remember { mutableMapOf<String, FocusRequester>() }
+        val downFocus = remember { mutableMapOf<String, FocusRequester>() }
         // Auto-filled "All apps" section: a single toggle, no per-app assignment.
+        /* rws remove all apps section toggle until bug is fixed for moving app in multiple sections
         run {
             val hasAll = config.categories.any { it.id == AppRepository.ALL_APPS_ID }
             val allName = stringResource(R.string.cat_all_apps)
@@ -1086,51 +1638,73 @@ private fun CategoriesScreen(
                 trailingContent = { CheckMark(checked = hasAll) },
             )
         }
+        */
+
         config.categories.forEachIndexed { i, cat ->
             if (cat.id == AppRepository.ALL_APPS_ID) return@forEachIndexed
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(Modifier.weight(1f)) {
-                    SettingsItem(
-                        selected = false,
-                        onClick = { appsFor = cat },
-                        headlineContent = { Text(cat.name) },
-                        supportingContent = { Text(stringResource(R.string.section_row_sub)) },
-                        leadingContent = { Icon(AppIcons.Folder, contentDescription = null) },
-                    )
-                }
-                SmallIconButton(AppIcons.Pencil, stringResource(R.string.rename_section)) { renameFor = cat }
-                SmallIconButton(AppIcons.Up, stringResource(R.string.cd_move_up)) {
-                    if (i > 0) scope.launch {
-                        store.update { cfg ->
-                            val l = cfg.categories.toMutableList()
+            //rws move section focus fix
+            key(cat.id) {
+                val catUpFocus = remember { FocusRequester() }
+                val catDownFocus = remember { FocusRequester() }
+                Row(
+                    Modifier
+                        .horizontalNavSound()
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Box(Modifier.weight(1f)) {
+                        SettingsItem(
+                            selected = false,
+                            onClick = { appsFor = cat },
+                            headlineContent = { Text(cat.name) },
+                            supportingContent = { Text(stringResource(R.string.section_row_sub)) },
+                            leadingContent = { Icon(AppIcons.Folder, contentDescription = null) },
+                        )
+                    }
+                    SmallIconButton(AppIcons.Pencil, stringResource(R.string.rename_section)) { renameFor = cat }
+                    //rws move section focus fix
+                    SmallIconButton(
+                        icon = AppIcons.Up,
+                        label = stringResource(R.string.cd_move_up),
+                        onClick = {
+                            if (i > 0) scope.launch {
+                                store.update { cfg ->
+                                    val l = cfg.categories.toMutableList()
                             val tmp = l[i - 1]; l[i - 1] = l[i]; l[i] = tmp
-                            cfg.copy(categories = l)
-                        }
-                    }
-                }
-                SmallIconButton(AppIcons.Down, stringResource(R.string.cd_move_down)) {
-                    if (i < config.categories.size - 1) scope.launch {
-                        store.update { cfg ->
-                            val l = cfg.categories.toMutableList()
-                            val tmp = l[i + 1]; l[i + 1] = l[i]; l[i] = tmp
-                            cfg.copy(categories = l)
-                        }
-                    }
-                }
-                if (config.categories.size > 1) {
-                    SmallIconButton(AppIcons.Delete, stringResource(R.string.cd_delete_section)) {
-                        scope.launch {
-                            store.update { cfg ->
-                                cfg.copy(categories = cfg.categories.filter { it.id != cat.id })
+                                    cfg.copy(categories = l)
+                                }
+                                withFrameNanos { catUpFocus.requestFocus() }
                             }
-                        }
+                        },
+                        modifier = Modifier.focusRequester(catUpFocus),
+                    )
+                    SmallIconButton(
+                        icon = AppIcons.Down,
+                        label = stringResource(R.string.cd_move_down),
+                        onClick = {
+                            if (i < config.categories.size - 1) scope.launch {
+                                store.update { cfg ->
+                                    val l = cfg.categories.toMutableList()
+                            val tmp = l[i + 1]; l[i + 1] = l[i]; l[i] = tmp
+                                    cfg.copy(categories = l)
+                                }
+                                withFrameNanos { catDownFocus.requestFocus() }
+                            }
+                        },
+                        modifier = Modifier.focusRequester(catDownFocus),
+                    )
+
+                    if (config.categories.size > 1) {
+                        //rws delete confirmation
+                        SmallIconButton(
+                            icon = AppIcons.Delete,
+                            label = stringResource(R.string.cd_delete_section),
+                            onClick = { deleteCategoryFor = cat } // <-- Triggers confirmation dialog
+                        )
                     }
                 }
-            }
+            } //rws end key
         }
         val newSectionName = stringResource(R.string.new_section)
         SettingsItem(
@@ -1155,8 +1729,19 @@ private fun CategoriesScreen(
         val liveCat = config.categories.firstOrNull { it.id == cat.id } ?: cat
         SectionAppsDialog(
             cat = liveCat,
-            apps = apps,
+            //rws all apps toggle
+            //apps = apps,
+            apps = if (showAllApps) {
+                apps
+            } else {
+                apps.filter { app ->
+                    val sections = AppRepository.sectionsOf(app, config)
+                    liveCat.id in sections || sections.isEmpty()
+                }
+            },
             config = config,
+            showAllApps = showAllApps,
+            onShowAllAppsChange = { showAllApps = it },
             onToggle = { app ->
                 scope.launch {
                     store.update { cfg ->
@@ -1187,6 +1772,56 @@ private fun CategoriesScreen(
             onDismiss = { renameFor = null },
         )
     }
+    
+    //rws delete confirmation
+    val targetCat = deleteCategoryFor
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
+    if (targetCat != null) {
+        Dialog(onDismissRequest = { playBackSound(view, isMuted); deleteCategoryFor = null }) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.width(400.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.delete_category_confirm_title),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Text(
+                        text = stringResource(R.string.delete_category_confirm_body, targetCat.name),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Row(
+                        modifier = Modifier
+                            .horizontalNavSound()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
+                    ) {
+                        Button(onClick = { playClickSound(view, isMuted); deleteCategoryFor = null }) {
+                            Text(stringResource(R.string.delete_category_confirm_cancel))
+                        }
+                        Button(
+                            onClick = {
+                                playClickSound(view, isMuted)
+                                scope.launch {
+                                    store.update { cfg ->
+                                        cfg.copy(categories = cfg.categories.filter { it.id != targetCat.id })
+                                    }
+                                }
+                                deleteCategoryFor = null
+                            }
+                        ) {
+                            Text(stringResource(R.string.delete_category_confirm_ok))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /** Pencil dialog: the ONLY place with a text field, so D-pad browsing never lands in an editor. */
@@ -1197,12 +1832,16 @@ private fun RenameDialog(
     onDismiss: () -> Unit,
 ) {
     var name by remember { mutableStateOf(initial) }
-    Dialog(onDismissRequest = onDismiss) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
+    Dialog( onDismissRequest = { playBackSound(view, isMuted); onDismiss() } ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
         ) {
-            Column(Modifier.width(340.dp).padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Column(Modifier
+                .width(340.dp)
+                .padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                 Text(stringResource(R.string.rename_section), style = MaterialTheme.typography.titleMedium)
                 val f = initialFocus()
                 Box(
@@ -1221,12 +1860,14 @@ private fun RenameDialog(
                         keyboardActions = KeyboardActions(
                             onDone = { if (name.isNotBlank()) onSave(name.trim()) }
                         ),
-                        modifier = Modifier.fillMaxWidth().focusRequester(f),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(f),
                     )
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Button(onClick = { if (name.isNotBlank()) onSave(name.trim()) }) { Text(stringResource(R.string.save)) }
-                    Button(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
+                Row(Modifier.horizontalNavSound(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Button(onClick = { playClickSound(view, isMuted); if (name.isNotBlank()) onSave(name.trim()) }) { Text(stringResource(R.string.save)) }
+                    Button(onClick = { playClickSound(view, isMuted); onDismiss() }) { Text(stringResource(R.string.cancel)) }
                 }
             }
         }
@@ -1250,8 +1891,14 @@ private fun WallpaperScreen(
     onPickPhoto: () -> Unit,
     onPickVideo: () -> Unit,
 ) {
+    val context = LocalContext.current
+    var showMissingPickerDialog by remember { mutableStateOf(false) }
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
@@ -1294,7 +1941,8 @@ private fun WallpaperScreen(
             selected = false, onClick = { onPreset(presetIdx) },
             headlineContent = { Text(stringResource(R.string.color_gradient)) },
             leadingContent = { Icon(AppIcons.Palette, contentDescription = null) },
-            trailingContent = { CheckMark(checked = staticActive) },
+            //rws change to RadioMark since options are exclusive
+            trailingContent = { RadioMark(checked = staticActive) }, 
         )
         if (staticActive) {
             val presetNames = listOf(
@@ -1302,7 +1950,10 @@ private fun WallpaperScreen(
                 stringResource(R.string.wp_aurora),
                 stringResource(R.string.wp_sunset),
                 stringResource(R.string.wp_deep),
+                stringResource(R.string.wp_deep2),
+                stringResource(R.string.wp_deep3),
                 stringResource(R.string.wp_charcoal),
+                stringResource(R.string.wp_nightfall),
             )
             SelectorRow(
                 label = stringResource(R.string.preset_label),
@@ -1315,11 +1966,26 @@ private fun WallpaperScreen(
 
         // A photo of your own
         SettingsItem(
-            selected = false, onClick = onPickPhoto,
+            //rws dialog if no file picker available
+            selected = false,
+            onClick = {
+                val checkIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "image/*"
+                }
+
+                if (context.packageManager.resolveActivity(checkIntent, 0) != null) {
+                    // The system has a picker! Trigger the parent's callback to launch it.
+                    onPickPhoto()
+                } else {
+                    // Fire OS / No picker installed -> intercept and show our dialog
+                    showMissingPickerDialog = true
+                }
+            },
             headlineContent = { Text(stringResource(R.string.pick_photo)) },
             supportingContent = { Text(stringResource(R.string.pick_photo_sub)) },
             leadingContent = { Icon(AppIcons.Image, contentDescription = null) },
-            trailingContent = { CheckMark(checked = config.useCustomWallpaper) },
+            trailingContent = { RadioMark(checked = config.useCustomWallpaper) }, //rws radio mark
         )
 
         /* ---------------- VIDEO: built-in aerials + your own video ---------------- */
@@ -1331,7 +1997,7 @@ private fun WallpaperScreen(
             headlineContent = { Text(stringResource(R.string.builtin_aerials)) },
             supportingContent = { Text(stringResource(R.string.builtin_aerials_sub)) },
             leadingContent = { Icon(AppIcons.Play, contentDescription = null) },
-            trailingContent = { CheckMark(checked = config.useBuiltinAerials) },
+            trailingContent = { RadioMark(checked = config.useBuiltinAerials) }, //rws radio mark
         )
         if (config.useBuiltinAerials) {
             val sourceNames = listOf(
@@ -1353,11 +2019,26 @@ private fun WallpaperScreen(
 
         // A video file of your own
         SettingsItem(
-            selected = false, onClick = onPickVideo,
+            //rws dialog if no file picker available
+            selected = false,
+            onClick = {
+                val checkIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "video/*"
+                }
+
+                if (context.packageManager.resolveActivity(checkIntent, 0) != null) {
+                    // The system has a picker! Trigger the parent's callback to launch it.
+                    onPickVideo()
+                } else {
+                    // Fire OS / No picker installed -> intercept and show our dialog
+                    showMissingPickerDialog = true
+                }
+            },
             headlineContent = { Text(stringResource(R.string.pick_video)) },
             supportingContent = { Text(stringResource(R.string.pick_video_sub)) },
             leadingContent = { Icon(AppIcons.Image, contentDescription = null) },
-            trailingContent = { CheckMark(checked = config.useVideoWallpaper) },
+            trailingContent = { RadioMark(checked = config.useVideoWallpaper) }, //rws radio mark
         )
 
         // Playback speed — applies to aerials and your own video.
@@ -1371,6 +2052,54 @@ private fun WallpaperScreen(
                 current = idx,
                 onSelect = { v -> onSetSpeed(v) },
             )
+        }
+    }
+
+    //rws dialog if no file picker available
+    if (showMissingPickerDialog) {
+        val okFocus = remember { FocusRequester() }
+
+        LaunchedEffect(Unit) {
+            delay(100)
+            runCatching { okFocus.requestFocus() }
+        }
+
+        val view = LocalView.current
+        val isMuted = LocalMuteNavSounds.current
+        Dialog(
+            onDismissRequest = { playBackSound(view, isMuted); showMissingPickerDialog = false }
+        ) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.width(420.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.file_picker_required_title),
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    Text(
+                        text = stringResource(R.string.file_picker_required_body),
+                        modifier = Modifier.padding(bottom = 24.dp)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(
+                            onClick = { playClickSound(view, isMuted); showMissingPickerDialog = false },
+                            modifier = Modifier.focusRequester(okFocus)
+                        ) {
+                            Text(stringResource(R.string.file_picker_required_ok))
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -1407,19 +2136,27 @@ private fun SectionLabel(text: String) {
     )
 }
 
+//rws modified so can have it greyed out if needed
 @Composable
-private fun CheckMark(checked: Boolean) {
+private fun CheckMark(checked: Boolean, enabled: Boolean = true) {
+    val ui = GlobalConfig.ui
     Box(
         Modifier
             .size(22.dp)
             .background(
-                if (checked) MaterialTheme.colorScheme.primary else Color.Transparent,
+                if (checked && enabled) MaterialTheme.colorScheme.primary else Color.Transparent,
                 RoundedCornerShape(5.dp),
             )
             .border(
                 width = 2.dp,
-                color = if (checked) MaterialTheme.colorScheme.primary
-                else Color.White.copy(alpha = 0.4f),
+                //color = if (checked) MaterialTheme.colorScheme.primary
+                //else Color.White.copy(alpha = 0.4f),
+                //else LocalContentColor.current.copy(alpha = .6f), //rws fix invisible unchecked boxes
+                color = when {
+                    checked && enabled -> MaterialTheme.colorScheme.primary
+                    enabled -> LocalContentColor.current.copy(alpha = ui.checkMarkEnabledAlpha)
+                    else -> LocalContentColor.current.copy(alpha = ui.checkMarkDisabledAlpha)
+                },
                 shape = RoundedCornerShape(5.dp),
             ),
         contentAlignment = Alignment.Center,
@@ -1428,8 +2165,43 @@ private fun CheckMark(checked: Boolean) {
             Icon(
                 AppIcons.Check,
                 contentDescription = null,
-                tint = Color.Black.copy(alpha = 0.8f),
+                //tint = Color.Black.copy(alpha = 0.8f),
+                tint = if (enabled) Color.Black.copy(alpha = ui.checkMarkEnabledTint)
+                else Color.Black.copy(alpha = ui.checkMarkDisabledTint),
                 modifier = Modifier.size(16.dp),
+            )
+        }
+    }
+}
+
+//rws add RadioMark for wallpaper options since they are exclusive
+@Composable
+private fun RadioMark(checked: Boolean) {
+    val ui = GlobalConfig.ui
+    val gap = ui.radioMarkGapDp.dp
+    val outerColor = LocalContentColor.current.copy(alpha = .6f)
+    val innerColor = MaterialTheme.colorScheme.primary
+
+    Canvas(
+        modifier = Modifier.size(22.dp)
+    ) {
+        val strokeWidth = 2.dp.toPx()
+        val center = Offset(size.width / 2f, size.height / 2f)
+        val outerRadius = size.minDimension / 2f - strokeWidth / 2f
+        val innerRadius = outerRadius - strokeWidth - gap.toPx()
+
+        drawCircle(
+            color = outerColor,
+            radius = outerRadius,
+            center = center,
+            style = Stroke(width = strokeWidth),
+        )
+
+        if (checked) {
+            drawCircle(
+                color = innerColor,
+                radius = innerRadius,
+                center = center,
             )
         }
     }
@@ -1451,11 +2223,13 @@ private fun SettingsItem(
     leadingContent: (@Composable androidx.compose.foundation.layout.BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     var focused by remember { mutableStateOf(false) }
     ListItem(
         selected = selected,
         enabled = enabled,
-        onClick = onClick,
+        onClick = { playClickSound(view, isMuted); onClick() },  
         modifier = modifier
             .onFocusChanged { focused = it.isFocused || it.hasFocus }
             .padding(horizontal = 8.dp)
@@ -1478,10 +2252,16 @@ private fun SettingsItem(
 private fun SmallIconButton(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     label: String,
+    //rws move section focus fix
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     Surface(
-        onClick = onClick,
+        onClick = {playClickSound(view, isMuted); onClick() },
+        //rws move section focus fix
+        modifier = modifier,
         shape = ClickableSurfaceDefaults.shape(CircleShape),
         colors = ClickableSurfaceDefaults.colors(
             containerColor = Color.White.copy(alpha = 0.08f),
@@ -1495,3 +2275,42 @@ private fun SmallIconButton(
         }
     }
 }
+
+//rws User Interface options
+@Composable
+private fun UserInterfaceScreen(
+    config: LauncherConfig,
+    store: ConfigStore,
+    onBack: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    Column(
+        Modifier
+            .verticalNavSound()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            stringResource(R.string.item_userinterface),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 12.dp, start = 8.dp),
+        )
+        val f = initialFocus()
+        
+        SelectorRow(
+            modifier = Modifier.focusRequester(f),
+            label = stringResource(R.string.menu_alignment),
+            value = listOf(stringResource(R.string.menu_left), stringResource(R.string.menu_right))[config.menuAlign.coerceIn(0, 1)],
+            steps = 2,
+            current = config.menuAlign.coerceIn(0, 1),
+            onSelect = { v ->
+                scope.launch {
+                    store.update { it.copy(menuAlign = v) }
+                }
+            },
+        )
+    }
+}
+

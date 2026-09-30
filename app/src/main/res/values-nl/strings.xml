@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Streaming</string>
     <string name="cat_games">Games</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Versie 1.0</string>
     <string name="about_desc">Een lichte, enkel-scherm launcher voor Android TV en Google TV.\n\nGeen advertenties · geen tracking · geen achtergrondservices. Netwerktoegang wordt alleen gebruikt om de ingebouwde luchtachtergronden te streamen. Al je instellingen staan in één lokaal bestand op dit apparaat.</string>
     <string name="about_foss">Vrij &amp; open source</string>
-    <string name="about_license">Gelicentieerd onder de GNU General Public License v3.0 (GPLv3). Je bent vrij om Couchy Launcher te gebruiken, bestuderen, delen en wijzigen.</string>
-    <string name="about_thirdparty">Bank-illustratie: Twemoji (MIT). Luchtvideo\'s: Apple-, Amazon- en communitycollecties, gestreamd van hun eigenaars.</string>
+    <string name="about_license">Gelicentieerd onder de GNU General Public License v3.0 (GPLv3). Je bent vrij om Kitty Launcher te gebruiken, bestuderen, delen en wijzigen.</string>
     <string name="rerun_wizard">Installatiewizard opnieuw uitvoeren</string>
     <string name="rerun_wizard_sub">Standaardlauncher instellen en eerste gebruikstips</string>
 
-    <string name="wizard_welcome_title">Welkom bij Couchy Launcher</string>
+    <string name="wizard_welcome_title">Welkom bij Kitty Launcher</string>
     <string name="wizard_welcome_body">Een lichte, enkel-scherm launcher: je apps gegroepeerd per sectie, je eigen achtergrond en een schone statusbalk met klok, netwerk en VPN.</string>
-    <string name="wizard_privacy_body">Privacy-opmerking — niets toe te staan: Couchy vraagt geen locatie, microfoon en voert geen achtergrondservices uit. Alles wat nodig is, werd verleend bij installatie.</string>
+    <string name="wizard_privacy_body">Privacy-opmerking — niets toe te staan: Kitty vraagt geen locatie, microfoon en voert geen achtergrondservices uit. Alles wat nodig is, werd verleend bij installatie.</string>
     <string name="wizard_home_title">Instellen als startscherm</string>
-    <string name="wizard_already_default">✓ Klaar — Couchy is al je standaardlauncher op dit apparaat.</string>
+    <string name="wizard_already_default">✓ Klaar — Kitty is al je standaardlauncher op dit apparaat.</string>
     <string name="wizard_gtv_intro">Dit is een gecertificeerd Google TV-apparaat. Google staat niet toe om de home-app te wijzigen via de scherminstellingen, dus kies een van deze twee methoden:</string>
     <string name="wizard_gtv_adb">1 — ADB (aanbevolen, eenmalig):\n• Instellingen &gt; Systeem &gt; Over &gt; klik 7 keer op \"Android TV OS-build\" om Ontwikkelaarsopties te ontgrendelen\n• Instellingen &gt; Systeem &gt; Ontwikkelaarsopties &gt; schakel USB/draadloze debugging in\n• Vanaf een computer op hetzelfde netwerk, voer uit:</string>
-    <string name="wizard_gtv_overlay">Als de systeemlauncher daarna nog steeds over Couchy heen ligt (gezien op Hisense en andere), zoek hem en schakel hem uit — omkeerbaar met \"pm enable\":</string>
-    <string name="wizard_gtv_which">(Gebruik een van de twee launcher-pakketten die het eerste commando rapporteert. Schakel pas uit NADAT je hebt bevestigd dat Couchy goed opent.)</string>
-    <string name="wizard_gtv_remap">2 — Knop opnieuw toewijzen (zonder computer): installeer een app zoals \"Button Mapper\" uit de Play Store en wijs de Home-knop toe aan Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Als de systeemlauncher daarna nog steeds over Kitty heen ligt (gezien op Hisense en andere), zoek hem en schakel hem uit — omkeerbaar met \"pm enable\":</string>
+    <string name="wizard_gtv_which">(Gebruik een van de twee launcher-pakketten die het eerste commando rapporteert. Schakel pas uit NADAT je hebt bevestigd dat Kitty goed opent.)</string>
+    <string name="wizard_gtv_remap">2 — Knop opnieuw toewijzen (zonder computer): installeer een app zoals \"Button Mapper\" uit de Play Store en wijs de Home-knop toe aan Kitty Launcher.</string>
     <string name="wizard_try_dialog">Probeer systeemdialoog toch</string>
     <string name="wizard_check_again">Opnieuw controleren</string>
     <string name="wizard_skip">Nu overslaan</string>
-    <string name="wizard_aosp_body">Dit apparaat staat het kiezen van een home-app toe. Druk op de knop hieronder, kies Couchy Launcher in het systeemdialoog en bevestig (kies \"Altijd\" indien gevraagd).</string>
+    <string name="wizard_aosp_body">Dit apparaat staat het kiezen van een home-app toe. Druk op de knop hieronder, kies Kitty Launcher in het systeemdialoog en bevestig (kies \"Altijd\" indien gevraagd).</string>
     <string name="wizard_set_default">Instellen als standaardlauncher</string>
-    <string name="wizard_no_dialog_hint">Als er geen dialoog verschijnt: Android-instellingen &gt; Apps &gt; Standaardapps &gt; Home-app &gt; Couchy Launcher. Of druk gewoon op de Home-knop — Android zal vragen welke launcher te gebruiken.</string>
+    <string name="wizard_no_dialog_hint">Als er geen dialoog verschijnt: Android-instellingen &gt; Apps &gt; Standaardapps &gt; Home-app &gt; Kitty Launcher. Of druk gewoon op de Home-knop — Android zal vragen welke launcher te gebruiken.</string>
     <string name="wizard_vpn_title">VPN-knop</string>
     <string name="wizard_vpn_body">Als je een VPN-app gebruikt, kies deze dan — de VPN-knop in de statusbalk zal hem openen. Sla over en de VPN-knop blijft verborgen (je kunt hem later inschakelen in Instellingen › Statusbalk).</string>
     <string name="wizard_vpn_none">Geen VPN-app gedetecteerd op dit apparaat.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Helemaal klaar</string>
     <string name="wizard_tips">Tips:\n• Houd OK ingedrukt op een app voor opties — verplaatsen, verbergen, app-info, geforceerd stoppen, verwijderen\n• Druk Omhoog vanaf de bovenste rij om VPN, netwerk, klok en instellingen te bereiken\n• Het tandwiel opent de launcher-instellingen: achtergrond, secties, weergave en meer</string>
     <string name="wizard_rerun_note">Je kunt deze wizard op elk moment opnieuw uitvoeren via Instellingen &gt; Over.</string>
-    <string name="wizard_start">Begin met Couchy</string>
+    <string name="wizard_start">Begin met Kitty</string>
     <string name="wizard_no_chooser">Dit apparaat heeft geen homekiezer — gebruik de hierboven getoonde ADB-methode</string>
     <string name="ui_scale">Interfaceschaal</string>
     <string name="scale_auto">Auto</string>

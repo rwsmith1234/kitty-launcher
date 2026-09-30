@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <!-- Noms des catégories par défaut (première installation) -->
     <string name="cat_streaming">Streaming</string>
@@ -156,28 +156,27 @@
     <string name="about_version">Version 1.0</string>
     <string name="about_desc">Un launcher léger à écran unique pour Android TV et Google TV.\n\nSans pub · sans pistage · sans services en arrière-plan. Le réseau n\'est utilisé que pour diffuser les fonds d\'écran aériens intégrés. Tous vos réglages tiennent dans un seul fichier local sur cet appareil.</string>
     <string name="about_foss">Libre et open source</string>
-    <string name="about_license">Sous licence GNU General Public License v3.0 (GPLv3). Vous êtes libre d\'utiliser, étudier, partager et modifier Couchy Launcher.</string>
-    <string name="about_thirdparty">Illustration du canapé : Twemoji (MIT). Vidéos aériennes : collections Apple, Amazon et communautaires, diffusées depuis leurs propriétaires.</string>
+    <string name="about_license">Sous licence GNU General Public License v3.0 (GPLv3). Vous êtes libre d\'utiliser, étudier, partager et modifier Kitty Launcher.</string>
     <string name="rerun_wizard">Relancer l\'assistant de configuration</string>
     <string name="rerun_wizard_sub">Définition du launcher par défaut et conseils de démarrage</string>
 
     <!-- Assistant -->
-    <string name="wizard_welcome_title">Bienvenue dans Couchy Launcher</string>
+    <string name="wizard_welcome_title">Bienvenue dans Kitty Launcher</string>
     <string name="wizard_welcome_body">Un launcher léger à écran unique : vos applis par section, votre fond d\'écran, et une barre d\'état sobre avec horloge, réseau et VPN.</string>
-    <string name="wizard_privacy_body">Confidentialité — rien à accorder : Couchy ne demande ni localisation, ni micro, et n\'exécute aucun service en arrière-plan. Tout le nécessaire a été accordé à l\'installation.</string>
+    <string name="wizard_privacy_body">Confidentialité — rien à accorder : Kitty ne demande ni localisation, ni micro, et n\'exécute aucun service en arrière-plan. Tout le nécessaire a été accordé à l\'installation.</string>
     <string name="wizard_home_title">Définir comme écran d\'accueil</string>
-    <string name="wizard_already_default">✓ C\'est fait — Couchy est déjà votre launcher par défaut sur cet appareil.</string>
+    <string name="wizard_already_default">✓ C\'est fait — Kitty est déjà votre launcher par défaut sur cet appareil.</string>
     <string name="wizard_gtv_intro">Ceci est un appareil Google TV certifié. Google ne permet pas de changer l\'accueil depuis les paramètres à l\'écran ; choisissez l\'une de ces deux méthodes :</string>
     <string name="wizard_gtv_adb">1 — ADB (recommandé, une seule fois) :\n• Paramètres &gt; Système &gt; À propos &gt; cliquez 7 fois sur « Version Android TV OS » pour débloquer les Options développeur\n• Paramètres &gt; Système &gt; Options développeur &gt; activez le débogage USB/sans fil\n• Depuis un ordinateur sur le même réseau, exécutez :</string>
-    <string name="wizard_gtv_overlay">Si le launcher système recouvre encore Couchy ensuite (vu sur Hisense entre autres), identifiez-le et désactivez-le — réversible à tout moment avec « pm enable » :</string>
-    <string name="wizard_gtv_which">(Utilisez celui des deux packages que la première commande indique. Ne le désactivez qu\'APRÈS avoir vérifié que Couchy s\'ouvre bien.)</string>
-    <string name="wizard_gtv_remap">2 — Remappage de bouton (sans ordinateur) : installez une appli comme « Button Mapper » depuis le Play Store et associez le bouton Accueil à Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Si le launcher système recouvre encore Kitty ensuite (vu sur Hisense entre autres), identifiez-le et désactivez-le — réversible à tout moment avec « pm enable » :</string>
+    <string name="wizard_gtv_which">(Utilisez celui des deux packages que la première commande indique. Ne le désactivez qu\'APRÈS avoir vérifié que Kitty s\'ouvre bien.)</string>
+    <string name="wizard_gtv_remap">2 — Remappage de bouton (sans ordinateur) : installez une appli comme « Button Mapper » depuis le Play Store et associez le bouton Accueil à Kitty Launcher.</string>
     <string name="wizard_try_dialog">Essayer quand même le dialogue système</string>
     <string name="wizard_check_again">Revérifier</string>
     <string name="wizard_skip">Passer pour l\'instant</string>
-    <string name="wizard_aosp_body">Cet appareil permet de choisir l\'appli d\'accueil. Appuyez sur le bouton ci-dessous, choisissez Couchy Launcher dans le dialogue système et confirmez (choisissez « Toujours » si demandé).</string>
+    <string name="wizard_aosp_body">Cet appareil permet de choisir l\'appli d\'accueil. Appuyez sur le bouton ci-dessous, choisissez Kitty Launcher dans le dialogue système et confirmez (choisissez « Toujours » si demandé).</string>
     <string name="wizard_set_default">Définir comme launcher par défaut</string>
-    <string name="wizard_no_dialog_hint">Si aucun dialogue n\'apparaît : Paramètres Android &gt; Applis &gt; Applis par défaut &gt; Appli d\'accueil &gt; Couchy Launcher. Ou appuyez simplement sur Accueil — Android demandera quel launcher utiliser.</string>
+    <string name="wizard_no_dialog_hint">Si aucun dialogue n\'apparaît : Paramètres Android &gt; Applis &gt; Applis par défaut &gt; Appli d\'accueil &gt; Kitty Launcher. Ou appuyez simplement sur Accueil — Android demandera quel launcher utiliser.</string>
     <string name="wizard_vpn_title">Bouton VPN</string>
     <string name="wizard_vpn_body">Si vous utilisez une appli VPN, choisissez-la — le bouton VPN de la barre d\'état l\'ouvrira. Passez et le bouton VPN reste masqué (activable plus tard dans Paramètres › Barre d\'état).</string>
     <string name="wizard_vpn_none">Aucune appli VPN détectée sur cet appareil.</string>
@@ -185,7 +184,7 @@
     <string name="wizard_done_title">Tout est prêt</string>
     <string name="wizard_tips">Astuces :\n• Maintenez OK sur une appli pour les options — déplacer, masquer, infos, forcer l\'arrêt, désinstaller\n• Appuyez sur Haut depuis la première rangée pour atteindre VPN, réseau, horloge et paramètres\n• L\'engrenage ouvre les paramètres du launcher : fond d\'écran, sections, affichage et plus</string>
     <string name="wizard_rerun_note">Vous pouvez relancer cet assistant à tout moment via Paramètres &gt; À propos.</string>
-    <string name="wizard_start">Commencer avec Couchy</string>
+    <string name="wizard_start">Commencer avec Kitty</string>
     <string name="wizard_no_chooser">Cet appareil n\'a pas de sélecteur d\'accueil — utilisez la méthode ADB ci-dessus</string>
     <string name="cat_all_apps">Toutes les applis</string>
     <string name="all_apps_sub">Toutes les applis installées, rempli automatiquement</string>

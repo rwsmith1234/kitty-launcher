@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 320x180 Google TV banner: blue-sky gradient + couch -->
+<!-- 320x180 Google TV banner: blue-sky gradient + Kitty -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
@@ -13,8 +13,8 @@
         </shape>
     </item>
     <item
-        android:width="104dp"
-        android:height="104dp"
+        android:width="144dp"
+        android:height="144dp"
         android:gravity="center"
-        android:drawable="@drawable/ic_couch" />
+        android:drawable="@drawable/ic_kitty" />
 </layer-list>

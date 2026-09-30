@@ -1,4 +1,4 @@
-package com.conreo.couchytv
+package com.rws.kittylauncher
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,7 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import com.conreo.couchytv.ui.LauncherApp
+import com.rws.kittylauncher.ui.LauncherApp
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {

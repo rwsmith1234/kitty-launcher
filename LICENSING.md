@@ -1,18 +1,23 @@
 # Licensing
 
+## Origin
+
+Kitty Launcher is a fork of [Couchy Launcher](https://github.com/conreo/couchy-launcher), an open-source Android TV launcher. Kitty retains the original project's GPLv3 licensing and builds upon its codebase.
+
+
 ## The app
 
-**Couchy Launcher is licensed under the GNU General Public License, version 3 (GPLv3).**
+**Kitty Launcher is licensed under the GNU General Public License, version 3 (GPLv3).**
 The full text is in [`LICENSE`](LICENSE).
 
 In short:
 
-- You are free to **use, study, share and modify** Couchy.
+- You are free to **use, study, share and modify** Kitty.
 - It comes with **no warranty**.
 - **Copyleft:** if you distribute a modified version (a fork, a rebuild, a different-name build), you must release your source under the **GPLv3** too, and grant the same freedoms. There are no proprietary forks — improvements flow back to everyone.
 
 ```
-Copyright (C) 2026 the Couchy Launcher contributors
+Copyright (C) 2026 the Kitty Launcher contributors
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -30,19 +35,19 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 
 These keep their own licenses, all compatible with GPLv3:
 
-| Component | Where | License |
-|---|---|---|
-| Couch artwork — Twemoji couch emoji ([source](https://github.com/twitter/twemoji)) | `art/couchy-launcher.svg`, `res/drawable/ic_couch.xml`, app icon & banner | **MIT** |
-| Material Design icon path data — Google | `ui/Icons.kt` (vector path strings) | Apache-2.0 |
-| Cookie font — Ania Kruk (Google Fonts) | `res/font/cookie.ttf` (the "Buy me a coffee" heading) | **SIL OFL 1.1** |
-| AndroidX / Jetpack Compose, `androidx.tv`, DataStore | framework / UI | Apache-2.0 |
-| AndroidX Media3 (ExoPlayer) + OkHttp data source | video wallpaper | Apache-2.0 |
-| kotlinx.serialization | config persistence | Apache-2.0 |
+| Component                                            | Where                                                                    | License         |
+|------------------------------------------------------|--------------------------------------------------------------------------|-----------------|
+| Kitty artwork — Logo generated with Google Gemini    | `art/Kitty-launcher.svg`, `res/drawable/ic_kitty.xml`, app icon & banner | None            |
+| Material Design icon path data — Google              | `ui/Icons.kt` (vector path strings)                                      | Apache-2.0      |
+| Cookie font — Ania Kruk (Google Fonts)               | `res/font/cookie.ttf` (the "Buy me a coffee" heading)                    | **SIL OFL 1.1** |
+| AndroidX / Jetpack Compose, `androidx.tv`, DataStore | framework / UI                                                           | Apache-2.0      |
+| AndroidX Media3 (ExoPlayer) + OkHttp data source     | video wallpaper                                                          | Apache-2.0      |
+| kotlinx.serialization                                | config persistence                                                       | Apache-2.0      |
 
 ## Content that is *not* distributed
 
 The built-in **aerial wallpapers** stream video owned by **Apple, Amazon** and
-community creators. Couchy ships only a manifest of public URLs, never the
+community creators. Kitty ships only a manifest of public URLs, never the
 footage itself, and streams it only when you enable that wallpaper. The
 decorative video is fetched over a TLS client scoped to that purpose; no
 credentials or personal data are ever sent.

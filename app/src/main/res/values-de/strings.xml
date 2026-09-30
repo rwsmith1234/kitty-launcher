@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Streaming</string>
     <string name="cat_games">Spiele</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Version 1.0</string>
     <string name="about_desc">Ein leichter Ein-Bildschirm-Launcher für Android TV und Google TV.\n\nKeine Werbung · kein Tracking · keine Hintergrunddienste. Netzwerkzugriff wird nur zum Streamen der integrierten Luft-Hintergründe verwendet. Alle Einstellungen liegen in einer einzigen lokalen Datei auf diesem Gerät.</string>
     <string name="about_foss">Frei &amp; quelloffen</string>
-    <string name="about_license">Lizenziert unter der GNU General Public License v3.0 (GPLv3). Sie dürfen Couchy Launcher frei verwenden, studieren, teilen und verändern.</string>
-    <string name="about_thirdparty">Couch-Grafik: Twemoji (MIT). Luftvideos: Apple-, Amazon- und Community-Sammlungen, gestreamt von ihren Eigentümern.</string>
+    <string name="about_license">Lizenziert unter der GNU General Public License v3.0 (GPLv3). Sie dürfen Kitty Launcher frei verwenden, studieren, teilen und verändern.</string>
     <string name="rerun_wizard">Einrichtungsassistent erneut ausführen</string>
     <string name="rerun_wizard_sub">Standard-Launcher-Einrichtung und Erste-Schritte-Tipps</string>
 
-    <string name="wizard_welcome_title">Willkommen bei Couchy Launcher</string>
+    <string name="wizard_welcome_title">Willkommen bei Kitty Launcher</string>
     <string name="wizard_welcome_body">Ein leichter Ein-Bildschirm-Launcher: Ihre Apps nach Abschnitten gruppiert, Ihr eigener Hintergrund und eine saubere Statusleiste mit Uhr, Netzwerk und VPN.</string>
-    <string name="wizard_privacy_body">Datenschutzhinweis — nichts zu gewähren: Couchy fordert keinen Standort, kein Mikrofon und führt keine Hintergrunddienste aus. Alles Nötige wurde bei der Installation gewährt.</string>
+    <string name="wizard_privacy_body">Datenschutzhinweis — nichts zu gewähren: Kitty fordert keinen Standort, kein Mikrofon und führt keine Hintergrunddienste aus. Alles Nötige wurde bei der Installation gewährt.</string>
     <string name="wizard_home_title">Als Startbildschirm festlegen</string>
-    <string name="wizard_already_default">✓ Erledigt — Couchy ist bereits Ihr Standard-Launcher auf diesem Gerät.</string>
+    <string name="wizard_already_default">✓ Erledigt — Kitty ist bereits Ihr Standard-Launcher auf diesem Gerät.</string>
     <string name="wizard_gtv_intro">Dies ist ein zertifiziertes Google TV-Gerät. Google erlaubt das Ändern der Home-App nicht über die Bildschirmeinstellungen. Wählen Sie eine dieser beiden Methoden:</string>
     <string name="wizard_gtv_adb">1 — ADB (empfohlen, einmalig):\n• Einstellungen &gt; System &gt; Über &gt; 7× auf „Android TV OS-Build“ klicken, um Entwickleroptionen freizuschalten\n• Einstellungen &gt; System &gt; Entwickleroptionen &gt; USB-/Funkdebugging aktivieren\n• Von einem PC im selben Netzwerk ausführen:</string>
-    <string name="wizard_gtv_overlay">Falls der System-Launcher danach immer noch Couchy überlagert (bei Hisense u.a. beobachtet), finden und deaktivieren Sie ihn — jederzeit mit „pm enable“ umkehrbar:</string>
-    <string name="wizard_gtv_which">(Verwenden Sie das der beiden Launcher-Pakete, das der erste Befehl meldet. Deaktivieren Sie es erst, NACHDEM Sie bestätigt haben, dass Couchy einwandfrei öffnet.)</string>
-    <string name="wizard_gtv_remap">2 — Tastenneubelegung (ohne PC): Installieren Sie eine App wie „Button Mapper“ aus dem Play Store und weisen Sie die Home-Taste Couchy Launcher zu.</string>
+    <string name="wizard_gtv_overlay">Falls der System-Launcher danach immer noch Kitty überlagert (bei Hisense u.a. beobachtet), finden und deaktivieren Sie ihn — jederzeit mit „pm enable“ umkehrbar:</string>
+    <string name="wizard_gtv_which">(Verwenden Sie das der beiden Launcher-Pakete, das der erste Befehl meldet. Deaktivieren Sie es erst, NACHDEM Sie bestätigt haben, dass Kitty einwandfrei öffnet.)</string>
+    <string name="wizard_gtv_remap">2 — Tastenneubelegung (ohne PC): Installieren Sie eine App wie „Button Mapper“ aus dem Play Store und weisen Sie die Home-Taste Kitty Launcher zu.</string>
     <string name="wizard_try_dialog">Systemdialog trotzdem versuchen</string>
     <string name="wizard_check_again">Erneut prüfen</string>
     <string name="wizard_skip">Vorerst überspringen</string>
-    <string name="wizard_aosp_body">Dieses Gerät erlaubt die Auswahl einer Home-App. Drücken Sie die Taste unten, wählen Sie Couchy Launcher im Systemdialog und bestätigen Sie (wählen Sie „Immer“).</string>
+    <string name="wizard_aosp_body">Dieses Gerät erlaubt die Auswahl einer Home-App. Drücken Sie die Taste unten, wählen Sie Kitty Launcher im Systemdialog und bestätigen Sie (wählen Sie „Immer“).</string>
     <string name="wizard_set_default">Als Standard-Launcher festlegen</string>
-    <string name="wizard_no_dialog_hint">Wenn kein Dialog erscheint: Android-Einstellungen &gt; Apps &gt; Standard-Apps &gt; Home-App &gt; Couchy Launcher. Oder drücken Sie einfach die Home-Taste — Android fragt, welcher Launcher verwendet werden soll.</string>
+    <string name="wizard_no_dialog_hint">Wenn kein Dialog erscheint: Android-Einstellungen &gt; Apps &gt; Standard-Apps &gt; Home-App &gt; Kitty Launcher. Oder drücken Sie einfach die Home-Taste — Android fragt, welcher Launcher verwendet werden soll.</string>
     <string name="wizard_vpn_title">VPN-Taste</string>
     <string name="wizard_vpn_body">Wenn Sie eine VPN-App nutzen, wählen Sie sie aus — die VPN-Taste in der Statusleiste öffnet sie. Überspringen und die VPN-Taste bleibt versteckt (später unter Einstellungen › Statusleiste aktivierbar).</string>
     <string name="wizard_vpn_none">Keine VPN-App auf diesem Gerät erkannt.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Alles bereit</string>
     <string name="wizard_tips">Tipps:\n• OK auf einer App lange drücken für Optionen — verschieben, ausblenden, App-Info, Stoppen erzwingen, deinstallieren\n• Von der obersten Zeile Hoch drücken für VPN, Netzwerk, Uhr und Einstellungen\n• Das Zahnrad öffnet die Launcher-Einstellungen: Hintergrund, Abschnitte, Anzeige und mehr</string>
     <string name="wizard_rerun_note">Sie können diesen Assistenten jederzeit unter Einstellungen &gt; Über erneut ausführen.</string>
-    <string name="wizard_start">Mit Couchy starten</string>
+    <string name="wizard_start">Mit Kitty starten</string>
     <string name="wizard_no_chooser">Dieses Gerät hat keine Home-Auswahl — verwenden Sie die oben gezeigte ADB-Methode</string>
     <string name="ui_scale">Oberflächenskalierung</string>
     <string name="scale_auto">Auto</string>

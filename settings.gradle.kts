@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CouchyLauncher"
+rootProject.name = "KittyLauncher"
 include(":app")

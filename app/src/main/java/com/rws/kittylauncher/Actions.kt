@@ -1,10 +1,11 @@
-package com.conreo.couchytv
+package com.rws.kittylauncher
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
+import android.util.Log
 
 object Actions {
 
@@ -42,6 +43,12 @@ object Actions {
     /** Best-effort: clears the app from cached memory. True force-stop is in App info. */
     fun close(context: Context, pkg: String) {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+        //rws logging to see why not working
+        //rws ****todo**** on firestick detect if root available, if so do force-stop
+        Log.e(
+            "KittyLauncher",
+            "CLOSE pkg=[$pkg] len=${pkg.length} codes=${pkg.map { it.code }}"
+        )
         runCatching { am.killBackgroundProcesses(pkg) }
     }
 

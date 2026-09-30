@@ -6,15 +6,24 @@ plugins {
 }
 
 android {
-    namespace = "com.conreo.couchytv"
+    namespace = "com.rws.kittylauncher"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.conreo.couchytv"
+        applicationId = "com.rws.kittylauncher"
         minSdk = 21
         targetSdk = 34
-        versionCode = 7
-        versionName = "1.0.6"
+        versionCode = 1
+        versionName = "1.0.0"
+
+        vectorDrawables {
+            //keep large png files from being created from the xml
+            useSupportLibrary = true
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     // Release signing key, supplied by CI via environment variables (from GitHub

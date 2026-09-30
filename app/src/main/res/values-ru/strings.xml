@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Стриминг</string>
     <string name="cat_games">Игры</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Версия 1.0</string>
     <string name="about_desc">Лёгкий одноэкранный лаунчер для Android TV и Google TV.\n\nБез рекламы · без отслеживания · без фоновых служб. Сеть используется только для трансляции встроенных аэрообоев. Все ваши настройки хранятся в одном локальном файле на этом устройстве.</string>
     <string name="about_foss">Свободное и открытое ПО</string>
-    <string name="about_license">Лицензия GNU General Public License v3.0 (GPLv3). Вы можете свободно использовать, изучать, делиться и изменять Couchy Launcher.</string>
-    <string name="about_thirdparty">Дизайн дивана: Twemoji (MIT). Аэровидео: коллекции Apple, Amazon и сообщества, транслируются от их владельцев.</string>
+    <string name="about_license">Лицензия GNU General Public License v3.0 (GPLv3). Вы можете свободно использовать, изучать, делиться и изменять Kitty Launcher.</string>
     <string name="rerun_wizard">Запустить мастер настройки снова</string>
     <string name="rerun_wizard_sub">Настройка лаунчера по умолчанию и советы для начала</string>
 
-    <string name="wizard_welcome_title">Добро пожаловать в Couchy Launcher</string>
+    <string name="wizard_welcome_title">Добро пожаловать в Kitty Launcher</string>
     <string name="wizard_welcome_body">Лёгкий одноэкранный лаунчер: ваши приложения сгруппированы по разделам, собственные обои и чистая строка состояния с часами, сетью и VPN.</string>
-    <string name="wizard_privacy_body">Конфиденциальность — ничего предоставлять не нужно: Couchy не запрашивает геолокацию, микрофон и не запускает фоновых служб. Всё необходимое было предоставлено при установке.</string>
+    <string name="wizard_privacy_body">Конфиденциальность — ничего предоставлять не нужно: Kitty не запрашивает геолокацию, микрофон и не запускает фоновых служб. Всё необходимое было предоставлено при установке.</string>
     <string name="wizard_home_title">Установить как домашний экран</string>
-    <string name="wizard_already_default">✓ Готово — Couchy уже является вашим лаунчером по умолчанию на этом устройстве.</string>
+    <string name="wizard_already_default">✓ Готово — Kitty уже является вашим лаунчером по умолчанию на этом устройстве.</string>
     <string name="wizard_gtv_intro">Это сертифицированное устройство Google TV. Google не разрешает смену домашнего приложения из экранных настроек, поэтому выберите один из двух методов:</string>
     <string name="wizard_gtv_adb">1 — ADB (рекомендуется, однократно):\n• Настройки &gt; Система &gt; О устройстве &gt; нажмите «Версия Android TV OS» 7 раз для разблокировки параметров разработчика\n• Настройки &gt; Система &gt; Параметры разработчика &gt; включите отладку по USB/беспроводной сети\n• С компьютера в той же сети выполните:</string>
-    <string name="wizard_gtv_overlay">Если системный лаунчер всё ещё перекрывает Couchy после этого (замечено на Hisense и других), найдите его и отключите — обратимо в любое время с помощью «pm enable»:</string>
-    <string name="wizard_gtv_which">(Используйте тот из двух пакетов лаунчера, который сообщит первая команда. Отключайте только ПОСЛЕ подтверждения, что Couchy открывается нормально.)</string>
-    <string name="wizard_gtv_remap">2 — Переназначение кнопки (без компьютера): установите приложение вроде «Button Mapper» из Play Store и назначьте кнопку «Домой» на Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Если системный лаунчер всё ещё перекрывает Kitty после этого (замечено на Hisense и других), найдите его и отключите — обратимо в любое время с помощью «pm enable»:</string>
+    <string name="wizard_gtv_which">(Используйте тот из двух пакетов лаунчера, который сообщит первая команда. Отключайте только ПОСЛЕ подтверждения, что Kitty открывается нормально.)</string>
+    <string name="wizard_gtv_remap">2 — Переназначение кнопки (без компьютера): установите приложение вроде «Button Mapper» из Play Store и назначьте кнопку «Домой» на Kitty Launcher.</string>
     <string name="wizard_try_dialog">Всё равно попробовать системный диалог</string>
     <string name="wizard_check_again">Проверить снова</string>
     <string name="wizard_skip">Пока пропустить</string>
-    <string name="wizard_aosp_body">Это устройство позволяет выбрать домашнее приложение. Нажмите кнопку ниже, выберите Couchy Launcher в системном диалоге и подтвердите (выберите «Всегда», если спросят).</string>
+    <string name="wizard_aosp_body">Это устройство позволяет выбрать домашнее приложение. Нажмите кнопку ниже, выберите Kitty Launcher в системном диалоге и подтвердите (выберите «Всегда», если спросят).</string>
     <string name="wizard_set_default">Установить лаунчером по умолчанию</string>
-    <string name="wizard_no_dialog_hint">Если диалог не появляется: Настройки Android &gt; Приложения &gt; Приложения по умолчанию &gt; Домашнее приложение &gt; Couchy Launcher. Или просто нажмите кнопку «Домой» — Android спросит, какой лаунчер использовать.</string>
+    <string name="wizard_no_dialog_hint">Если диалог не появляется: Настройки Android &gt; Приложения &gt; Приложения по умолчанию &gt; Домашнее приложение &gt; Kitty Launcher. Или просто нажмите кнопку «Домой» — Android спросит, какой лаунчер использовать.</string>
     <string name="wizard_vpn_title">Кнопка VPN</string>
     <string name="wizard_vpn_body">Если вы используете VPN-приложение, выберите его — кнопка VPN в строке состояния будет открывать его. Пропустите, и кнопка VPN останется скрытой (можно включить позже в Настройки › Строка состояния).</string>
     <string name="wizard_vpn_none">VPN-приложений на этом устройстве не обнаружено.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Всё готово</string>
     <string name="wizard_tips">Советы:\n• Удерживайте OK на любом приложении для опций — переместить, скрыть, о приложении, остановить, удалить\n• Нажмите Вверх из верхнего ряда для доступа к VPN, сети, часам и настройкам\n• Шестерёнка открывает настройки лаунчера: обои, разделы, экран и другое</string>
     <string name="wizard_rerun_note">Вы можете перезапустить этот мастер в любое время через Настройки &gt; О программе.</string>
-    <string name="wizard_start">Начать использовать Couchy</string>
+    <string name="wizard_start">Начать использовать Kitty</string>
     <string name="wizard_no_chooser">На этом устройстве нет выбора домашнего экрана — используйте метод ADB, показанный выше</string>
     <string name="ui_scale">Масштаб интерфейса</string>
     <string name="scale_auto">Авто</string>

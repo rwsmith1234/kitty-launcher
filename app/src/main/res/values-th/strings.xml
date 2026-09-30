@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">สตรีมมิ่ง</string>
     <string name="cat_games">เกม</string>
@@ -137,27 +137,26 @@
     <string name="about_version">เวอร์ชัน 1.0</string>
     <string name="about_desc">ลอนเชอร์หน้าจอเดียวที่เบาสำหรับ Android TV และ Google TV\n\nไม่มีโฆษณา · ไม่มีการติดตาม · ไม่มีบริการพื้นหลัง ใช้เครือข่ายเพื่อสตรีมวอลเปเปอร์ทางอากาศในตัวเท่านั้น การตั้งค่าทั้งหมดของคุณอยู่ในไฟล์ในเครื่องเดียวบนอุปกรณ์นี้</string>
     <string name="about_foss">ฟรี &amp; โอเพนซอร์ส</string>
-    <string name="about_license">ได้รับอนุญาตภายใต้ GNU General Public License v3.0 (GPLv3) คุณมีอิสระในการใช้ ศึกษา แบ่งปัน และแก้ไข Couchy Launcher</string>
-    <string name="about_thirdparty">ภาพโซฟา: Twemoji (MIT) วิดีโอทางอากาศ: คอลเล็กชัน Apple, Amazon และชุมชน สตรีมจากเจ้าของ</string>
+    <string name="about_license">ได้รับอนุญาตภายใต้ GNU General Public License v3.0 (GPLv3) คุณมีอิสระในการใช้ ศึกษา แบ่งปัน และแก้ไข Kitty Launcher</string>
     <string name="rerun_wizard">เรียกใช้ตัวช่วยตั้งค่าอีกครั้ง</string>
     <string name="rerun_wizard_sub">การตั้งค่าลอนเชอร์เริ่มต้นและเคล็ดลับการใช้งานครั้งแรก</string>
 
-    <string name="wizard_welcome_title">ยินดีต้อนรับสู่ Couchy Launcher</string>
+    <string name="wizard_welcome_title">ยินดีต้อนรับสู่ Kitty Launcher</string>
     <string name="wizard_welcome_body">ลอนเชอร์หน้าจอเดียวที่เบา: แอปของคุณจัดกลุ่มตามหมวดหมู่ วอลเปเปอร์ของคุณเอง และแถบสถานะที่สะอาดพร้อมนาฬิกา เครือข่าย และ VPN</string>
-    <string name="wizard_privacy_body">หมายเหตุความเป็นส่วนตัว — ไม่ต้องอนุญาตอะไร: Couchy ไม่ขอตำแหน่งที่ตั้ง ไมโครโฟน และไม่รันบริการพื้นหลัง ทุกสิ่งที่จำเป็นได้รับอนุญาตตั้งแต่การติดตั้ง</string>
+    <string name="wizard_privacy_body">หมายเหตุความเป็นส่วนตัว — ไม่ต้องอนุญาตอะไร: Kitty ไม่ขอตำแหน่งที่ตั้ง ไมโครโฟน และไม่รันบริการพื้นหลัง ทุกสิ่งที่จำเป็นได้รับอนุญาตตั้งแต่การติดตั้ง</string>
     <string name="wizard_home_title">ตั้งเป็นหน้าจอหลัก</string>
-    <string name="wizard_already_default">✓ เรียบร้อย — Couchy เป็นลอนเชอร์เริ่มต้นของคุณบนอุปกรณ์นี้แล้ว</string>
+    <string name="wizard_already_default">✓ เรียบร้อย — Kitty เป็นลอนเชอร์เริ่มต้นของคุณบนอุปกรณ์นี้แล้ว</string>
     <string name="wizard_gtv_intro">นี่คืออุปกรณ์ Google TV ที่ได้รับการรับรอง Google ไม่อนุญาตให้เปลี่ยนแอปหลักจากการตั้งค่าบนหน้าจอ ดังนั้นเลือกหนึ่งในสองวิธีนี้:</string>
     <string name="wizard_gtv_adb">1 — ADB (แนะนำ ครั้งเดียว):\n• การตั้งค่า &gt; ระบบ &gt; เกี่ยวกับ &gt; คลิก \"รุ่น Android TV OS\" 7 ครั้งเพื่อปลดล็อกตัวเลือกนักพัฒนา\n• การตั้งค่า &gt; ระบบ &gt; ตัวเลือกนักพัฒนา &gt; เปิดใช้การดีบัก USB/ไร้สาย\n• จากคอมพิวเตอร์ในเครือข่ายเดียวกัน รัน:</string>
-    <string name="wizard_gtv_overlay">หากลอนเชอร์ระบบยังคงซ้อนทับ Couchy หลังจากนั้น (พบใน Hisense และอื่นๆ) ให้ค้นหาและปิดใช้งาน — เปลี่ยนกลับได้ทุกเมื่อด้วย \"pm enable\":</string>
-    <string name="wizard_gtv_which">(ใช้แพ็คเกจลอนเชอร์สองตัวใดตัวหนึ่งที่คำสั่งแรกรายงาน ปิดใช้งานหลังจากยืนยันว่า Couchy เปิดได้ปกติเท่านั้น)</string>
-    <string name="wizard_gtv_remap">2 — การเปลี่ยนปุ่ม (ไม่ต้องใช้คอมพิวเตอร์): ติดตั้งแอปเช่น \"Button Mapper\" จาก Play Store และแมปปุ่มโฮมไปที่ Couchy Launcher</string>
+    <string name="wizard_gtv_overlay">หากลอนเชอร์ระบบยังคงซ้อนทับ Kitty หลังจากนั้น (พบใน Hisense และอื่นๆ) ให้ค้นหาและปิดใช้งาน — เปลี่ยนกลับได้ทุกเมื่อด้วย \"pm enable\":</string>
+    <string name="wizard_gtv_which">(ใช้แพ็คเกจลอนเชอร์สองตัวใดตัวหนึ่งที่คำสั่งแรกรายงาน ปิดใช้งานหลังจากยืนยันว่า Kitty เปิดได้ปกติเท่านั้น)</string>
+    <string name="wizard_gtv_remap">2 — การเปลี่ยนปุ่ม (ไม่ต้องใช้คอมพิวเตอร์): ติดตั้งแอปเช่น \"Button Mapper\" จาก Play Store และแมปปุ่มโฮมไปที่ Kitty Launcher</string>
     <string name="wizard_try_dialog">ลองไดอะล็อกระบบดู</string>
     <string name="wizard_check_again">ตรวจสอบอีกครั้ง</string>
     <string name="wizard_skip">ข้ามก่อน</string>
-    <string name="wizard_aosp_body">อุปกรณ์นี้อนุญาตให้เลือกแอปหลักได้ กดปุ่มด้านล่าง เลือก Couchy Launcher ในไดอะล็อกระบบและยืนยัน (เลือก \"เสมอ\" หากถาม)</string>
+    <string name="wizard_aosp_body">อุปกรณ์นี้อนุญาตให้เลือกแอปหลักได้ กดปุ่มด้านล่าง เลือก Kitty Launcher ในไดอะล็อกระบบและยืนยัน (เลือก \"เสมอ\" หากถาม)</string>
     <string name="wizard_set_default">ตั้งเป็นลอนเชอร์เริ่มต้น</string>
-    <string name="wizard_no_dialog_hint">หากไม่มีไดอะล็อกปรากฏ: การตั้งค่า Android &gt; แอป &gt; แอปเริ่มต้น &gt; แอปหลัก &gt; Couchy Launcher หรือเพียงกดปุ่มโฮม — Android จะถามว่าจะใช้ลอนเชอร์ใด</string>
+    <string name="wizard_no_dialog_hint">หากไม่มีไดอะล็อกปรากฏ: การตั้งค่า Android &gt; แอป &gt; แอปเริ่มต้น &gt; แอปหลัก &gt; Kitty Launcher หรือเพียงกดปุ่มโฮม — Android จะถามว่าจะใช้ลอนเชอร์ใด</string>
     <string name="wizard_vpn_title">ปุ่ม VPN</string>
     <string name="wizard_vpn_body">หากคุณใช้แอป VPN เลือกมัน — ปุ่ม VPN ในแถบสถานะจะเปิดมัน ข้ามแล้วปุ่ม VPN จะยังคงซ่อนอยู่ (คุณสามารถเปิดใช้ในภายหลังได้ที่การตั้งค่า › แถบสถานะ)</string>
     <string name="wizard_vpn_none">ไม่พบแอป VPN บนอุปกรณ์นี้</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">ทุกอย่างพร้อมแล้ว</string>
     <string name="wizard_tips">เคล็ดลับ:\n• กด OK ค้างบนแอปใดก็ได้เพื่อดูตัวเลือก — ย้าย ซ่อน ข้อมูลแอป บังคับหยุด ถอนการติดตั้ง\n• กดขึ้นจากแถวบนสุดเพื่อเข้าถึง VPN เครือข่าย นาฬิกา และการตั้งค่า\n• ไอคอนเฟืองเปิดการตั้งค่าลอนเชอร์: วอลเปเปอร์ หมวดหมู่ การแสดงผล และอื่นๆ</string>
     <string name="wizard_rerun_note">คุณสามารถเรียกใช้ตัวช่วยนี้ใหม่ได้ทุกเมื่อจากการตั้งค่า &gt; เกี่ยวกับ</string>
-    <string name="wizard_start">เริ่มใช้ Couchy</string>
+    <string name="wizard_start">เริ่มใช้ Kitty</string>
     <string name="wizard_no_chooser">อุปกรณ์นี้ไม่มีตัวเลือกหน้าจอหลัก — ใช้วิธี ADB ที่แสดงด้านบน</string>
     <string name="ui_scale">สเกลอินเทอร์เฟซ</string>
     <string name="scale_auto">อัตโนมัติ</string>

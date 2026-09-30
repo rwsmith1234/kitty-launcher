@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">البث</string>
     <string name="cat_games">ألعاب</string>
@@ -137,27 +137,26 @@
     <string name="about_version">الإصدار 1.0</string>
     <string name="about_desc">مشغّل خفيف بشاشة واحدة لأجهزة Android TV و Google TV.\n\nبدون إعلانات · بدون تتبع · بدون خدمات خلفية. يُستخدم الاتصال بالشبكة فقط لبث الخلفيات الجوية المدمجة. جميع إعداداتك تعيش في ملف محلي واحد على هذا الجهاز.</string>
     <string name="about_foss">حر &amp; مفتوح المصدر</string>
-    <string name="about_license">مرخص بموجب رخصة GNU General Public License v3.0 (GPLv3). أنت حر في استخدام ودراسة ومشاركة وتعديل Couchy Launcher.</string>
-    <string name="about_thirdparty">رسم الأريكة: Twemoji (MIT). الفيديوهات الجوية: مجموعات Apple و Amazon والمجتمع، يتم بثها من مالكيها.</string>
+    <string name="about_license">مرخص بموجب رخصة GNU General Public License v3.0 (GPLv3). أنت حر في استخدام ودراسة ومشاركة وتعديل Kitty Launcher.</string>
     <string name="rerun_wizard">إعادة تشغيل معالج الإعداد</string>
     <string name="rerun_wizard_sub">إعداد المشغّل الافتراضي ونصائح البداية</string>
 
-    <string name="wizard_welcome_title">مرحبًا بك في Couchy Launcher</string>
+    <string name="wizard_welcome_title">مرحبًا بك في Kitty Launcher</string>
     <string name="wizard_welcome_body">مشغّل خفيف بشاشة واحدة: تطبيقاتك مجمعة حسب القسم، خلفيتك الخاصة، وشريط حالة نظيف مع الساعة والشبكة و VPN.</string>
-    <string name="wizard_privacy_body">ملاحظة الخصوصية — لا شيء للمنح: Couchy لا يطلب الموقع أو الميكروفون ولا يشغّل خدمات خلفية. كل ما يحتاجه تم منحه عند التثبيت.</string>
+    <string name="wizard_privacy_body">ملاحظة الخصوصية — لا شيء للمنح: Kitty لا يطلب الموقع أو الميكروفون ولا يشغّل خدمات خلفية. كل ما يحتاجه تم منحه عند التثبيت.</string>
     <string name="wizard_home_title">تعيين كشاشة رئيسية</string>
-    <string name="wizard_already_default">✓ تم — Couchy هو المشغّل الافتراضي بالفعل على هذا الجهاز.</string>
+    <string name="wizard_already_default">✓ تم — Kitty هو المشغّل الافتراضي بالفعل على هذا الجهاز.</string>
     <string name="wizard_gtv_intro">هذا جهاز Google TV معتمد. Google لا تسمح بتغيير تطبيق الشاشة الرئيسية من الإعدادات على الشاشة، لذا اختر إحدى هاتين الطريقتين:</string>
     <string name="wizard_gtv_adb">1 — ADB (موصى به، لمرة واحدة):\n• الإعدادات &gt; النظام &gt; حول &gt; انقر على \"إصدار Android TV OS\" 7 مرات لفتح خيارات المطور\n• الإعدادات &gt; النظام &gt; خيارات المطور &gt; فعّل تصحيح USB/لاسلكي\n• من كمبيوتر على نفس الشبكة، نفّذ:</string>
-    <string name="wizard_gtv_overlay">إذا استمر مشغّل النظام في الظهور فوق Couchy بعد ذلك (لوحظ على Hisense وأجهزة أخرى)، ابحث عنه وقم بتعطيله — قابل للعكس في أي وقت باستخدام \"pm enable\":</string>
-    <string name="wizard_gtv_which">(استخدم أيًا من حزمتي المشغّل اللتين يبلغ عنهما الأمر الأول. لا تقم بالتعطيل إلا بعد التأكد من أن Couchy يفتح بشكل طبيعي.)</string>
-    <string name="wizard_gtv_remap">2 — إعادة تعيين الزر (بدون كمبيوتر): قم بتثبيت تطبيق مثل \"Button Mapper\" من متجر Play وعيّن زر الشاشة الرئيسية إلى Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">إذا استمر مشغّل النظام في الظهور فوق Kitty بعد ذلك (لوحظ على Hisense وأجهزة أخرى)، ابحث عنه وقم بتعطيله — قابل للعكس في أي وقت باستخدام \"pm enable\":</string>
+    <string name="wizard_gtv_which">(استخدم أيًا من حزمتي المشغّل اللتين يبلغ عنهما الأمر الأول. لا تقم بالتعطيل إلا بعد التأكد من أن Kitty يفتح بشكل طبيعي.)</string>
+    <string name="wizard_gtv_remap">2 — إعادة تعيين الزر (بدون كمبيوتر): قم بتثبيت تطبيق مثل \"Button Mapper\" من متجر Play وعيّن زر الشاشة الرئيسية إلى Kitty Launcher.</string>
     <string name="wizard_try_dialog">جرّب حوار النظام على أي حال</string>
     <string name="wizard_check_again">تحقق مرة أخرى</string>
     <string name="wizard_skip">تخطي الآن</string>
-    <string name="wizard_aosp_body">يسمح هذا الجهاز باختيار تطبيق الشاشة الرئيسية. اضغط الزر أدناه، اختر Couchy Launcher في حوار النظام وأكد (اختر \"دائمًا\" إذا طُلب منك).</string>
+    <string name="wizard_aosp_body">يسمح هذا الجهاز باختيار تطبيق الشاشة الرئيسية. اضغط الزر أدناه، اختر Kitty Launcher في حوار النظام وأكد (اختر \"دائمًا\" إذا طُلب منك).</string>
     <string name="wizard_set_default">تعيين كمشغّل افتراضي</string>
-    <string name="wizard_no_dialog_hint">إذا لم يظهر حوار: إعدادات Android &gt; التطبيقات &gt; التطبيقات الافتراضية &gt; تطبيق الشاشة الرئيسية &gt; Couchy Launcher. أو ببساطة اضغط زر الشاشة الرئيسية — سيسأل Android أي مشغّل تريد استخدامه.</string>
+    <string name="wizard_no_dialog_hint">إذا لم يظهر حوار: إعدادات Android &gt; التطبيقات &gt; التطبيقات الافتراضية &gt; تطبيق الشاشة الرئيسية &gt; Kitty Launcher. أو ببساطة اضغط زر الشاشة الرئيسية — سيسأل Android أي مشغّل تريد استخدامه.</string>
     <string name="wizard_vpn_title">زر VPN</string>
     <string name="wizard_vpn_body">إذا كنت تستخدم تطبيق VPN، اختره — سيفتحه زر VPN في شريط الحالة. تخطي وسيبقى زر VPN مخفيًا (يمكنك تمكينه لاحقًا من الإعدادات › شريط الحالة).</string>
     <string name="wizard_vpn_none">لم يتم اكتشاف أي تطبيق VPN على هذا الجهاز.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">كل شيء جاهز</string>
     <string name="wizard_tips">نصائح:\n• اضغط مطولاً على OK على أي تطبيق للخيارات — نقل، إخفاء، معلومات التطبيق، إيقاف إجباري، إلغاء التثبيت\n• اضغط أعلى من الصف العلوي للوصول إلى VPN والشبكة والساعة والإعدادات\n• الترس يفتح إعدادات المشغّل: الخلفية، الأقسام، العرض والمزيد</string>
     <string name="wizard_rerun_note">يمكنك إعادة تشغيل هذا المعالج في أي وقت من الإعدادات &gt; حول.</string>
-    <string name="wizard_start">ابدأ باستخدام Couchy</string>
+    <string name="wizard_start">ابدأ باستخدام Kitty</string>
     <string name="wizard_no_chooser">لا يحتوي هذا الجهاز على محدّد الشاشة الرئيسية — استخدم طريقة ADB الموضحة أعلاه</string>
     <string name="ui_scale">حجم الواجهة</string>
     <string name="scale_auto">تلقائي</string>

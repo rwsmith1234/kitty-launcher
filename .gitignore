@@ -30,3 +30,5 @@ pi-session-*.html
 *.session.html
 .env
 .dsx/
+/app/release/
+/app/debug/

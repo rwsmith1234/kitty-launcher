@@ -1,5 +1,6 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -75,15 +76,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import com.conreo.couchytv.Actions
-import com.conreo.couchytv.data.AppEntry
-import com.conreo.couchytv.data.AppRepository
-import com.conreo.couchytv.data.ConfigStore
-import com.conreo.couchytv.data.LAYOUT_DOCK
-import com.conreo.couchytv.data.LAYOUT_GRID
-import com.conreo.couchytv.data.LauncherConfig
-import com.conreo.couchytv.data.NetStatus
-import com.conreo.couchytv.data.networkStatusFlow
+import com.rws.kittylauncher.Actions
+import com.rws.kittylauncher.data.AppEntry
+import com.rws.kittylauncher.data.AppRepository
+import com.rws.kittylauncher.data.ConfigStore
+import com.rws.kittylauncher.data.LAYOUT_DOCK
+import com.rws.kittylauncher.data.LAYOUT_GRID
+import com.rws.kittylauncher.data.LauncherConfig
+import com.rws.kittylauncher.data.NetStatus
+import com.rws.kittylauncher.data.networkStatusFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
@@ -93,6 +94,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.runtime.CompositionLocalProvider
+//import com.rws.kittylauncher.data.LocalLauncherUI
+import com.rws.kittylauncher.data.GlobalConfig
+import com.rws.kittylauncher.data.launcherTextStyle
 
 /** Icon size steps (card width) — 5 levels for fine control. */
 val ICON_SIZES = listOf(120.dp, 150.dp, 190.dp, 230.dp, 270.dp)
@@ -223,6 +229,18 @@ fun LauncherApp(rescanTick: Int) {
         return
     }
 
+    LaunchedEffect(config.ui) {
+        GlobalConfig.ui = config.ui
+    }
+
+    //rws col
+    // ---------------------------------------------------------------
+    //  forcedColumnCount – the value we will actually use for layout
+    //  It is taken from config.columnCount **only** if it lies in the
+    //  safe range 4..20. Any value outside that range (or null) falls
+    //  back to the “old” size/spacing logic.
+    // ---------------------------------------------------------------
+    val forcedColumnCount = config.columnCount?.takeIf { it in 4..20 }
     val uiScale = uiScaleFactor(
         config.uiScale,
         androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp,
@@ -233,8 +251,8 @@ fun LauncherApp(rescanTick: Int) {
     // locale takes effect without a restart.
     val activity = remember(context) { context.findActivity() }
     LaunchedEffect(config.language) {
-        if (com.conreo.couchytv.MainActivity.currentLocalePref(context) != config.language) {
-            com.conreo.couchytv.MainActivity.persistLocale(context, config.language)
+        if (com.rws.kittylauncher.MainActivity.currentLocalePref(context) != config.language) {
+            com.rws.kittylauncher.MainActivity.persistLocale(context, config.language)
             activity?.recreate()
         }
     }
@@ -278,6 +296,16 @@ fun LauncherApp(rescanTick: Int) {
         LoadingScreen()
         return
     }
+
+    val systemSoundsEnabled = rememberSystemNavSoundsEnabled(context)
+
+    //Wrap layout in CompositionLocalProvider
+    CompositionLocalProvider(
+        LocalSystemNavSoundsEnabled provides systemSoundsEnabled,
+        LocalMuteNavSounds provides config.muteNavSounds,
+       // LocalLauncherUI provides config.ui // Exposes the entire ui block
+    ) {
+    val ui = GlobalConfig.ui // Exposes the entire ui block
     // flowOn(IO): the callbackFlow's initial compute() does ConnectivityManager
     // binder calls — keep them off the main thread on the first real frame.
     val net by remember { networkStatusFlow(context).flowOn(Dispatchers.IO) }
@@ -309,7 +337,7 @@ fun LauncherApp(rescanTick: Int) {
         }
     }
     val date by produceState(initialValue = "", config.dateFormat, locale, resumeTick) {
-        val pattern = com.conreo.couchytv.data.DATE_FORMATS
+        val pattern = com.rws.kittylauncher.data.DATE_FORMATS
             .getOrElse(config.dateFormat) { "" }
         if (pattern.isEmpty()) { value = ""; return@produceState }
         val fmt = SimpleDateFormat(pattern, locale)
@@ -359,17 +387,28 @@ fun LauncherApp(rescanTick: Int) {
 
     // ----- display dimensions: size + spacing drive everything, columns
     // are always derived from available width (never a fixed count) -----
-    val cardWidth: Dp = ICON_SIZES[config.iconScale.coerceIn(0, ICON_SIZES.size - 1)]
-    val gap: Dp = GAP_SIZES[config.spacing.coerceIn(0, GAP_SIZES.size - 1)]
+    //rws col
+    //val cardWidth: Dp = ICON_SIZES[config.iconScale.coerceIn(0, ICON_SIZES.size - 1)]
+    //val gap: Dp = GAP_SIZES[config.spacing.coerceIn(0, GAP_SIZES.size - 1)]
 
     // Columns as laid out on screen (mirrors the padding used by GridSection /
     // DockArea) — move mode needs them to shift an icon up/down by a full row.
-    val screenW: Dp = LocalConfiguration.current.screenWidthDp.dp
-    val gridCols = fitRow(screenW - 88.dp, cardWidth, gap).first
-    val dockCols = fitRow(screenW - 116.dp, cardWidth, gap).first
+    //val screenW: Dp = LocalConfiguration.current.screenWidthDp.dp
+    //val gridCols = fitRow(screenW - 88.dp, cardWidth, gap).first
+    //val dockCols = fitRow(screenW - 116.dp, cardWidth, gap).first
 
     var dockExpanded by remember { mutableStateOf(false) }
     LaunchedEffect(config.layout) { if (config.layout != LAYOUT_DOCK) dockExpanded = false }
+
+    //rws back button goes to settings
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
+    androidx.activity.compose.BackHandler(
+        enabled = !showSettings && menuFor == null && movePkg == null && !dockExpanded,
+    ) {
+        playBackSound(view, isMuted)
+        showSettings = true
+    }
 
     // ----- move-mode helpers -----
     fun findMoving(): Triple<Int, List<AppEntry>, Int>? {
@@ -491,11 +530,13 @@ fun LauncherApp(rescanTick: Int) {
     fun moveHorizontal(delta: Int) =
         if (config.layout == LAYOUT_DOCK) moveDock(delta) else moveWithinRow(delta)
 
+    /* rws function moved for col
     fun moveVertical(delta: Int) = when (config.layout) {
         LAYOUT_GRID -> moveGridVertical(delta, gridCols)
         LAYOUT_DOCK -> moveDock(if (delta < 0) -dockCols else dockCols)
         else -> moveAcrossRows(delta)
     }
+    */
 
     val moveFocus = remember { FocusRequester() }
     LaunchedEffect(categorized, movePkg) {
@@ -545,7 +586,7 @@ fun LauncherApp(rescanTick: Int) {
         // changes, the previous video keeps playing until the new one is
         // picked, instead of flashing back to the preset background.
         val aerials = withContext(Dispatchers.IO) {
-            com.conreo.couchytv.data.BuiltinAerials.load(context, config.builtinSource)
+            com.rws.kittylauncher.data.BuiltinAerials.load(context, config.builtinSource)
         }
         if (aerials.isEmpty()) return@produceState
         // Pick one, different from the current so the uri always changes (which
@@ -575,10 +616,58 @@ fun LauncherApp(rescanTick: Int) {
     val corner: Dp = CORNER_RADII[config.cornerRadius.coerceIn(0, CORNER_RADII.size - 1)]
     Box(Modifier.fillMaxSize()) {
     ScaledUi(uiScale) {
+        // ----- display dimensions: size + spacing drive everything, columns
+        // are always derived from available width (never a fixed count) -----
+        // rws, unless forcedColumnCount is used!
+        val (cardWidth, gap) = if (forcedColumnCount != null) {
+            // --------------------------------------------------------------
+            //  forcedColumnCount path – compute size & gap from a fixed column count
+            // --------------------------------------------------------------
+            // 44 dp left padding + 44 dp right padding = 88 dp total horizontal padding
+            // (this matches the padding used by the carousel and the dock).
+            val available = LocalConfiguration.current.screenWidthDp.dp - 88.dp
+            val cols = forcedColumnCount!!
+
+            // A “base” gap you can tweak while you experiment.  The code will later
+            // recalc a tiny “finalGap” so the row exactly fills the width.
+            //rws make basegap adjustable
+            //val baseGap = 42.dp
+            val baseGap = config.columnGap.dp
+            // Width that would make `cols` columns fit using the base gap.
+            val width = (available - baseGap * (cols - 1)) / cols.toFloat()
+            // Adjust the gap so the right‑most icon lands flush against the right padding.
+            val finalGap = if (cols > 1) (available - width * cols) / (cols - 1) else 0.dp
+
+            width to finalGap
+            } else {
+            // -------------------------
+            //  ORIGINAL (user‑controlled)
+            // -------------------------
+            // The two values the UI sliders write to `config.iconScale` and
+            // `config.spacing`.  The `to` operator creates a Pair<Dp,Dp> which is
+            // immediately destructured into `cardWidth` and `gap` above.
+            ICON_SIZES[config.iconScale.coerceIn(0, ICON_SIZES.size - 1)] to
+                    GAP_SIZES[config.spacing.coerceIn(0, GAP_SIZES.size - 1)]
+         }
+
+        val screenW: Dp = LocalConfiguration.current.screenWidthDp.dp
+        val gridCols = forcedColumnCount
+            ?: fitRow(screenW - 88.dp, cardWidth, gap).first
+        val dockCols = forcedColumnCount
+            ?: fitRow(screenW - 116.dp, cardWidth, gap).first
+
+        fun moveVertical(delta: Int) = when (config.layout) {
+            LAYOUT_GRID -> moveGridVertical(delta, gridCols)
+            LAYOUT_DOCK -> moveDock(if (delta < 0) -dockCols else dockCols)
+            else -> moveAcrossRows(delta)
+            }
+
     androidx.compose.runtime.CompositionLocalProvider(LocalCornerRadius provides corner) {
     LiteTvTheme(accent = accent) {
         Box(
             Modifier
+                .verticalNavSound()
+                .horizontalNavSound()
                 .fillMaxSize()
                 .onPreviewKeyEvent { event ->
                     // MENU always opens launcher settings — the only entry point
@@ -593,9 +682,14 @@ fun LauncherApp(rescanTick: Int) {
                     // through to the card underneath as a click → app launch.
                     if (event.type == KeyEventType.KeyUp) {
                         when (event.key) {
-                            Key.DirectionCenter, Key.Enter, Key.NumPadEnter,
-                            Key.Back, Key.Escape,
-                            -> movePkg = null // drop (or cancel) on release
+                            Key.DirectionCenter, Key.Enter, Key.NumPadEnter -> {
+                                playClickSound(view, isMuted)
+                                movePkg = null // drop on release
+                            }
+                            Key.Back, Key.Escape -> {
+                                playBackSound(view, isMuted)
+                                movePkg = null // cancel on release
+                            }
                             else -> {}
                         }
                         return@onPreviewKeyEvent true
@@ -603,8 +697,13 @@ fun LauncherApp(rescanTick: Int) {
                     when (event.key) {
                         Key.DirectionLeft -> { moveHorizontal(-1); true }
                         Key.DirectionRight -> { moveHorizontal(1); true }
-                        Key.DirectionUp -> { moveVertical(-1); true }
-                        Key.DirectionDown -> { moveVertical(1); true }
+                        /*rws disable moveVertical
+                              this changes "Move" to "Reorder"
+                              Needed because of issues when moving vertically
+                              (also in original code) I didn't want to fix right now
+                        */
+                        //Key.DirectionUp -> { moveVertical(-1); true }
+                        //Key.DirectionDown -> { moveVertical(1); true }
                         else -> true // swallow select/cancel key-downs too
                     }
                 }
@@ -692,6 +791,7 @@ fun LauncherApp(rescanTick: Int) {
                 )
                 Box(
                     Modifier
+                        .verticalNavSound()
                         .fillMaxWidth()
                         .height(statusBarHeight)
                         .clipToBounds()
@@ -709,6 +809,7 @@ fun LauncherApp(rescanTick: Int) {
                         date = date,
                         showVpn = config.showVpnButton,
                         glass = config.statusBarGlass,
+                        menuAlign = config.menuAlign, //rws menu
                         onVpnClick = {
                             if (config.vpnApp.isNotEmpty()) Actions.launchApp(context, config.vpnApp)
                             else Actions.openVpnSettings(context)
@@ -732,6 +833,7 @@ fun LauncherApp(rescanTick: Int) {
                         onExpandChange = { dockExpanded = it },
                         onLaunch = { app -> if (movePkg == null) Actions.launchApp(context, app.pkg) },
                         onMenu = { app -> if (movePkg == null) menuFor = app },
+                        forcedColumnCount = forcedColumnCount //rws col
                     )
                     else -> {
                         // Magnetic vertical scroll: the focused row is pinned to a
@@ -770,9 +872,16 @@ fun LauncherApp(rescanTick: Int) {
                                 endY = fadePx,
                             )
                         }
+                        //rws fix crash when hiding or removing all the last (or all) apps from category
+                        // 1. Hoist the list state and generate a key tracking active sections
+                        val listState = rememberLazyListState()
+                        val sectionsKey = remember(categorized) { categorized.map { it.first.id }.joinToString() }
+
                         androidx.compose.runtime.CompositionLocalProvider(
                             androidx.compose.foundation.gestures.LocalBringIntoViewSpec provides vPivot
                         ) {
+                            // 2. Wrap the LazyColumn in a key block to force a clean focus reset when sections vanish
+                            androidx.compose.runtime.key(sectionsKey) {
                             LazyColumn(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -790,63 +899,88 @@ fun LauncherApp(rescanTick: Int) {
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(18.dp),
                             ) {
-                        items(categorized.size, key = { categorized[it].first.id }) { rowIndex ->
-                            val (cat, catApps) = categorized[rowIndex]
-                            val isGrid = config.layout == LAYOUT_GRID
-                            // One-shot launch entrance (tied to introShown, so it never
-                            // replays on scroll/navigation): carousel rows slide in from
-                            // alternating sides and decelerate; the grid blooms per-icon
-                            // (inside GridSection). The label fades in after either.
-                            val rowEnter by animateFloatAsState(
-                                targetValue = if (introShown) 1f else 0f,
-                                animationSpec = tween(500, easing = LinearOutSlowInEasing),
-                                label = "rowEnter",
-                            )
-                            val labelAlpha by animateFloatAsState(
-                                targetValue = if (introShown) 1f else 0f,
-                                animationSpec = tween(280, delayMillis = 320),
-                                label = "labelFade",
-                            )
-                            val slideDir = if (rowIndex % 2 == 0) 1f else -1f
-                            Column(
-                                modifier = if (!isGrid) Modifier.graphicsLayer {
-                                    translationX = (1f - rowEnter) * slideDir * size.width
-                                    alpha = rowEnter
-                                } else Modifier
-                            ) {
-                                if (config.showCategoryNames) {
-                                    Text(
-                                        // Quiet uppercase divider, not competing with
-                                        // the icons below it.
-                                        text = cat.name.uppercase(),
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = Color.White.copy(alpha = 0.6f),
-                                        letterSpacing = 1.5.sp,
-                                        // Both grid and carousel start their content at
-                                        // the 44dp margin, so the label sits above the
-                                        // first icon.
-                                        modifier = Modifier
-                                            .graphicsLayer { alpha = labelAlpha }
-                                            .padding(start = 44.dp, bottom = 10.dp),
+                                items(
+                                    categorized.size,
+                                    key = { categorized[it].first.id }) { rowIndex ->
+                                    val (cat, catApps) = categorized[rowIndex]
+                                    val isGrid = config.layout == LAYOUT_GRID
+                                    // One-shot launch entrance (tied to introShown, so it never
+                                    // replays on scroll/navigation): carousel rows slide in from
+                                    // alternating sides and decelerate; the grid blooms per-icon
+                                    // (inside GridSection). The label fades in after either.
+                                    val rowEnter by animateFloatAsState(
+                                        targetValue = if (introShown) 1f else 0f,
+                                        animationSpec = tween(500, easing = LinearOutSlowInEasing),
+                                        label = "rowEnter",
                                     )
+                                    val labelAlpha by animateFloatAsState(
+                                        targetValue = if (introShown) 1f else 0f,
+                                        animationSpec = tween(280, delayMillis = 320),
+                                        label = "labelFade",
+                                    )
+                                    val slideDir = if (rowIndex % 2 == 0) 1f else -1f
+                                    Column(
+                                        modifier = if (!isGrid) Modifier.graphicsLayer {
+                                            translationX = (1f - rowEnter) * slideDir * size.width
+                                            alpha = rowEnter
+                                        } else Modifier
+                                    ) {
+                                        if (config.showCategoryNames) {
+                                            Text(
+                                                // Quiet uppercase divider, not competing with
+                                                // the icons below it.
+                                                //rws make it less quiet, don't uppercase, make larger (headlineSmall)
+                                                text = if (ui.categoryNamesUppercase) cat.name.uppercase() else cat.name,
+                                                //style = MaterialTheme.typography.labelLarge,
+                                                style = launcherTextStyle(ui.categoryNamesLabelStyle),
+                                                color = Color.White.copy(alpha = ui.categoryNamesAlpha),
+                                                letterSpacing = ui.categoryNamesLetterSpacingSp.sp, //rws
+                                                // Both grid and carousel start their content at
+                                                // the 44dp margin, so the label sits above the
+                                                // first icon.
+                                                modifier = Modifier
+                                                    .graphicsLayer { alpha = labelAlpha }
+                                                    .padding(
+                                                        start = ui.categoryNamesTopPaddingDp.dp,
+                                                        ui.categoryNamesBottomPaddingDp.dp
+                                                    ), //rws
+                                            )
+                                        }
+                                        if (isGrid) {
+                                            GridSection(
+                                                catApps, config, accent, movePkg, moveFocus,
+                                                cardWidth, gap, introShown,
+                                                isLastSection = rowIndex == categorized.lastIndex, //rws jiggle
+                                                onLaunch = { app ->
+                                                    if (movePkg == null) Actions.launchApp(
+                                                        context,
+                                                        app.pkg
+                                                    )
+                                                },
+                                                onMenu = { app ->
+                                                    if (movePkg == null) menuFor = app
+                                                },
+                                                forcedColumnCount = forcedColumnCount //rws col
+                                            )
+                                        } else {
+                                            CarouselSection(
+                                                catApps, config, accent, movePkg, moveFocus,
+                                                cardWidth, gap,
+                                                isLastSection = rowIndex == categorized.lastIndex, //rws jiggle
+                                                onLaunch = { app ->
+                                                    if (movePkg == null) Actions.launchApp(
+                                                        context,
+                                                        app.pkg
+                                                    )
+                                                },
+                                                onMenu = { app ->
+                                                    if (movePkg == null) menuFor = app
+                                                },
+                                            )
+                                        }
+                                    }
                                 }
-                                if (isGrid) {
-                                    GridSection(
-                                        catApps, config, accent, movePkg, moveFocus,
-                                        cardWidth, gap, introShown,
-                                        onLaunch = { app -> if (movePkg == null) Actions.launchApp(context, app.pkg) },
-                                        onMenu = { app -> if (movePkg == null) menuFor = app },
-                                    )
-                                } else {
-                                    CarouselSection(
-                                        catApps, config, accent, movePkg, moveFocus,
-                                        cardWidth, gap,
-                                        onLaunch = { app -> if (movePkg == null) Actions.launchApp(context, app.pkg) },
-                                        onMenu = { app -> if (movePkg == null) menuFor = app },
-                                    )
-                                }
-                            }
-                        }
+                            } //end key
                             }
                         }
                     }
@@ -897,7 +1031,7 @@ fun LauncherApp(rescanTick: Int) {
     }
     }
     }
-    // Fondu: the couch boot logo fades out over the freshly-drawn launcher.
+    // Fondu: the Kitty boot logo fades out over the freshly-drawn launcher.
     // Wait for a real drawn frame (not just first composition) so the fade
     // begins once the heavy first frame is actually on screen — the breathing
     // logo covers that hitch instead of fading out through it.
@@ -910,6 +1044,7 @@ fun LauncherApp(rescanTick: Int) {
         modifier = Modifier.fillMaxSize(),
     ) { LoadingScreen() }
     }
+} //end CompositionLocalProvider
 }
 
 /* --------------------- carousel: fixed selection --------------------- */
@@ -924,6 +1059,7 @@ private fun CarouselSection(
     moveFocus: FocusRequester,
     cardWidth: Dp,
     gap: Dp,
+    isLastSection: Boolean, //rws jiggle
     onLaunch: (AppEntry) -> Unit,
     onMenu: (AppEntry) -> Unit,
 ) {
@@ -954,6 +1090,12 @@ private fun CarouselSection(
             items(catApps.size, key = { catApps[it].pkg }) { i ->
                 val app = catApps[i]
                 val moving = app.pkg == movePkg
+                //rws jiggle
+                val atLeftEdge = i == 0
+                val atRightEdge = i == catApps.lastIndex
+                var jiggleTrigger by remember(app.pkg) { mutableIntStateOf(0) }
+                var jiggleDirection by remember(app.pkg) { mutableIntStateOf(0) }
+
                 AppCard(
                     app = app,
                     isMoving = moving,
@@ -961,7 +1103,24 @@ private fun CarouselSection(
                     accent = accent,
                     cardWidth = cardWidth,
                     showLabel = config.showAppLabels,
-                    modifier = if (moving) Modifier.focusRequester(moveFocus) else Modifier,
+                    jiggleTrigger = jiggleTrigger,
+                    jiggleDirection = jiggleDirection,
+                    modifier = (if (moving) Modifier.focusRequester(moveFocus) else Modifier)
+                        .onPreviewKeyEvent { e ->
+                            if (movePkg == null &&
+                                e.type == KeyEventType.KeyDown &&
+                                ((atLeftEdge && e.key == Key.DirectionLeft) ||
+                                        (atRightEdge && e.key == Key.DirectionRight) ||
+                                        (isLastSection && e.key == Key.DirectionDown))
+                            ) {
+                                jiggleDirection =
+                                    if (isLastSection && e.key == Key.DirectionDown) 2 else 1
+                                jiggleTrigger++
+                                true
+                            } else {
+                                false
+                            }
+                        },
                     onLaunch = { onLaunch(app) },
                     onLongPress = { onMenu(app) },
                 )
@@ -974,6 +1133,7 @@ private fun CarouselSection(
 
 /** Columns are derived from the available width, card size and spacing —
  *  a row can never overflow, so the last icon is never squeezed. */
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 private fun GridSection(
     catApps: List<AppEntry>,
@@ -984,18 +1144,29 @@ private fun GridSection(
     cardWidth: Dp,
     gap: Dp,
     intro: Boolean,
+    isLastSection: Boolean, //rws jiggle
     onLaunch: (AppEntry) -> Unit,
     onMenu: (AppEntry) -> Unit,
+    forcedColumnCount: Int? //rws col
 ) {
     BoxWithConstraints(
         Modifier.fillMaxWidth().padding(horizontal = 44.dp, vertical = 8.dp),
         contentAlignment = Alignment.TopStart,
     ) {
-        // fitRow only decides how MANY columns fit; the gap is then expanded so the
-        // row fills the width exactly — left margin == right margin (both 44dp) for
-        // any icon size / spacing, and every section lines up column-for-column.
-        val (cols, _) = fitRow(maxWidth, cardWidth, gap)
-        val gapUsed = if (cols > 1) (maxWidth - cardWidth * cols) / (cols - 1) else 0.dp
+        // ---- 1️⃣  Decide how many columns we really draw  ----
+        // If the forcedColumnCount is set we *force* that many columns,
+        // otherwise we fall back to the normal “fit as many as possible” logic.
+        /* val (cols, _) = fitRow(maxWidth, cardWidth, gap) */
+        val cols = forcedColumnCount
+            ?: fitRow(maxWidth, cardWidth, gap).first
+
+        // ---- 2️⃣  Compute the gap that makes the row flush with the left/right ----
+        // (always needed, even when cols is forced, because we still have to
+        // fill the width exactly).
+        // val gapUsed = if (cols > 1) (maxWidth - cardWidth * cols) / (cols - 1) else 0.dp
+        val gapUsed = gap
+
+        // Width of the whole block – every row lines up column‑for‑column.
         val blockWidth = cardWidth * cols + gapUsed * (cols - 1)
         val rows = catApps.chunked(cols)
         // Launch entrance: icons bloom out from the section's centre — the middle
@@ -1013,6 +1184,13 @@ private fun GridSection(
                 Row(horizontalArrangement = Arrangement.spacedBy(gapUsed)) {
                     rowApps.forEachIndexed { c, app ->
                         val moving = app.pkg == movePkg
+                        //jiggle
+                        val atLeftEdge = c == 0
+                        val atRightEdge = c == rowApps.lastIndex
+                        val atBottomEdge = r == rows.lastIndex
+                        var jiggleTrigger by remember(app.pkg) { mutableIntStateOf(0) }
+                        var jiggleDirection by remember(app.pkg) { mutableIntStateOf(0) }
+
                         val dist = kotlin.math.hypot((c - centerC).toDouble(), (r - centerR).toDouble()).toFloat()
                         val bloom by animateFloatAsState(
                             targetValue = if (intro) 1f else 0f,
@@ -1030,7 +1208,34 @@ private fun GridSection(
                             accent = accent,
                             cardWidth = cardWidth,
                             showLabel = config.showAppLabels,
+                            //jiggle
+                            jiggleTrigger = jiggleTrigger,
+                            jiggleDirection = jiggleDirection,
                             modifier = (if (moving) Modifier.focusRequester(moveFocus) else Modifier)
+                                .onPreviewKeyEvent { e ->
+                                    if (movePkg == null && e.type == KeyEventType.KeyDown) {
+                                        when {
+                                            atLeftEdge && e.key == Key.DirectionLeft -> {
+                                                jiggleDirection = 1
+                                                jiggleTrigger++
+                                                true
+                                            }
+                                            atRightEdge && e.key == Key.DirectionRight -> {
+                                                jiggleDirection = 1
+                                                jiggleTrigger++
+                                                true
+                                            }
+                                            isLastSection && atBottomEdge && e.key == Key.DirectionDown -> {
+                                                jiggleDirection = 2
+                                                jiggleTrigger++
+                                                true
+                                            }
+                                            else -> false
+                                        }
+                                    } else {
+                                        false
+                                    }
+                                }
                                 .graphicsLayer {
                                     alpha = bloom
                                     val s = 0.8f + 0.2f * bloom
@@ -1049,6 +1254,7 @@ private fun GridSection(
 
 /* ----- dock: floating glass panel with one row; Down = full grid over blurred bg ----- */
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 private fun DockArea(
     modifier: Modifier,
@@ -1064,6 +1270,7 @@ private fun DockArea(
     onExpandChange: (Boolean) -> Unit,
     onLaunch: (AppEntry) -> Unit,
     onMenu: (AppEntry) -> Unit,
+    forcedColumnCount: Int? //rws col
 ) {
     val dockFocus = remember { FocusRequester() }
     val gridFocus = remember { FocusRequester() }
@@ -1091,7 +1298,29 @@ private fun DockArea(
     BoxWithConstraints(modifier) {
         val panelInnerPadding = 18.dp
         val available = maxWidth - 80.dp - panelInnerPadding * 2
-        val (cols, gapUsed) = fitRow(available, cardWidth, gap)
+        //rws col
+        //val (cols, gapUsed) = fitRow(available, cardWidth, gap)
+        // 1️⃣  How many columns we actually want (forced or fallback)
+        val cols = forcedColumnCount
+            ?: fitRow(available, cardWidth, gap).first
+
+        // 2️⃣  Dock‑specific icon width (uses the dock’s own usable width)
+        //     Use the same “base gap” you like for the grid (you can change 12.dp if you wish)
+        //val baseGap = 12.dp
+        val baseGap = config.columnGap.dp //rws adjustable basegap
+        val dockCardWidth = if (forcedColumnCount != null) {
+            // Width that makes `cols` icons fit inside the dock’s narrower area
+            (available - baseGap * (cols - 1)) / cols.toFloat()
+        } else {
+            // When you’re not forcing columns, just reuse the grid‑derived width
+            cardWidth
+        }
+
+        // 3️⃣  Gap that makes the row flush with the dock edges
+        val gapUsed = if (cols > 1) {
+            (available - dockCardWidth * cols) / (cols - 1)
+        } else 0.dp
+
         val cardHeight = cardWidth * 9f / 16f
         val rows = apps.chunked(cols)
         // The grid opens focused on row 0, same column as the dock icon we came
@@ -1134,7 +1363,7 @@ private fun DockArea(
                     movePkg = movePkg,
                     moveFocus = moveFocus,
                     dockFocus = dockFocus,
-                    cardWidth = cardWidth,
+                    cardWidth = dockCardWidth, //rws col
                     gapUsed = gapUsed,
                     innerPadding = panelInnerPadding,
                     onExpandFrom = { i -> expandFromCol = i; onExpandChange(true) },
@@ -1187,6 +1416,13 @@ private fun DockArea(
                             Row(horizontalArrangement = Arrangement.spacedBy(gapUsed)) {
                                 rows[r].forEachIndexed { c, app ->
                                     val moving = app.pkg == movePkg
+                                    //jiggle
+                                    val atLeftEdge = c == 0
+                                    val atRightEdge = c == rows[r].lastIndex
+                                    val atBottomEdge = r == rows.lastIndex
+                                    var jiggleTrigger by remember(app.pkg) { mutableIntStateOf(0) }
+                                    var jiggleDirection by remember(app.pkg) { mutableIntStateOf(0) }
+
                                     AppCard(
                                         app = app,
                                         isMoving = moving,
@@ -1194,12 +1430,28 @@ private fun DockArea(
                                         accent = accent,
                                         cardWidth = cardWidth,
                                         showLabel = config.showAppLabels,
+                                        jiggleTrigger = jiggleTrigger,
+                                        jiggleDirection = jiggleDirection,
                                         // No Up handler: Up from row 0 falls through to
                                         // the status bar. The grid closes with Back.
-                                        modifier = when {
+                                        modifier = (when {
                                             moving -> Modifier.focusRequester(moveFocus)
                                             r == targetRow && c == targetCol -> Modifier.focusRequester(gridFocus)
                                             else -> Modifier
+                                        }).onPreviewKeyEvent { e ->
+                                            if (movePkg == null &&
+                                                e.type == KeyEventType.KeyDown &&
+                                                ((atLeftEdge && e.key == Key.DirectionLeft) ||
+                                                        (atRightEdge && e.key == Key.DirectionRight) ||
+                                                        (atBottomEdge && e.key == Key.DirectionDown))
+                                            ) {
+                                                jiggleDirection =
+                                                    if (atBottomEdge && e.key == Key.DirectionDown) 2 else 1
+                                                jiggleTrigger++
+                                                true
+                                            } else {
+                                                false
+                                            }
                                         },
                                         onLaunch = { onLaunch(app) },
                                         onLongPress = { onMenu(app) },
@@ -1526,7 +1778,7 @@ private fun LoadingScreen() {
         Modifier.fillMaxSize().background(Color(0xFF101216)),
         contentAlignment = Alignment.Center,
     ) {
-        // The couch logo, gently breathing, instead of a generic spinner.
+        // The Kitty logo, gently breathing, instead of a generic spinner.
         val transition = rememberInfiniteTransition(label = "load")
         val scale by transition.animateFloat(
             initialValue = 0.9f,
@@ -1538,10 +1790,12 @@ private fun LoadingScreen() {
             label = "pulse",
         )
         Image(
-            painter = androidx.compose.ui.res.painterResource(com.conreo.couchytv.R.drawable.ic_couch),
+            painter = androidx.compose.ui.res.painterResource(com.rws.kittylauncher.R.drawable.ic_kitty),
             contentDescription = null,
             modifier = Modifier
-                .size(88.dp)
+                //rws icon bigger on startup screen
+                //.size(88.dp)
+                .size(200.dp)
                 .graphicsLayer { scaleX = scale; scaleY = scale },
         )
     }

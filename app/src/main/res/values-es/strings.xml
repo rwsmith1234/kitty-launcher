@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <!-- Nombres de categorías por defecto -->
     <string name="cat_streaming">Streaming</string>
@@ -150,28 +150,27 @@
     <string name="about_version">Versión 1.0</string>
     <string name="about_desc">Un launcher ligero de una sola pantalla para Android TV y Google TV.\n\nSin anuncios · sin rastreo · sin servicios en segundo plano. La red solo se usa para transmitir los fondos aéreos integrados. Todos sus ajustes viven en un único archivo local en este dispositivo.</string>
     <string name="about_foss">Libre y de código abierto</string>
-    <string name="about_license">Bajo la Licencia Pública General GNU v3.0 (GPLv3). Usted es libre de usar, estudiar, compartir y modificar Couchy Launcher.</string>
-    <string name="about_thirdparty">Ilustración del sofá: Twemoji (MIT). Videos aéreos: colecciones de Apple, Amazon y la comunidad, transmitidas desde sus propietarios.</string>
+    <string name="about_license">Bajo la Licencia Pública General GNU v3.0 (GPLv3). Usted es libre de usar, estudiar, compartir y modificar Kitty Launcher.</string>
     <string name="rerun_wizard">Ejecutar asistente de nuevo</string>
     <string name="rerun_wizard_sub">Configuración del launcher por defecto y consejos iniciales</string>
 
     <!-- Asistente -->
-    <string name="wizard_welcome_title">Bienvenido a Couchy Launcher</string>
+    <string name="wizard_welcome_title">Bienvenido a Kitty Launcher</string>
     <string name="wizard_welcome_body">Un launcher ligero de una sola pantalla: sus apps agrupadas por sección, su propio fondo, y una barra de estado limpia con reloj, red y VPN.</string>
-    <string name="wizard_privacy_body">Aviso de privacidad — nada que conceder: Couchy no solicita ubicación, micrófono ni ejecuta servicios en segundo plano. Todo lo necesario se concedió al instalar.</string>
+    <string name="wizard_privacy_body">Aviso de privacidad — nada que conceder: Kitty no solicita ubicación, micrófono ni ejecuta servicios en segundo plano. Todo lo necesario se concedió al instalar.</string>
     <string name="wizard_home_title">Establecer como pantalla de inicio</string>
-    <string name="wizard_already_default">✓ Hecho — Couchy ya es su launcher por defecto en este dispositivo.</string>
+    <string name="wizard_already_default">✓ Hecho — Kitty ya es su launcher por defecto en este dispositivo.</string>
     <string name="wizard_gtv_intro">Este es un dispositivo Google TV certificado. Google no permite cambiar la app de inicio desde los ajustes en pantalla, así que elija uno de estos dos métodos:</string>
     <string name="wizard_gtv_adb">1 — ADB (recomendado, una sola vez):\n• Ajustes &gt; Sistema &gt; Acerca de &gt; pulse «Versión de Android TV OS» 7 veces para desbloquear Opciones de desarrollo\n• Ajustes &gt; Sistema &gt; Opciones de desarrollo &gt; active Depuración USB/inalámbrica\n• Desde un PC en la misma red, ejecute:</string>
-    <string name="wizard_gtv_overlay">Si el launcher del sistema aún se superpone a Couchy después (visto en Hisense y otros), identifíquelo y desactívelo — reversible en cualquier momento con «pm enable»:</string>
-    <string name="wizard_gtv_which">(Use el paquete de los dos que indique el primer comando. Solo desactívelo DESPUÉS de confirmar que Couchy se abre bien.)</string>
-    <string name="wizard_gtv_remap">2 — Reasignación de botón (sin PC): instale una app como «Button Mapper» de Play Store y asigne el botón Inicio a Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Si el launcher del sistema aún se superpone a Kitty después (visto en Hisense y otros), identifíquelo y desactívelo — reversible en cualquier momento con «pm enable»:</string>
+    <string name="wizard_gtv_which">(Use el paquete de los dos que indique el primer comando. Solo desactívelo DESPUÉS de confirmar que Kitty se abre bien.)</string>
+    <string name="wizard_gtv_remap">2 — Reasignación de botón (sin PC): instale una app como «Button Mapper» de Play Store y asigne el botón Inicio a Kitty Launcher.</string>
     <string name="wizard_try_dialog">Probar diálogo del sistema igualmente</string>
     <string name="wizard_check_again">Verificar de nuevo</string>
     <string name="wizard_skip">Omitir por ahora</string>
-    <string name="wizard_aosp_body">Este dispositivo permite elegir una app de inicio. Pulse el botón inferior, elija Couchy Launcher en el diálogo del sistema y confirme (elija «Siempre» si se le pregunta).</string>
+    <string name="wizard_aosp_body">Este dispositivo permite elegir una app de inicio. Pulse el botón inferior, elija Kitty Launcher en el diálogo del sistema y confirme (elija «Siempre» si se le pregunta).</string>
     <string name="wizard_set_default">Establecer como launcher por defecto</string>
-    <string name="wizard_no_dialog_hint">Si no aparece ningún diálogo: Ajustes Android &gt; Apps &gt; Apps por defecto &gt; App de inicio &gt; Couchy Launcher. O simplemente pulse Inicio — Android preguntará qué launcher usar.</string>
+    <string name="wizard_no_dialog_hint">Si no aparece ningún diálogo: Ajustes Android &gt; Apps &gt; Apps por defecto &gt; App de inicio &gt; Kitty Launcher. O simplemente pulse Inicio — Android preguntará qué launcher usar.</string>
     <string name="wizard_vpn_title">Botón VPN</string>
     <string name="wizard_vpn_body">Si usa una app VPN, elíjala — el botón VPN en la barra de estado la abrirá. Omita y el botón VPN permanece oculto (puede activarlo luego en Ajustes › Barra de estado).</string>
     <string name="wizard_vpn_none">No se detectó ninguna app VPN en este dispositivo.</string>
@@ -179,7 +178,7 @@
     <string name="wizard_done_title">Todo listo</string>
     <string name="wizard_tips">Consejos:\n• Mantenga OK en cualquier app para opciones — mover, ocultar, info, forzar detención, desinstalar\n• Presione Arriba desde la fila superior para acceder a VPN, red, reloj y ajustes\n• El engranaje abre los ajustes del launcher: fondo, secciones, pantalla y más</string>
     <string name="wizard_rerun_note">Puede volver a ejecutar este asistente en cualquier momento desde Ajustes &gt; Acerca de.</string>
-    <string name="wizard_start">Comenzar con Couchy</string>
+    <string name="wizard_start">Comenzar con Kitty</string>
     <string name="wizard_no_chooser">Este dispositivo no tiene selector de inicio — use el método ADB mostrado</string>
     <string name="ui_scale">Escala de la interfaz</string>
     <string name="scale_auto">Automático</string>

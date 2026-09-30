@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy 启动器</string>
+    <string name="app_name">Kitty 启动器</string>
 
     <!-- 默认分类名称（首次安装） -->
     <string name="cat_streaming">流媒体</string>
@@ -150,28 +150,27 @@
     <string name="about_version">版本 1.0</string>
     <string name="about_desc">一款适用于 Android TV 和 Google TV 的轻量级单屏启动器。\n\n无广告 · 无跟踪 · 无后台服务。网络仅用于串流内置航拍壁纸。您的所有设置均保存在此设备上的单个本地文件中。</string>
     <string name="about_foss">自由开源</string>
-    <string name="about_license">基于 GNU General Public License v3.0（GPLv3）许可。您可以自由使用、研究、分享和修改 Couchy Launcher。</string>
-    <string name="about_thirdparty">沙发图标：Twemoji（MIT）。航拍视频：Apple、Amazon 和社区合集，从其所有者处串流。</string>
+    <string name="about_license">基于 GNU General Public License v3.0（GPLv3）许可。您可以自由使用、研究、分享和修改 Kitty Launcher。</string>
     <string name="rerun_wizard">重新运行设置向导</string>
     <string name="rerun_wizard_sub">默认启动器设置和首次使用提示</string>
 
     <!-- 设置向导 -->
-    <string name="wizard_welcome_title">欢迎使用 Couchy 启动器</string>
+    <string name="wizard_welcome_title">欢迎使用 Kitty 启动器</string>
     <string name="wizard_welcome_body">一款轻量级单屏启动器：按分类整理您的应用，自定义壁纸，以及带有时钟、网络和 VPN 的简洁状态栏。</string>
-    <string name="wizard_privacy_body">隐私说明 — 无需授权：Couchy 不请求位置、麦克风权限，也不运行后台服务。安装时已授予所需的一切。</string>
+    <string name="wizard_privacy_body">隐私说明 — 无需授权：Kitty 不请求位置、麦克风权限，也不运行后台服务。安装时已授予所需的一切。</string>
     <string name="wizard_home_title">设置为主屏幕</string>
-    <string name="wizard_already_default">✓ 完成 — Couchy 已是此设备上的默认启动器。</string>
+    <string name="wizard_already_default">✓ 完成 — Kitty 已是此设备上的默认启动器。</string>
     <string name="wizard_gtv_intro">这是一台经过认证的 Google TV 设备。Google 不允许从屏幕设置中更改主页应用，请选择以下两种方法之一：</string>
     <string name="wizard_gtv_adb">1 — ADB（推荐，一次性）：\n• 设置 &gt; 系统 &gt; 关于 &gt; 点击「Android TV OS 版本」7 次解锁开发者选项\n• 设置 &gt; 系统 &gt; 开发者选项 &gt; 启用 USB/无线调试\n• 从同一网络上的电脑运行：</string>
-    <string name="wizard_gtv_overlay">如果之后系统启动器仍然覆盖 Couchy（在 Hisense 等设备上已观察到），找到它并禁用它 — 随时可用「pm enable」恢复：</string>
-    <string name="wizard_gtv_which">（使用第一个命令所报告的任一个启动器包名。仅在确认 Couchy 正常打开后再禁用它。）</string>
-    <string name="wizard_gtv_remap">2 — 按钮重映射（无需电脑）：安装按钮重映射应用（如 Play Store 中的「Button Mapper」），将主页按钮映射到 Couchy 启动器。</string>
+    <string name="wizard_gtv_overlay">如果之后系统启动器仍然覆盖 Kitty（在 Hisense 等设备上已观察到），找到它并禁用它 — 随时可用「pm enable」恢复：</string>
+    <string name="wizard_gtv_which">（使用第一个命令所报告的任一个启动器包名。仅在确认 Kitty 正常打开后再禁用它。）</string>
+    <string name="wizard_gtv_remap">2 — 按钮重映射（无需电脑）：安装按钮重映射应用（如 Play Store 中的「Button Mapper」），将主页按钮映射到 Kitty 启动器。</string>
     <string name="wizard_try_dialog">仍然尝试系统对话框</string>
     <string name="wizard_check_again">再次检查</string>
     <string name="wizard_skip">暂时跳过</string>
-    <string name="wizard_aosp_body">此设备允许选择主页应用。按下下方按钮，在系统对话框中选择 Couchy 启动器并确认（如果询问，选择「始终」）。</string>
+    <string name="wizard_aosp_body">此设备允许选择主页应用。按下下方按钮，在系统对话框中选择 Kitty 启动器并确认（如果询问，选择「始终」）。</string>
     <string name="wizard_set_default">设为默认启动器</string>
-    <string name="wizard_no_dialog_hint">如果没有对话框出现：Android 设置 &gt; 应用 &gt; 默认应用 &gt; 主页应用 &gt; Couchy 启动器。或者直接按主页按钮 — Android 会询问使用哪个启动器。</string>
+    <string name="wizard_no_dialog_hint">如果没有对话框出现：Android 设置 &gt; 应用 &gt; 默认应用 &gt; 主页应用 &gt; Kitty 启动器。或者直接按主页按钮 — Android 会询问使用哪个启动器。</string>
     <string name="wizard_vpn_title">VPN 按钮</string>
     <string name="wizard_vpn_body">如果使用 VPN 应用，请选择它 — 状态栏中的 VPN 按钮将打开它。跳过则 VPN 按钮保持隐藏（稍后可在设置 › 状态栏中启用）。</string>
     <string name="wizard_vpn_none">此设备上未检测到 VPN 应用。</string>
@@ -179,7 +178,7 @@
     <string name="wizard_done_title">一切就绪</string>
     <string name="wizard_tips">提示：\n• 在任何应用上长按 OK 查看选项 — 移动、隐藏、应用信息、强制停止、卸载\n• 从顶行按上键访问 VPN、网络、时钟和设置\n• 齿轮图标打开启动器设置：壁纸、分类、显示等</string>
     <string name="wizard_rerun_note">您可以随时从设置 &gt; 关于重新运行此向导。</string>
-    <string name="wizard_start">开始使用 Couchy</string>
+    <string name="wizard_start">开始使用 Kitty</string>
     <string name="wizard_no_chooser">此设备没有主页选择器 — 请使用上面显示的 ADB 方法</string>
     <string name="ui_scale">界面缩放</string>
     <string name="scale_auto">自动</string>

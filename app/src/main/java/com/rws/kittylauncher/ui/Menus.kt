@@ -1,4 +1,4 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -21,7 +21,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.conreo.couchytv.R
+import com.rws.kittylauncher.R
 import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.Icon
 import androidx.tv.material3.ListItem
@@ -29,7 +29,8 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
-import com.conreo.couchytv.data.AppEntry
+import com.rws.kittylauncher.data.AppEntry
+import androidx.compose.ui.platform.LocalView
 
 data class MenuEntry(
     val label: String,
@@ -52,7 +53,9 @@ fun AppContextMenu(
 ) {
     val entries = listOf(
         MenuEntry(stringResource(R.string.menu_open), AppIcons.Play, onOpen),
-        MenuEntry(stringResource(R.string.menu_move), AppIcons.Move, onMove),
+        //rws disable "Move" and replace with "Reorder" (only left/right)
+        //MenuEntry(stringResource(R.string.menu_move), AppIcons.Move, onMove),
+        MenuEntry(stringResource(R.string.menu_reorder), AppIcons.Reorder, onMove),
         MenuEntry(if (isHidden) stringResource(R.string.menu_unhide) else stringResource(R.string.menu_hide), AppIcons.Hide, onToggleHide),
         MenuEntry(stringResource(R.string.menu_app_info), AppIcons.Info, onAppInfo),
         MenuEntry(stringResource(R.string.menu_close), AppIcons.Stop, onClose),
@@ -70,6 +73,8 @@ private fun MenuDialog(
     // The menu opens while the OK button is still physically HELD (long-press).
     // Ignore every OK event — held repeats AND the final release — until the
     // button has been fully released once. Only a fresh press activates items.
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
     var released by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -84,7 +89,7 @@ private fun MenuDialog(
                     e.type == KeyEventType.KeyUp -> { released = true; true }
                     else -> true // swallow auto-repeats of the initiating hold
                 }
-            },
+            }.verticalNavSound()
         ) {
             Column(Modifier.width(320.dp).padding(12.dp)) {
                 Text(
@@ -97,7 +102,7 @@ private fun MenuDialog(
                 entries.forEachIndexed { index, entry ->
                     ListItem(
                         selected = false,
-                        onClick = entry.action,
+                        onClick = {playClickSound(view, isMuted); entry.action()},
                         headlineContent = { Text(entry.label) },
                         leadingContent = {
                             Icon(entry.icon, contentDescription = null)

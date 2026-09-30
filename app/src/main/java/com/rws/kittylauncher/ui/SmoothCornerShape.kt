@@ -1,4 +1,4 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size

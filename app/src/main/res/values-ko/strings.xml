@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">스트리밍</string>
     <string name="cat_games">게임</string>
@@ -137,27 +137,26 @@
     <string name="about_version">버전 1.0</string>
     <string name="about_desc">Android TV 및 Google TV를 위한 가벼운 단일 화면 런처입니다.\n\n광고 없음 · 추적 없음 · 백그라운드 서비스 없음. 네트워크는 내장 항공 배경화면 스트리밍에만 사용됩니다. 모든 설정은 이 기기의 단일 로컬 파일에 저장됩니다.</string>
     <string name="about_foss">자유 &amp; 오픈소스</string>
-    <string name="about_license">GNU General Public License v3.0 (GPLv3)에 따라 라이선스가 부여됩니다. Couchy Launcher를 자유롭게 사용, 연구, 공유 및 수정할 수 있습니다.</string>
-    <string name="about_thirdparty">소파 아트워크: Twemoji (MIT). 항공 영상: Apple, Amazon 및 커뮤니티 컬렉션, 소유자로부터 스트리밍.</string>
+    <string name="about_license">GNU General Public License v3.0 (GPLv3)에 따라 라이선스가 부여됩니다. Kitty Launcher를 자유롭게 사용, 연구, 공유 및 수정할 수 있습니다.</string>
     <string name="rerun_wizard">설정 마법사 다시 실행</string>
     <string name="rerun_wizard_sub">기본 런처 설정 및 첫 실행 팁</string>
 
-    <string name="wizard_welcome_title">Couchy Launcher에 오신 것을 환영합니다</string>
+    <string name="wizard_welcome_title">Kitty Launcher에 오신 것을 환영합니다</string>
     <string name="wizard_welcome_body">가벼운 단일 화면 런처: 앱을 섹션별로 그룹화하고, 나만의 배경화면, 시계, 네트워크 및 VPN이 있는 깔끔한 상태 표시줄.</string>
-    <string name="wizard_privacy_body">개인정보 보호 — 허용할 사항 없음: Couchy는 위치, 마이크를 요청하지 않으며 백그라운드 서비스를 실행하지 않습니다. 필요한 모든 것은 설치 시 허용되었습니다.</string>
+    <string name="wizard_privacy_body">개인정보 보호 — 허용할 사항 없음: Kitty는 위치, 마이크를 요청하지 않으며 백그라운드 서비스를 실행하지 않습니다. 필요한 모든 것은 설치 시 허용되었습니다.</string>
     <string name="wizard_home_title">홈 화면으로 설정</string>
-    <string name="wizard_already_default">✓ 완료 — Couchy가 이미 이 기기의 기본 런처입니다.</string>
+    <string name="wizard_already_default">✓ 완료 — Kitty가 이미 이 기기의 기본 런처입니다.</string>
     <string name="wizard_gtv_intro">인증된 Google TV 기기입니다. Google은 화면 설정에서 홈 앱 변경을 허용하지 않으므로 다음 두 가지 방법 중 하나를 선택하세요:</string>
     <string name="wizard_gtv_adb">1 — ADB (권장, 1회):\n• 설정 &gt; 시스템 &gt; 정보 &gt; \"Android TV OS 빌드\"를 7번 클릭하여 개발자 옵션 잠금 해제\n• 설정 &gt; 시스템 &gt; 개발자 옵션 &gt; USB/무선 디버깅 활성화\n• 같은 네트워크의 컴퓨터에서 실행:</string>
-    <string name="wizard_gtv_overlay">그 후에도 시스템 런처가 Couchy 위에 겹쳐 보이면 (Hisense 등에서 확인됨), 찾아서 비활성화하세요 — 언제든지 \"pm enable\"로 되돌릴 수 있습니다:</string>
-    <string name="wizard_gtv_which">(첫 번째 명령이 보고하는 두 런처 패키지 중 하나를 사용하세요. Couchy가 정상적으로 열리는 것을 확인한 후에만 비활성화하세요.)</string>
-    <string name="wizard_gtv_remap">2 — 버튼 재매핑 (컴퓨터 불필요): Play 스토어에서 \"Button Mapper\"와 같은 앱을 설치하고 홈 버튼을 Couchy Launcher에 매핑하세요.</string>
+    <string name="wizard_gtv_overlay">그 후에도 시스템 런처가 Kitty 위에 겹쳐 보이면 (Hisense 등에서 확인됨), 찾아서 비활성화하세요 — 언제든지 \"pm enable\"로 되돌릴 수 있습니다:</string>
+    <string name="wizard_gtv_which">(첫 번째 명령이 보고하는 두 런처 패키지 중 하나를 사용하세요. Kitty가 정상적으로 열리는 것을 확인한 후에만 비활성화하세요.)</string>
+    <string name="wizard_gtv_remap">2 — 버튼 재매핑 (컴퓨터 불필요): Play 스토어에서 \"Button Mapper\"와 같은 앱을 설치하고 홈 버튼을 Kitty Launcher에 매핑하세요.</string>
     <string name="wizard_try_dialog">그래도 시스템 대화상자 시도</string>
     <string name="wizard_check_again">다시 확인</string>
     <string name="wizard_skip">지금은 건너뛰기</string>
-    <string name="wizard_aosp_body">이 기기는 홈 앱 선택을 허용합니다. 아래 버튼을 누르고 시스템 대화상자에서 Couchy Launcher를 선택한 후 확인하세요 (\"항상\" 선택).</string>
+    <string name="wizard_aosp_body">이 기기는 홈 앱 선택을 허용합니다. 아래 버튼을 누르고 시스템 대화상자에서 Kitty Launcher를 선택한 후 확인하세요 (\"항상\" 선택).</string>
     <string name="wizard_set_default">기본 런처로 설정</string>
-    <string name="wizard_no_dialog_hint">대화상자가 나타나지 않으면: Android 설정 &gt; 앱 &gt; 기본 앱 &gt; 홈 앱 &gt; Couchy Launcher. 또는 홈 버튼을 누르기만 하면 Android에서 어떤 런처를 사용할지 물어봅니다.</string>
+    <string name="wizard_no_dialog_hint">대화상자가 나타나지 않으면: Android 설정 &gt; 앱 &gt; 기본 앱 &gt; 홈 앱 &gt; Kitty Launcher. 또는 홈 버튼을 누르기만 하면 Android에서 어떤 런처를 사용할지 물어봅니다.</string>
     <string name="wizard_vpn_title">VPN 버튼</string>
     <string name="wizard_vpn_body">VPN 앱을 사용하는 경우 선택하세요 — 상태 표시줄의 VPN 버튼이 해당 앱을 엽니다. 건너뛰면 VPN 버튼이 숨겨집니다 (나중에 설정 › 상태 표시줄에서 활성화 가능).</string>
     <string name="wizard_vpn_none">이 기기에서 VPN 앱이 감지되지 않았습니다.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">모두 준비되었습니다</string>
     <string name="wizard_tips">팁:\n• 앱에서 OK를 길게 누르면 옵션 — 이동, 숨기기, 앱 정보, 강제 중지, 삭제\n• 맨 위 행에서 위 키를 누르면 VPN, 네트워크, 시계 및 설정에 접근\n• 기어 아이콘으로 런처 설정 열기: 배경화면, 섹션, 디스플레이 등</string>
     <string name="wizard_rerun_note">이 마법사는 설정 &gt; 정보에서 언제든지 다시 실행할 수 있습니다.</string>
-    <string name="wizard_start">Couchy 사용 시작</string>
+    <string name="wizard_start">Kitty 사용 시작</string>
     <string name="wizard_no_chooser">이 기기에는 홈 선택기가 없습니다 — 위에 표시된 ADB 방법을 사용하세요</string>
     <string name="ui_scale">인터페이스 배율</string>
     <string name="scale_auto">자동</string>

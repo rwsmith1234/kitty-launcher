@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Yayın</string>
     <string name="cat_games">Oyunlar</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Sürüm 1.0</string>
     <string name="about_desc">Android TV ve Google TV için hafif, tek ekranlı bir başlatıcı.\n\nReklamsız · izlemesiz · arka plan hizmeti yok. Ağ yalnızca yerleşik hava duvar kağıtlarını yayınlamak için kullanılır. Tüm ayarlarınız bu cihazdaki tek bir yerel dosyada saklanır.</string>
     <string name="about_foss">Özgür &amp; açık kaynak</string>
-    <string name="about_license">GNU General Public License v3.0 (GPLv3) altında lisanslanmıştır. Couchy Launcher\'ı kullanmakta, incelemekte, paylaşmakta ve değiştirmekte özgürsünüz.</string>
-    <string name="about_thirdparty">Kanepe çizimi: Twemoji (MIT). Hava videoları: Apple, Amazon ve topluluk koleksiyonları, sahiplerinden yayınlanır.</string>
+    <string name="about_license">GNU General Public License v3.0 (GPLv3) altında lisanslanmıştır. Kitty Launcher\'ı kullanmakta, incelemekte, paylaşmakta ve değiştirmekte özgürsünüz.</string>
     <string name="rerun_wizard">Kurulum sihirbazını tekrar çalıştır</string>
     <string name="rerun_wizard_sub">Varsayılan başlatıcı kurulumu ve ilk çalıştırma ipuçları</string>
 
-    <string name="wizard_welcome_title">Couchy Launcher\'a hoş geldiniz</string>
+    <string name="wizard_welcome_title">Kitty Launcher\'a hoş geldiniz</string>
     <string name="wizard_welcome_body">Hafif, tek ekranlı bir başlatıcı: uygulamalarınız bölümlere göre gruplanmış, kendi duvar kağıdınız ve saat, ağ ve VPN içeren temiz bir durum çubuğu.</string>
-    <string name="wizard_privacy_body">Gizlilik notu — hiçbir izin gerekmez: Couchy konum, mikrofon istemez ve arka plan hizmeti çalıştırmaz. İhtiyacı olan her şey kurulumda verilmiştir.</string>
+    <string name="wizard_privacy_body">Gizlilik notu — hiçbir izin gerekmez: Kitty konum, mikrofon istemez ve arka plan hizmeti çalıştırmaz. İhtiyacı olan her şey kurulumda verilmiştir.</string>
     <string name="wizard_home_title">Ana ekran olarak ayarla</string>
-    <string name="wizard_already_default">✓ Tamam — Couchy zaten bu cihazda varsayılan başlatıcınız.</string>
+    <string name="wizard_already_default">✓ Tamam — Kitty zaten bu cihazda varsayılan başlatıcınız.</string>
     <string name="wizard_gtv_intro">Bu sertifikalı bir Google TV cihazıdır. Google, ekran ayarlarından ana uygulamanın değiştirilmesine izin vermez, bu nedenle şu iki yöntemden birini seçin:</string>
     <string name="wizard_gtv_adb">1 — ADB (önerilir, tek seferlik):\n• Ayarlar &gt; Sistem &gt; Hakkında &gt; \"Android TV OS sürümü\"ne 7 kez tıklayarak Geliştirici seçeneklerini açın\n• Ayarlar &gt; Sistem &gt; Geliştirici seçenekleri &gt; USB/Kablosuz hata ayıklamayı etkinleştirin\n• Aynı ağdaki bir bilgisayardan şunu çalıştırın:</string>
-    <string name="wizard_gtv_overlay">Bundan sonra sistem başlatıcısı hala Couchy\'nin üzerine biniyorsa (Hisense ve diğerlerinde görüldü), onu bulun ve devre dışı bırakın — \"pm enable\" ile her zaman geri alınabilir:</string>
-    <string name="wizard_gtv_which">(İlk komutun bildirdiği iki başlatıcı paketinden birini kullanın. Yalnızca Couchy\'nin düzgün açıldığını onayladıktan SONRA devre dışı bırakın.)</string>
-    <string name="wizard_gtv_remap">2 — Tuş yeniden eşleme (bilgisayarsız): Play Store\'dan \"Button Mapper\" gibi bir uygulama yükleyin ve Ana Sayfa tuşunu Couchy Launcher\'a eşleyin.</string>
+    <string name="wizard_gtv_overlay">Bundan sonra sistem başlatıcısı hala Kitty\'nin üzerine biniyorsa (Hisense ve diğerlerinde görüldü), onu bulun ve devre dışı bırakın — \"pm enable\" ile her zaman geri alınabilir:</string>
+    <string name="wizard_gtv_which">(İlk komutun bildirdiği iki başlatıcı paketinden birini kullanın. Yalnızca Kitty\'nin düzgün açıldığını onayladıktan SONRA devre dışı bırakın.)</string>
+    <string name="wizard_gtv_remap">2 — Tuş yeniden eşleme (bilgisayarsız): Play Store\'dan \"Button Mapper\" gibi bir uygulama yükleyin ve Ana Sayfa tuşunu Kitty Launcher\'a eşleyin.</string>
     <string name="wizard_try_dialog">Yine de sistem iletişim kutusunu dene</string>
     <string name="wizard_check_again">Tekrar kontrol et</string>
     <string name="wizard_skip">Şimdilik atla</string>
-    <string name="wizard_aosp_body">Bu cihaz bir ana uygulama seçmeye izin veriyor. Aşağıdaki düğmeye basın, sistem iletişim kutusunda Couchy Launcher\'ı seçin ve onaylayın (sorulursa \"Her zaman\"ı seçin).</string>
+    <string name="wizard_aosp_body">Bu cihaz bir ana uygulama seçmeye izin veriyor. Aşağıdaki düğmeye basın, sistem iletişim kutusunda Kitty Launcher\'ı seçin ve onaylayın (sorulursa \"Her zaman\"ı seçin).</string>
     <string name="wizard_set_default">Varsayılan başlatıcı olarak ayarla</string>
-    <string name="wizard_no_dialog_hint">İletişim kutusu görünmezse: Android ayarları &gt; Uygulamalar &gt; Varsayılan uygulamalar &gt; Ana uygulama &gt; Couchy Launcher. Veya sadece Ana Sayfa düğmesine basın — Android hangi başlatıcıyı kullanacağınızı soracaktır.</string>
+    <string name="wizard_no_dialog_hint">İletişim kutusu görünmezse: Android ayarları &gt; Uygulamalar &gt; Varsayılan uygulamalar &gt; Ana uygulama &gt; Kitty Launcher. Veya sadece Ana Sayfa düğmesine basın — Android hangi başlatıcıyı kullanacağınızı soracaktır.</string>
     <string name="wizard_vpn_title">VPN düğmesi</string>
     <string name="wizard_vpn_body">Bir VPN uygulaması kullanıyorsanız onu seçin — durum çubuğundaki VPN düğmesi onu açacaktır. Atla ve VPN düğmesi gizli kalır (daha sonra Ayarlar › Durum çubuğu\'ndan etkinleştirebilirsiniz).</string>
     <string name="wizard_vpn_none">Bu cihazda VPN uygulaması algılanmadı.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Her şey hazır</string>
     <string name="wizard_tips">İpuçları:\n• Seçenekler için herhangi bir uygulamada OK\'ye basılı tutun — taşı, gizle, uygulama bilgisi, zorla durdur, kaldır\n• VPN, ağ, saat ve ayarlara ulaşmak için üst satırdan Yukarı basın\n• Dişli çark, başlatıcı ayarlarını açar: duvar kağıdı, bölümler, ekran ve daha fazlası</string>
     <string name="wizard_rerun_note">Bu sihirbazı istediğiniz zaman Ayarlar &gt; Hakkında\'dan tekrar çalıştırabilirsiniz.</string>
-    <string name="wizard_start">Couchy\'yi kullanmaya başla</string>
+    <string name="wizard_start">Kitty\'yi kullanmaya başla</string>
     <string name="wizard_no_chooser">Bu cihazda ana ekran seçici yok — yukarıda gösterilen ADB yöntemini kullanın</string>
     <string name="ui_scale">Arayüz ölçeği</string>
     <string name="scale_auto">Otomatik</string>

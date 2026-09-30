@@ -1,4 +1,4 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
 import android.app.role.RoleManager
 import android.content.Context
@@ -44,14 +44,28 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import com.conreo.couchytv.Actions
-import com.conreo.couchytv.R
+import com.rws.kittylauncher.Actions
+import com.rws.kittylauncher.R
 import java.net.Inet4Address
 import java.net.NetworkInterface
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.drawscope.clipRect
+import android.util.Log
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.withTransform
+import java.util.Locale
+import androidx.compose.ui.platform.LocalConfiguration
 
 /**
  * First-launch wizard. Detects the device type and guides the user to set
- * Couchy as the default home — including certified Google TV devices, where
+ * Kitty as the default home — including certified Google TV devices, where
  * the system UI does not allow changing the home app and ADB is required.
  * [onVpnChosen] receives the picked VPN package, or null to hide the VPN icon.
  */
@@ -93,7 +107,7 @@ fun SetupWizard(onDone: () -> Unit, onVpnChosen: (String?) -> Unit) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(WALLPAPERS[0].brush()),
+            .background(WALLPAPERS[5].brush()),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -103,13 +117,15 @@ fun SetupWizard(onDone: () -> Unit, onVpnChosen: (String?) -> Unit) {
                 .padding(horizontal = 36.dp, vertical = 24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            // Branding: the couch, on every wizard step.
+            // Branding: the Kitty, on every wizard step.
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_couch),
+                    //rws
+                    //painter = painterResource(R.drawable.ic_Kitty),
+                    painter = painterResource(R.drawable.ic_kitty),
                     contentDescription = null,
                     modifier = Modifier.size(44.dp),
                 )
@@ -118,10 +134,18 @@ fun SetupWizard(onDone: () -> Unit, onVpnChosen: (String?) -> Unit) {
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White,
                 )
+                //rws
+                Text(
+                    stringResource(R.string.mistakes_by),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.6f),
+                )
             }
             when (step) {
                 0 -> {
-                    Title(stringResource(R.string.wizard_welcome_title))
+                    //rws
+                    //Title(stringResource(R.string.wizard_welcome_title))
+                    AnimatedWelcomeTitle()
                     Body(stringResource(R.string.wizard_welcome_body))
                     Body(stringResource(R.string.wizard_privacy_body))
                     NavRow(nextLabel = stringResource(R.string.next)) { step = 1 }
@@ -143,7 +167,7 @@ fun SetupWizard(onDone: () -> Unit, onVpnChosen: (String?) -> Unit) {
                                 Body(stringResource(R.string.wizard_gtv_intro))
                                 Body(stringResource(R.string.wizard_gtv_adb))
                                 CodeLine("adb connect ${ip ?: "<TV-IP>"}:5555")
-                                CodeLine("adb shell cmd package set-home-activity com.conreo.couchytv/.MainActivity")
+                                CodeLine("adb shell cmd package set-home-activity com.rws.kittylauncher/.MainActivity")
                             }
                             1 -> {
                                 Body(stringResource(R.string.wizard_gtv_overlay))
@@ -336,4 +360,257 @@ private fun vpnApps(context: Context): List<Pair<String, String>> {
         }
         .distinctBy { it.first }
         .sortedBy { it.second.lowercase() }
+}
+
+@Composable
+private fun AnimatedWelcomeTitle() {
+    val initialDelayMillis = 1000
+    val scratchDurationMillis = 400
+    val replacementDelayMillis = 1000
+    val replacementDurationMillis = 1000
+    val localizedDelayMillis = 1000
+    val localizedDurationMillis = 1500
+
+    // Extra scratch width past the right edge of the original name.
+    val scratchExtraRightDp = 24
+
+    val isEnglish = LocalConfiguration.current.locales[0].language == Locale.ENGLISH.language
+
+    LaunchedEffect(isEnglish) {
+        Log.d("KittyLauncher", "AnimatedWelcomeTitle: isEnglish=$isEnglish")
+    }
+
+    val strikeProgress = remember { Animatable(0f) }
+    val replacementProgress = remember { Animatable(0f) }
+    val localizedProgress = remember { Animatable(0f) }
+
+    var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+
+    val density = LocalDensity.current
+    val clawPainter = painterResource(R.drawable.claw_marks)
+
+    val titleBase = stringResource(R.string.wizard_welcome_title_base)
+    val originalName = stringResource(R.string.wizard_welcome_title_orig_name)
+    val newName = stringResource(R.string.wizard_welcome_title_new_name)
+
+    LaunchedEffect(Unit) {
+        delay(initialDelayMillis.toLong())
+
+        strikeProgress.animateTo(
+            1f,
+            animationSpec = tween(
+                durationMillis = scratchDurationMillis,
+                easing = FastOutSlowInEasing,
+            ),
+        )
+
+        delay(replacementDelayMillis.toLong())
+
+        replacementProgress.animateTo(
+            1f,
+            animationSpec = tween(
+                durationMillis = replacementDurationMillis,
+                easing = FastOutSlowInEasing,
+            ),
+        )
+
+        if (!isEnglish) {
+            delay(localizedDelayMillis.toLong())
+
+            localizedProgress.animateTo(
+                1f,
+                animationSpec = tween(
+                    durationMillis = localizedDurationMillis,
+                    easing = FastOutSlowInEasing,
+                ),
+            )
+        }
+    }
+
+    val originalNameStartIndex = titleBase.length
+
+    val title = buildAnnotatedString {
+        append(titleBase)
+        append(originalName)
+    }
+
+    val layout = textLayoutResult
+
+    val boxModifier = if (layout != null) {
+        Modifier.width(
+            with(density) {
+                layout.size.width.toDp() + scratchExtraRightDp.dp
+            }
+        )
+    } else {
+        Modifier
+    }
+
+    Box(boxModifier) {
+
+        // This Box owns the old text and scratch only.
+        // The replacement text below is outside its clipping area.
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .drawWithContent {
+                    val result = layout
+
+                    if (result == null) {
+                        this@drawWithContent.drawContent()
+                        return@drawWithContent
+                    }
+
+                    val start = result.getBoundingBox(originalNameStartIndex)
+                    val end = result.getBoundingBox(
+                        originalNameStartIndex + originalName.length - 1
+                    )
+
+                    val originalNameWidth = end.right - start.left
+                    val originalNameHeight = end.bottom - start.top
+
+                    val scratchExtraRight =
+                        with(density) { scratchExtraRightDp.dp.toPx() }
+
+                    val scratchWidth =
+                        originalNameWidth + scratchExtraRight
+
+                    val gap = with(density) { 16.dp.toPx() }
+
+                    val coverLeft =
+                        start.left +
+                                originalNameWidth +
+                                gap -
+                                (originalNameWidth + gap) *
+                                replacementProgress.value
+
+                    clipRect(
+                        right = if (replacementProgress.value > 0f) {
+                            coverLeft
+                        } else {
+                            size.width
+                        }
+                    ) {
+                        this@drawWithContent.drawContent()
+
+                        if (strikeProgress.value > 0f &&
+                            replacementProgress.value < 1f
+                        ) {
+                            clipRect(
+                                left = start.left,
+                                right = start.left +
+                                        scratchWidth *
+                                        strikeProgress.value,
+                                top = start.top,
+                                bottom = start.top + originalNameHeight,
+                            ) {
+                                withTransform({
+                                    translate(
+                                        left = start.left,
+                                        top = start.top,
+                                    )
+                                }) {
+                                    with(clawPainter) {
+                                        draw(
+                                            size = Size(
+                                                scratchWidth,
+                                                originalNameHeight,
+                                            ),
+                                            alpha = 1f - localizedProgress.value,
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                onTextLayout = { textLayoutResult = it },
+                modifier = Modifier.graphicsLayer {
+                    alpha = 1f - localizedProgress.value
+                },
+            )
+        }
+
+        // Replacement text is outside the scratch/erase clipping Box.
+        if (replacementProgress.value > 0f) {
+            val start = layout?.getBoundingBox(originalNameStartIndex)
+            val end = layout?.getBoundingBox(
+                originalNameStartIndex + originalName.length - 1
+            )
+
+            if (start != null && end != null) {
+                val originalNameWidth = end.right - start.left
+                val gap = with(density) { 16.dp.toPx() }
+
+                Text(
+                    text = newName,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                    modifier = Modifier.graphicsLayer {
+                        alpha =
+                            replacementProgress.value *
+                                    (1f - localizedProgress.value)
+
+                        translationX =
+                            start.left +
+                                    originalNameWidth +
+                                    gap -
+                                    (originalNameWidth + gap) *
+                                    replacementProgress.value
+                    },
+                )
+            }
+        }
+
+        if (!isEnglish) {
+            val localizedTitle = stringResource(R.string.wizard_welcome_title)
+
+            var localizedTitleWidth by remember { mutableStateOf(0) }
+            var spaceWidth by remember { mutableStateOf(0) }
+
+            val localizedExtraSpaces = if (
+                localizedTitleWidth > 0 &&
+                spaceWidth > 0 &&
+                layout != null
+            ) {
+                val targetWidth = layout.size.width + spaceWidth
+                val missingWidth =
+                    (targetWidth - localizedTitleWidth).coerceAtLeast(0)
+
+                (missingWidth + spaceWidth - 1) / spaceWidth
+            } else {
+                0
+            }
+
+            val localizedTitleWithPadding =
+                localizedTitle + " ".repeat(localizedExtraSpaces)
+
+            Text(
+                text = localizedTitleWithPadding,
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                onTextLayout = { result ->
+                    localizedTitleWidth = result.size.width
+                },
+                modifier = Modifier.graphicsLayer {
+                    alpha = localizedProgress.value
+                },
+            )
+
+            // Measure one actual space using the same text style.
+            Text(
+                text = " ",
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.Transparent,
+                onTextLayout = { result ->
+                    spaceWidth = result.size.width
+                },
+            )
+        }
+    }
 }

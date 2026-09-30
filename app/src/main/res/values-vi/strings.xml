@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Phát trực tuyến</string>
     <string name="cat_games">Trò chơi</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Phiên bản 1.0</string>
     <string name="about_desc">Launcher một màn hình nhẹ cho Android TV và Google TV.\n\nKhông quảng cáo · không theo dõi · không dịch vụ nền. Mạng chỉ được dùng để phát hình nền trên không tích hợp. Tất cả cài đặt của bạn nằm trong một tệp cục bộ trên thiết bị này.</string>
     <string name="about_foss">Tự do &amp; nguồn mở</string>
-    <string name="about_license">Được cấp phép theo GNU General Public License v3.0 (GPLv3). Bạn được tự do sử dụng, nghiên cứu, chia sẻ và sửa đổi Couchy Launcher.</string>
-    <string name="about_thirdparty">Hình ghế sofa: Twemoji (MIT). Video trên không: bộ sưu tập Apple, Amazon và cộng đồng, phát từ chủ sở hữu.</string>
+    <string name="about_license">Được cấp phép theo GNU General Public License v3.0 (GPLv3). Bạn được tự do sử dụng, nghiên cứu, chia sẻ và sửa đổi Kitty Launcher.</string>
     <string name="rerun_wizard">Chạy lại trình hướng dẫn cài đặt</string>
     <string name="rerun_wizard_sub">Thiết lập launcher mặc định và mẹo lần đầu</string>
 
-    <string name="wizard_welcome_title">Chào mừng đến với Couchy Launcher</string>
+    <string name="wizard_welcome_title">Chào mừng đến với Kitty Launcher</string>
     <string name="wizard_welcome_body">Launcher một màn hình nhẹ: ứng dụng của bạn được nhóm theo mục, hình nền của riêng bạn, và thanh trạng thái gọn gàng với đồng hồ, mạng và VPN.</string>
-    <string name="wizard_privacy_body">Lưu ý quyền riêng tư — không cần cấp quyền gì: Couchy không yêu cầu vị trí, micrô và không chạy dịch vụ nền. Mọi thứ cần thiết đã được cấp khi cài đặt.</string>
+    <string name="wizard_privacy_body">Lưu ý quyền riêng tư — không cần cấp quyền gì: Kitty không yêu cầu vị trí, micrô và không chạy dịch vụ nền. Mọi thứ cần thiết đã được cấp khi cài đặt.</string>
     <string name="wizard_home_title">Đặt làm màn hình chính</string>
-    <string name="wizard_already_default">✓ Xong — Couchy đã là launcher mặc định của bạn trên thiết bị này.</string>
+    <string name="wizard_already_default">✓ Xong — Kitty đã là launcher mặc định của bạn trên thiết bị này.</string>
     <string name="wizard_gtv_intro">Đây là thiết bị Google TV được chứng nhận. Google không cho phép thay đổi ứng dụng màn hình chính từ cài đặt trên màn hình, vì vậy hãy chọn một trong hai phương pháp sau:</string>
     <string name="wizard_gtv_adb">1 — ADB (khuyến nghị, một lần):\n• Cài đặt &gt; Hệ thống &gt; Giới thiệu &gt; nhấp \"Phiên bản Android TV OS\" 7 lần để mở khóa Tùy chọn nhà phát triển\n• Cài đặt &gt; Hệ thống &gt; Tùy chọn nhà phát triển &gt; bật Gỡ lỗi USB/không dây\n• Từ máy tính cùng mạng, chạy:</string>
-    <string name="wizard_gtv_overlay">Nếu launcher hệ thống vẫn đè lên Couchy sau đó (đã thấy trên Hisense và các hãng khác), tìm và vô hiệu hóa nó — có thể hoàn tác bất cứ lúc nào với \"pm enable\":</string>
-    <string name="wizard_gtv_which">(Dùng một trong hai gói launcher mà lệnh đầu tiên báo cáo. Chỉ vô hiệu hóa SAU KHI xác nhận Couchy mở bình thường.)</string>
-    <string name="wizard_gtv_remap">2 — Ánh xạ lại nút (không cần máy tính): cài ứng dụng như \"Button Mapper\" từ Play Store và ánh xạ nút Home sang Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Nếu launcher hệ thống vẫn đè lên Kitty sau đó (đã thấy trên Hisense và các hãng khác), tìm và vô hiệu hóa nó — có thể hoàn tác bất cứ lúc nào với \"pm enable\":</string>
+    <string name="wizard_gtv_which">(Dùng một trong hai gói launcher mà lệnh đầu tiên báo cáo. Chỉ vô hiệu hóa SAU KHI xác nhận Kitty mở bình thường.)</string>
+    <string name="wizard_gtv_remap">2 — Ánh xạ lại nút (không cần máy tính): cài ứng dụng như \"Button Mapper\" từ Play Store và ánh xạ nút Home sang Kitty Launcher.</string>
     <string name="wizard_try_dialog">Vẫn thử hộp thoại hệ thống</string>
     <string name="wizard_check_again">Kiểm tra lại</string>
     <string name="wizard_skip">Bỏ qua</string>
-    <string name="wizard_aosp_body">Thiết bị này cho phép chọn ứng dụng màn hình chính. Nhấn nút bên dưới, chọn Couchy Launcher trong hộp thoại hệ thống và xác nhận (chọn \"Luôn luôn\" nếu được hỏi).</string>
+    <string name="wizard_aosp_body">Thiết bị này cho phép chọn ứng dụng màn hình chính. Nhấn nút bên dưới, chọn Kitty Launcher trong hộp thoại hệ thống và xác nhận (chọn \"Luôn luôn\" nếu được hỏi).</string>
     <string name="wizard_set_default">Đặt làm launcher mặc định</string>
-    <string name="wizard_no_dialog_hint">Nếu không có hộp thoại xuất hiện: Cài đặt Android &gt; Ứng dụng &gt; Ứng dụng mặc định &gt; Ứng dụng màn hình chính &gt; Couchy Launcher. Hoặc chỉ cần nhấn nút Home — Android sẽ hỏi dùng launcher nào.</string>
+    <string name="wizard_no_dialog_hint">Nếu không có hộp thoại xuất hiện: Cài đặt Android &gt; Ứng dụng &gt; Ứng dụng mặc định &gt; Ứng dụng màn hình chính &gt; Kitty Launcher. Hoặc chỉ cần nhấn nút Home — Android sẽ hỏi dùng launcher nào.</string>
     <string name="wizard_vpn_title">Nút VPN</string>
     <string name="wizard_vpn_body">Nếu bạn dùng ứng dụng VPN, hãy chọn nó — nút VPN trên thanh trạng thái sẽ mở nó. Bỏ qua và nút VPN vẫn bị ẩn (bạn có thể bật sau trong Cài đặt › Thanh trạng thái).</string>
     <string name="wizard_vpn_none">Không phát hiện ứng dụng VPN nào trên thiết bị này.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Tất cả đã sẵn sàng</string>
     <string name="wizard_tips">Mẹo:\n• Giữ OK trên ứng dụng bất kỳ để xem tùy chọn — di chuyển, ẩn, thông tin ứng dụng, buộc dừng, gỡ cài đặt\n• Nhấn Lên từ hàng trên cùng để truy cập VPN, mạng, đồng hồ và cài đặt\n• Biểu tượng bánh răng mở cài đặt launcher: hình nền, mục, hiển thị và hơn thế nữa</string>
     <string name="wizard_rerun_note">Bạn có thể chạy lại trình hướng dẫn này bất cứ lúc nào từ Cài đặt &gt; Thông tin.</string>
-    <string name="wizard_start">Bắt đầu dùng Couchy</string>
+    <string name="wizard_start">Bắt đầu dùng Kitty</string>
     <string name="wizard_no_chooser">Thiết bị này không có bộ chọn màn hình chính — dùng phương pháp ADB hiển thị ở trên</string>
     <string name="ui_scale">Tỷ lệ giao diện</string>
     <string name="scale_auto">Tự động</string>

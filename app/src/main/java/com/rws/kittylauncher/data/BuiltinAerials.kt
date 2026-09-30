@@ -1,4 +1,4 @@
-package com.conreo.couchytv.data
+package com.rws.kittylauncher.data
 
 import android.content.Context
 import kotlinx.serialization.Serializable

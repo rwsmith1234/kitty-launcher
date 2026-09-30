@@ -1,10 +1,7 @@
 <a id="english"></a>
+# Contributing to Kitty Launcher
 
-# Contributing to Couchy Launcher
-
-Thanks for helping out! Couchy is GPLv3 — by contributing you agree your changes ship under the same license.
-
-[**English**](#english) · [中文](#chinese)
+Thanks for helping out! Kitty is GPLv3 — by contributing you agree your changes ship under the same license.
 
 ## Build
 
@@ -20,7 +17,7 @@ Install and run on a TV over the network:
 ```
 adb connect <tv-ip>:5555
 ./gradlew installDebug
-adb shell monkey -p com.conreo.couchytv -c android.intent.category.LAUNCHER 1
+adb shell monkey -p com.rws.kittylauncher -c android.intent.category.LAUNCHER 1
 ```
 
 **Always test performance on a release build** — debug Compose runs several times slower. A locally-installable, debug-signed release:
@@ -36,7 +33,7 @@ adb shell monkey -p com.conreo.couchytv -c android.intent.category.LAUNCHER 1
 Everything is Kotlin + Jetpack Compose for TV (`androidx.tv:tv-material`), min SDK 21.
 
 ```
-app/src/main/java/com/conreo/couchytv/
+app/src/main/java/com/conreo/Kittytv/
   MainActivity.kt          entry point, HOME intent-filter, package-change rescan
   Actions.kt               launch / app-info / uninstall / force-stop / settings intents
   data/Config.kt           LauncherConfig (@Serializable) + DataStore persistence
@@ -73,21 +70,21 @@ Universal symbols (`0.5×`, `◄` / `►`) don't need translating.
 3. For UI changes, attach a screenshot.
 4. New user-facing strings must be added to `values/strings.xml` (and ideally `values-fr`, `values-zh`).
 
-## Releases & F-Droid
+## Releases
 
-Releases are tagged `vX.Y` on the default branch. The F-Droid build recipe lives at [`fdroid/com.conreo.couchytv.yml`](fdroid/com.conreo.couchytv.yml). See that file's header for the submission steps.
+Releases are tagged `vX.Y` on the default branch. 
 
 <br>
 
 ---
 
-<a id="chinese"></a>
+## 中文<a id="chinese"></a>
 
-# 参与 Couchy Launcher 贡献
+# 参与 Kitty Launcher 贡献
 
-感谢你的帮助！Couchy 采用 GPLv3——提交贡献即表示你同意以相同许可证发布你的改动。
+感谢你的帮助！Kitty 采用 GPLv3——提交贡献即表示你同意以相同许可证发布你的改动。
 
-[English](#english) · [**中文**](#chinese)
+[**English**](#english) · [中文](#chinese)
 
 ## 构建
 
@@ -103,7 +100,7 @@ export ANDROID_HOME=~/Android/Sdk      # 或在 local.properties 中设置 sdk.d
 ```
 adb connect <电视IP>:5555
 ./gradlew installDebug
-adb shell monkey -p com.conreo.couchytv -c android.intent.category.LAUNCHER 1
+adb shell monkey -p com.rws.kittylauncher -c android.intent.category.LAUNCHER 1
 ```
 
 **性能务必在 release 构建上测试**——debug 版 Compose 会慢好几倍。生成本地可安装、用 debug 密钥签名的 release：
@@ -119,7 +116,7 @@ adb shell monkey -p com.conreo.couchytv -c android.intent.category.LAUNCHER 1
 全部为 Kotlin + Jetpack Compose for TV（`androidx.tv:tv-material`），最低 SDK 21。
 
 ```
-app/src/main/java/com/conreo/couchytv/
+app/src/main/java/com/conreo/Kittytv/
   MainActivity.kt          入口、HOME intent-filter、包变化后重新扫描
   Actions.kt               启动 / 应用信息 / 卸载 / 强制停止 / 设置 意图
   data/Config.kt           LauncherConfig（@Serializable）+ DataStore 持久化
@@ -156,6 +153,6 @@ app/src/main/res/          字符串（values + 17 种语言）、图形、主�
 3. UI 改动请附截图。
 4. 新的面向用户字符串必须加入 `values/strings.xml`（最好也加入 `values-fr`、`values-zh`）。
 
-## 发布与 F-Droid
+## 发布与 
 
-发布在默认分支上打 `vX.Y` 标签。F-Droid 构建配方位于 [`fdroid/com.conreo.couchytv.yml`](fdroid/com.conreo.couchytv.yml)。提交步骤见该文件头部说明。
+发布在默认分支上打 `vX.Y` 标签。

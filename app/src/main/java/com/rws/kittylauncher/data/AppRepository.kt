@@ -1,4 +1,4 @@
-package com.conreo.couchytv.data
+package com.rws.kittylauncher.data
 
 import android.content.Context
 import android.content.Intent
@@ -11,12 +11,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
-import com.conreo.couchytv.ui.tileColor
+import com.rws.kittylauncher.ui.tileColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.io.File
+import android.util.Log
 
 /**
  * @Immutable lets Compose SKIP recomposing cards whose entry didn't change —
@@ -37,6 +38,7 @@ data class AppEntry(
     val stamp: Long,
     /** firstInstallTime — tiebreak so a newly installed app sorts last in its section. */
     val firstInstall: Long,
+    val hidden: Boolean = false, //rws amb
 )
 
 object AppRepository {
@@ -64,6 +66,42 @@ object AppRepository {
         "com.limelight" to "games",
         "com.nvidia.geforcenow" to "games",
         "com.retroarch" to "games",
+
+        //rws
+        "org.videolan.vlc" to "streaming",                //override otherwise it goes to music
+        "ar.tvplayer.tv" to "streaming",                  //tivimate
+        "org.smarttube.stable" to "streaming",            //smarttube
+        "com.haxapps.smart405" to "streaming",            //smarters
+        "com.roku.web.trc" to "streaming",                //Roku Channel
+        "com.pandora.android" to "music",                 //pandora
+
+        "com.topjohnwu.magisk" to "utilities",            //magisk
+        "com.wolf.tn" to "utilities",                     //Launcher manager from magisk module
+        "com.neilturner.aerialviews" to "utilities",      //Aerial views
+        "me.zhanghai.android.files" to "utilities",       //file picker, needed to load saved configs
+
+        "io.github.visnkmr.bapl" to "utilities",          //background apps and processes
+        "com.emanuelef.remote_capture" to "utilities",    //PCAPdroid
+        "ch.protonvpn.android" to "utilities",            //proton vpn
+        "com.esaba.downloader" to "utilities",            //downloader
+
+        //rws don't need these anymore
+        "com.wolf.buttonremapper" to "utilities",         //button remapper
+        "io.github.toolicious.homeonfire" to "utilities", //home-on-fire, needed to make this my home launcher
+        "com.rws.firesticksettings" to "utilities",       //workaround needed when using home-on-fire to get to firestick settings
+
+        //Amazon packages, section won't be created if not an amazon device
+        "com.amazon.firebat" to "streaming",              //amazon prime video
+        "com.amazon.hedwig" to "streaming",               //amazon news
+
+        "com.amazon.smarthomemapviewapp" to "amazon",     //Alexa smart home
+        "com.amazon.ssm" to "amazon",                     //System status monitor
+        "com.amazon.venezia" to "amazon",                 //appstore
+        "com.amazon.tv.launcher" to "amazon",             //home, doesn't work with homeonfire
+        "com.amazon.ftv.profilepicker" to "amazon",       //profile picker, I don't use profiles
+        "com.amazon.ftv.screensaver" to "amazon",         //screensaver
+        "com.amazon.tv.ftvambient" to "amazon",           //ambient experience
+        "com.amazon.ftvspatial" to "amazon",              //brings up setup for device I don't have
     )
 
     /** Last successful scan — lets a relaunched activity render instantly. */
@@ -82,6 +120,11 @@ object AppRepository {
 
     suspend fun scan(context: Context): List<AppEntry> = coroutineScope {
         val pm = context.packageManager
+        //rws amb
+        val isAmazonDevice = Build.MANUFACTURER == "Amazon"
+        Log.d("KittyLauncher", "Is Amazon device: $isAmazonDevice")
+        val ambientEnabled = Build.MODEL == "AFTKRT"
+        Log.d("KittyLauncher", "Ambient Experience enabled: $ambientEnabled")
         val cacheDir = File(context.filesDir, "iconcache").apply { mkdirs() }
 
         // Raster banners to the pixel size they actually paint at in big-icon
@@ -142,28 +185,49 @@ object AppRepository {
                             bannerDrawable.toBitmap(bannerW, bannerH, Bitmap.Config.ARGB_8888)
                         }.getOrNull()
                     }
+                /*rws for menu->apps don't use the banner, keeps text aligned
                 val icon = if (banner == null) {
                     // 128px: sharp on the fallback tile even on 4K panels.
                     cachedBitmap(cacheDir, iconName, Bitmap.Config.ARGB_8888) {
                         runCatching { ri.loadIcon(pm)?.toBitmap(128, 128) }.getOrNull()
                     }
                 } else null
+                */
+                val icon = cachedBitmap(cacheDir, iconName, Bitmap.Config.ARGB_8888) {
+                    runCatching { ri.loadIcon(pm)?.toBitmap(128, 128) }.getOrNull()
+                }
                 if (banner != null) validCacheNames.add(bannerName)
                 if (icon != null) validCacheNames.add(iconName)
                 // Upload textures ahead of first draw so the GPU never stalls
                 // mid-frame on a fresh bitmap.
                 banner?.prepareToDraw()
                 icon?.prepareToDraw()
+                
+                Log.d(
+                    "KittyLauncher",
+                    "CATEGORY: pkg=$pkg label=${runCatching { ri.loadLabel(pm)?.toString() }.getOrNull()} " +
+                            "applicationInfo.category=${ai.applicationInfo.category} " +
+                            "applicationInfo=$ai"
+                )
+                
 
                 AppEntry(
                     pkg = pkg,
                     label = runCatching { ri.loadLabel(pm)?.toString() }.getOrNull() ?: pkg,
                     banner = banner?.asImageBitmap(),
                     icon = icon?.asImageBitmap(),
-                    autoCategory = autoCategory(ai.applicationInfo),
+                    autoCategory(ai.applicationInfo, ambientEnabled, isAmazonDevice), //rws amb
                     tile = tileColor(pkg),
                     stamp = stamp,
                     firstInstall = firstInstall,
+                    //rws amb
+                    /*
+                    hidden = isAmazonDevice &&  (
+                            (pkg == "com.amazon.ftv.screensaver" && ambientEnabled) ||
+                                (pkg == "com.amazon.tv.ftvambient" && !ambientEnabled)
+                    ),
+                    */
+
                 )
             }
         }.awaitAll()
@@ -212,8 +276,13 @@ object AppRepository {
         return bmp
     }
 
-    private fun autoCategory(ai: ApplicationInfo?): String {
-        ai ?: return "apps"
+    private fun autoCategory(
+        ai: ApplicationInfo?,
+        ambientEnabled: Boolean, //rws amb
+        isAmazonDevice: Boolean, //rws amazon check
+    ): String {
+        ai ?: return "uncategorized" //rws uncat
+
         KNOWN[ai.packageName]?.let { return it }
         if (Build.VERSION.SDK_INT >= 26) {
             when (ai.category) {
@@ -224,7 +293,7 @@ object AppRepository {
         }
         @Suppress("DEPRECATION")
         if (ai.flags and ApplicationInfo.FLAG_IS_GAME != 0) return "games"
-        return "apps"
+        return "uncategorized" //rws uncat
     }
 
     /**
@@ -275,7 +344,7 @@ object AppRepository {
             )
             val visible =
                 if (config.showHidden) ordered
-                else ordered.filter { it.pkg !in config.hidden }
+                else ordered.filter { !it.hidden && it.pkg !in config.hidden } //rws amb
             cat to visible
         }
     }

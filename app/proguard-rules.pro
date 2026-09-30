@@ -1,10 +1,10 @@
 # kotlinx.serialization
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.AnnotationsKt
--keep,includedescriptorclasses class com.conreo.couchytv.**$$serializer { *; }
--keepclassmembers class com.conreo.couchytv.** {
+-keep,includedescriptorclasses class com.rws.kittylauncher.**$$serializer { *; }
+-keepclassmembers class com.rws.kittylauncher.** {
     *** Companion;
 }
--keepclasseswithmembers class com.conreo.couchytv.** {
+-keepclasseswithmembers class com.rws.kittylauncher.** {
     kotlinx.serialization.KSerializer serializer(...);
 }

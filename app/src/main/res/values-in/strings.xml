@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Couchy Launcher</string>
+    <string name="app_name">Kitty Launcher</string>
 
     <string name="cat_streaming">Streaming</string>
     <string name="cat_games">Game</string>
@@ -137,27 +137,26 @@
     <string name="about_version">Versi 1.0</string>
     <string name="about_desc">Launcher ringan satu layar untuk Android TV dan Google TV.\n\nTanpa iklan · tanpa pelacakan · tanpa layanan latar belakang. Jaringan hanya digunakan untuk streaming wallpaper udara bawaan. Semua pengaturan Anda disimpan dalam satu file lokal di perangkat ini.</string>
     <string name="about_foss">Bebas &amp; sumber terbuka</string>
-    <string name="about_license">Dilisensikan di bawah GNU General Public License v3.0 (GPLv3). Anda bebas menggunakan, mempelajari, membagikan, dan memodifikasi Couchy Launcher.</string>
-    <string name="about_thirdparty">Seni sofa: Twemoji (MIT). Video udara: koleksi Apple, Amazon, dan komunitas, streaming dari pemiliknya.</string>
+    <string name="about_license">Dilisensikan di bawah GNU General Public License v3.0 (GPLv3). Anda bebas menggunakan, mempelajari, membagikan, dan memodifikasi Kitty Launcher.</string>
     <string name="rerun_wizard">Jalankan wizard penyiapan lagi</string>
     <string name="rerun_wizard_sub">Penyiapan launcher default dan tips pertama kali</string>
 
-    <string name="wizard_welcome_title">Selamat datang di Couchy Launcher</string>
+    <string name="wizard_welcome_title">Selamat datang di Kitty Launcher</string>
     <string name="wizard_welcome_body">Launcher ringan satu layar: aplikasi Anda dikelompokkan berdasarkan bagian, wallpaper Anda sendiri, dan status bar bersih dengan jam, jaringan, dan VPN.</string>
-    <string name="wizard_privacy_body">Catatan privasi — tidak ada yang perlu diberikan: Couchy tidak meminta lokasi, mikrofon, dan tidak menjalankan layanan latar belakang. Semua yang dibutuhkan telah diberikan saat instalasi.</string>
+    <string name="wizard_privacy_body">Catatan privasi — tidak ada yang perlu diberikan: Kitty tidak meminta lokasi, mikrofon, dan tidak menjalankan layanan latar belakang. Semua yang dibutuhkan telah diberikan saat instalasi.</string>
     <string name="wizard_home_title">Atur sebagai layar utama</string>
-    <string name="wizard_already_default">✓ Selesai — Couchy sudah menjadi launcher default Anda di perangkat ini.</string>
+    <string name="wizard_already_default">✓ Selesai — Kitty sudah menjadi launcher default Anda di perangkat ini.</string>
     <string name="wizard_gtv_intro">Ini adalah perangkat Google TV bersertifikat. Google tidak mengizinkan perubahan aplikasi utama dari pengaturan di layar, jadi pilih salah satu dari dua metode ini:</string>
     <string name="wizard_gtv_adb">1 — ADB (disarankan, sekali saja):\n• Pengaturan &gt; Sistem &gt; Tentang &gt; klik \"Versi Android TV OS\" 7 kali untuk membuka Opsi pengembang\n• Pengaturan &gt; Sistem &gt; Opsi pengembang &gt; aktifkan USB/Wireless debugging\n• Dari komputer di jaringan yang sama, jalankan:</string>
-    <string name="wizard_gtv_overlay">Jika launcher sistem masih menimpa Couchy setelah itu (terlihat di Hisense dan lainnya), temukan dan nonaktifkan — dapat dikembalikan kapan saja dengan \"pm enable\":</string>
-    <string name="wizard_gtv_which">(Gunakan salah satu dari dua paket launcher yang dilaporkan perintah pertama. Hanya nonaktifkan SETELAH mengonfirmasi Couchy terbuka dengan baik.)</string>
-    <string name="wizard_gtv_remap">2 — Pemetaan ulang tombol (tanpa komputer): instal aplikasi seperti \"Button Mapper\" dari Play Store dan petakan tombol Home ke Couchy Launcher.</string>
+    <string name="wizard_gtv_overlay">Jika launcher sistem masih menimpa Kitty setelah itu (terlihat di Hisense dan lainnya), temukan dan nonaktifkan — dapat dikembalikan kapan saja dengan \"pm enable\":</string>
+    <string name="wizard_gtv_which">(Gunakan salah satu dari dua paket launcher yang dilaporkan perintah pertama. Hanya nonaktifkan SETELAH mengonfirmasi Kitty terbuka dengan baik.)</string>
+    <string name="wizard_gtv_remap">2 — Pemetaan ulang tombol (tanpa komputer): instal aplikasi seperti \"Button Mapper\" dari Play Store dan petakan tombol Home ke Kitty Launcher.</string>
     <string name="wizard_try_dialog">Coba dialog sistem saja</string>
     <string name="wizard_check_again">Periksa lagi</string>
     <string name="wizard_skip">Lewati dulu</string>
-    <string name="wizard_aosp_body">Perangkat ini mengizinkan pemilihan aplikasi utama. Tekan tombol di bawah, pilih Couchy Launcher di dialog sistem dan konfirmasi (pilih \"Selalu\" jika diminta).</string>
+    <string name="wizard_aosp_body">Perangkat ini mengizinkan pemilihan aplikasi utama. Tekan tombol di bawah, pilih Kitty Launcher di dialog sistem dan konfirmasi (pilih \"Selalu\" jika diminta).</string>
     <string name="wizard_set_default">Atur sebagai launcher default</string>
-    <string name="wizard_no_dialog_hint">Jika tidak ada dialog muncul: Pengaturan Android &gt; Aplikasi &gt; Aplikasi default &gt; Aplikasi utama &gt; Couchy Launcher. Atau cukup tekan tombol Home — Android akan menanyakan launcher mana yang akan digunakan.</string>
+    <string name="wizard_no_dialog_hint">Jika tidak ada dialog muncul: Pengaturan Android &gt; Aplikasi &gt; Aplikasi default &gt; Aplikasi utama &gt; Kitty Launcher. Atau cukup tekan tombol Home — Android akan menanyakan launcher mana yang akan digunakan.</string>
     <string name="wizard_vpn_title">Tombol VPN</string>
     <string name="wizard_vpn_body">Jika Anda menggunakan aplikasi VPN, pilih — tombol VPN di status bar akan membukanya. Lewati dan tombol VPN tetap tersembunyi (Anda dapat mengaktifkannya nanti di Pengaturan › Status bar).</string>
     <string name="wizard_vpn_none">Tidak ada aplikasi VPN terdeteksi di perangkat ini.</string>
@@ -165,7 +164,7 @@
     <string name="wizard_done_title">Semua siap</string>
     <string name="wizard_tips">Tips:\n• Tahan OK pada aplikasi apa pun untuk opsi — pindahkan, sembunyikan, info aplikasi, paksa berhenti, copot pemasangan\n• Tekan Atas dari baris teratas untuk mengakses VPN, jaringan, jam, dan pengaturan\n• Ikon roda gigi membuka pengaturan launcher: wallpaper, bagian, tampilan, dan lainnya</string>
     <string name="wizard_rerun_note">Anda dapat menjalankan wizard ini lagi kapan saja dari Pengaturan &gt; Tentang.</string>
-    <string name="wizard_start">Mulai menggunakan Couchy</string>
+    <string name="wizard_start">Mulai menggunakan Kitty</string>
     <string name="wizard_no_chooser">Perangkat ini tidak memiliki pemilih layar utama — gunakan metode ADB yang ditunjukkan di atas</string>
     <string name="ui_scale">Skala antarmuka</string>
     <string name="scale_auto">Otomatis</string>

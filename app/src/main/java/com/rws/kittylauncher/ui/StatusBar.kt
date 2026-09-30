@@ -1,4 +1,4 @@
-package com.conreo.couchytv.ui
+package com.rws.kittylauncher.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,13 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.conreo.couchytv.R
+import com.rws.kittylauncher.R
 import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import com.conreo.couchytv.data.NetStatus
+import com.rws.kittylauncher.data.NetStatus
+import com.rws.kittylauncher.BuildConfig
+import androidx.compose.ui.platform.LocalView
+import com.rws.kittylauncher.data.GlobalConfig
 
 @Composable
 fun StatusBar(
@@ -31,6 +34,7 @@ fun StatusBar(
     date: String,
     showVpn: Boolean,
     glass: Boolean,
+    menuAlign: Int, // rws menu
     onVpnClick: () -> Unit,
     onNetworkClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -48,9 +52,36 @@ fun StatusBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 40.dp, vertical = 18.dp),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.SpaceBetween, //rws left menu
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        //rws left menu, move icon from right side group
+        val isMenuRightAligned = menuAlign == 1
+        //Left side
+        if (!isMenuRightAligned) {
+        StatusIcon(
+            icon = AppIcons.Gear,
+            active = true,
+            contentDescription = stringResource(R.string.cd_settings),
+            onClick = onSettingsClick,
+        )
+        } else {
+            // Prevents SpaceBetween from collapsing the right cluster to the left
+            // when the DEBUG text is hidden on release builds.
+            androidx.compose.foundation.layout.Spacer(modifier = Modifier.size(40.dp))
+        }
+
+        //rws visual reminder if debug version
+        //Center
+        if (BuildConfig.DEBUG) {
+            Text(
+                text = "DEBUG",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.White,
+            )
+        }
+
+      //Right side
       Row(
         modifier = cluster,
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End),
@@ -75,12 +106,15 @@ fun StatusBar(
             contentDescription = stringResource(R.string.cd_network),
             onClick = onNetworkClick,
         )
-        StatusIcon(
-            icon = AppIcons.Gear,
-            active = true,
-            contentDescription = stringResource(R.string.cd_settings),
-            onClick = onSettingsClick,
-        )
+          // Inject Settings Icon when right-aligned
+          if (isMenuRightAligned) {
+              StatusIcon(
+                  icon = AppIcons.Gear,
+                  active = true,
+                  contentDescription = stringResource(R.string.cd_settings),
+                  onClick = onSettingsClick,
+              )
+          }
         if (date.isNotEmpty()) {
             Text(
                 text = date,
@@ -107,12 +141,17 @@ private fun StatusIcon(
     contentDescription: String,
     onClick: () -> Unit,
 ) {
+    val view = LocalView.current
+    val isMuted = LocalMuteNavSounds.current
+    val ui = GlobalConfig.ui
     Surface(
-        onClick = onClick,
+        onClick = {playClickSound(view, isMuted); onClick() },
         shape = ClickableSurfaceDefaults.shape(CircleShape),
         colors = ClickableSurfaceDefaults.colors(
             containerColor = Color.Transparent,
-            focusedContainerColor = Color.White.copy(alpha = 0.22f),
+            //rws purple color for status icon selection
+            //focusedContainerColor = Color.White.copy(alpha = 0.22f),
+            focusedContainerColor = Color(ui.statusBarFocusedColor),
             contentColor = Color.White,
             focusedContentColor = Color.White,
         ),

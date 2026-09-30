@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Launcher icon: blue-sky gradient + couch -->
+<!-- Launcher icon: blue-sky gradient + Kitty -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
@@ -13,8 +13,8 @@
         </shape>
     </item>
     <item
-        android:width="72dp"
-        android:height="72dp"
+        android:width="100dp"
+        android:height="100dp"
         android:gravity="center"
-        android:drawable="@drawable/ic_couch" />
+        android:drawable="@drawable/ic_kitty" />
 </layer-list>
