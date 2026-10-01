@@ -202,14 +202,6 @@ object AppRepository {
                 // mid-frame on a fresh bitmap.
                 banner?.prepareToDraw()
                 icon?.prepareToDraw()
-                
-                Log.d(
-                    "KittyLauncher",
-                    "CATEGORY: pkg=$pkg label=${runCatching { ri.loadLabel(pm)?.toString() }.getOrNull()} " +
-                            "applicationInfo.category=${ai.applicationInfo.category} " +
-                            "applicationInfo=$ai"
-                )
-                
 
                 AppEntry(
                     pkg = pkg,

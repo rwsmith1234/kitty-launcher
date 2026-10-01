@@ -24,6 +24,16 @@ jobs:
       - name: Build (debug + unsigned release) and lint
         run: ./gradlew assembleDebug assembleRelease lintRelease --no-daemon
 
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: |
+            app/build/intermediates/lint_intermediate_text_report/release/lintReportRelease/lint-results-release.txt
+            app/build/reports/lint-results-release.html
+          if-no-files-found: warn
+
       # Tagged push → decode the keystore, sign, upload to the Release page.
       - name: Decode keystore
         if: startsWith(github.ref, 'refs/tags/v')
