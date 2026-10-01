@@ -11,7 +11,7 @@ Features
 • Organize apps into custom sections  
 • Hide apps, toggle labels and category names  
 • UI scaling and wallpaper dimming  
-• 17 languages  
+• 17 languages (+ English)
 • Fully D-pad — no touch needed  
 
 Privacy
