@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kitty Launcher</string>
-    <string name="mistakes_by">All coding mistakes by AI</string>
+    <string name="mistakes_by" translatable="false">All coding mistakes by AI</string>
 
     <!-- Default category names (first install) -->
     <string name="cat_streaming">Streaming</string>
@@ -14,10 +14,10 @@
     <string name="wp_aurora">Aurora</string>
     <string name="wp_sunset">Sunset</string>
     <string name="wp_deep">Deep</string>
-    <string name="wp_deep2">Deep2</string>
-    <string name="wp_deep3">Deep3</string>
+    <string name="wp_deep2" translatable="false">Deep2</string>
+    <string name="wp_deep3" translatable="false">Deep3</string>
     <string name="wp_charcoal">Charcoal</string>
-    <string name="wp_nightfall">Nightfall</string>
+    <string name="wp_nightfall" translatable="false">Nightfall</string>
 
     <!-- Common -->
     <string name="done">Done</string>
@@ -165,7 +165,7 @@
     <string name="about_source">Source code</string>
     <string name="about_coffee" translatable="false">Give a kitty some kibble</string>
     <string name="github_url" translatable="false">https://github.com/rwsmith1234/kitty-launcher</string>
-    <string name="about_thirdparty">Kitty artwork: generated with Google Gemini. Aerial videos: Apple, Amazon and community collections.</string>
+    <string name="about_thirdparty" translatable="false">Kitty artwork: generated with Google Gemini. Aerial videos: Apple, Amazon and community collections.</string>
     <string name="rerun_wizard">Run setup wizard again</string>
     <string name="rerun_wizard_sub">Default-launcher setup and first-run tips</string>
 
@@ -206,31 +206,31 @@
     <string name="wizard_welcome_title_orig_name" translatable="false">Couchy Launcher</string>
     <string name="wizard_welcome_title_new_name" translatable="false">Kitty Launcher</string>
     <!-- rws new strings -->
-    <string name="item_userinterface">User Interface</string>
-    <string name="item_userinterface_sub">UI Settings</string>
-    <string name="menu_alignment">Menu alignment</string>
-    <string name="menu_alignment_sub">Menu on left or right</string>
-    <string name="menu_left">Left</string>
-    <string name="menu_right">Right</string>
-    <string name="menu_reorder">Reorder</string>
-    <string name="column_layout">Column Layout</string>
-    <string name="column_num_columns">Number of columns</string>
-    <string name="column_gap">Gap</string>
-    <string name="nav_sound_headline">Mute Navigation Sounds</string>
-    <string name="nav_sound_supporting">Silence audio feedback when navigating UI</string>
-    <string name="file_picker_dialog_title">Select Configuration File</string>
-    <string name="file_picker_dialog_error_msg">No compatible configuration files found in your Downloads folder.</string>
-    <string name="delete_category_confirm_title">Delete Category</string>
-    <string name="delete_category_confirm_body">Are you sure you want to delete \"%1$s\"?</string>
-    <string name="delete_category_confirm_ok">Delete</string>
-    <string name="file_picker_required_title">File Picker Required</string>
-    <string name="file_picker_required_body">Your device does not have a built-in file browser to select images/videos.\n\nTo use this feature, please install a file manager that works as a system file selector (such as \'Material Files\') and try again.</string>
-    <string name="file_picker_required_ok">Got it</string>
-    <string name="file_picker_dialog_cancel">Cancel</string>
-    <string name="delete_category_confirm_cancel">Cancel</string>
-    <string name="restart_launcher_headline">Restart Launcher</string>
-    <string name="restart_launcher_supporting">Closes and reloads the launcher</string>
-    <string name="section_size_for_columns">Size — rows fit specified number of columns</string>
-    <string name="section_apps_dialog_all_apps_toggle_label">All apps</string>
+    <string name="item_userinterface" translatable="false">User Interface</string>
+    <string name="item_userinterface_sub" translatable="false">UI Settings</string>
+    <string name="menu_alignment" translatable="false">Menu alignment</string>
+    <string name="menu_alignment_sub" translatable="false">Menu on left or right</string>
+    <string name="menu_left" translatable="false">Left</string>
+    <string name="menu_right" translatable="false">Right</string>
+    <string name="menu_reorder" translatable="false">Reorder</string>
+    <string name="column_layout" translatable="false">Column Layout</string>
+    <string name="column_num_columns" translatable="false">Number of columns</string>
+    <string name="column_gap" translatable="false">Gap</string>
+    <string name="nav_sound_headline" translatable="false">Mute Navigation Sounds</string>
+    <string name="nav_sound_supporting" translatable="false">Silence audio feedback when navigating UI</string>
+    <string name="file_picker_dialog_title" translatable="false">Select Configuration File</string>
+    <string name="file_picker_dialog_error_msg" translatable="false">No compatible configuration files found in your Downloads folder.</string>
+    <string name="delete_category_confirm_title" translatable="false">Delete Category</string>
+    <string name="delete_category_confirm_body" translatable="false">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="delete_category_confirm_ok" translatable="false">Delete</string>
+    <string name="file_picker_required_title" translatable="false">File Picker Required</string>
+    <string name="file_picker_required_body" translatable="false">Your device does not have a built-in file browser to select images/videos.\n\nTo use this feature, please install a file manager that works as a system file selector (such as \'Material Files\') and try again.</string>
+    <string name="file_picker_required_ok" translatable="false">Got it</string>
+    <string name="file_picker_dialog_cancel" translatable="false">Cancel</string>
+    <string name="delete_category_confirm_cancel" translatable="false">Cancel</string>
+    <string name="restart_launcher_headline" translatable="false">Restart Launcher</string>
+    <string name="restart_launcher_supporting" translatable="false">Closes and reloads the launcher</string>
+    <string name="section_size_for_columns" translatable="false">Size — rows fit specified number of columns</string>
+    <string name="section_apps_dialog_all_apps_toggle_label" translatable="false">All apps</string>
 
 </resources>

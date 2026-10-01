@@ -374,8 +374,12 @@ private fun AnimatedWelcomeTitle() {
     // Extra scratch width past the right edge of the original name.
     val scratchExtraRightDp = 24
 
-    val isEnglish = LocalConfiguration.current.locales[0].language == Locale.ENGLISH.language
-
+    val isEnglish = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        LocalConfiguration.current.locales[0].language == Locale.ENGLISH.language
+    } else {
+        @Suppress("DEPRECATION")
+        LocalConfiguration.current.locale.language == Locale.ENGLISH.language
+    }
     LaunchedEffect(isEnglish) {
         Log.d("KittyLauncher", "AnimatedWelcomeTitle: isEnglish=$isEnglish")
     }
