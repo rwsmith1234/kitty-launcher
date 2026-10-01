@@ -122,12 +122,43 @@ No ads, analytics, accounts or background services. The only network use is opti
 <details>
 <summary>Click to expand</summary>
 
+### v1.0.0
+Initial release of Kitty Launcher, forked from Couchy Launcher v1.0.6.
+* **Personalization** — Rebranded as Kitty Launcher.
+* Fixed a crash when all apps were removed or hidden from the first section.
+* Fixed a focus issue with menus; pressing the Back button in a submenu now returns focus to the parent menu.
+* Fixed a focus issue when moving sections; focus now remains on the arrow used to move the section.
+* Fixed an issue where checkboxes became invisible (white on white) when focused; the checkbox outline now changes when it has focus.
+* Fixed **Settings → Launcher settings → Save configuration** incorrectly displaying a success message when saving failed; added a failure toast and log entry.
+* Removed the **All apps** checkbox option from the sections menu. There is a bug when moving an app card that belongs to more than one section, and enabling this option can cause moving an app card to fail because it appears in multiple sections.
+* Changed the context option **Move** to **Reorder** to avoid issues when moving vertically.
+* Changed the wallpaper options to radio buttons since the options are mutually exclusive.
+* Added jiggle feedback when attempting to navigate past the end of a layout.
+* Added **Settings → Menu → Menu alignment**, allowing the menu to be positioned on the left or right side of the screen. The settings gear moves with the menu.
+* Added **Settings → Display → Column Layout**. When enabled, controls are provided for the number of columns and the gap between them. When disabled, the original **Icon size** and **Spacing** controls are available.
+* Added a toggle to the section apps dialog. When enabled, all apps are shown. When disabled (the default), only apps that currently belong to the section and apps that don't belong to any section are shown. This makes it easier to find apps that aren't assigned to a category.
+* Added navigation sounds and a menu option to disable them.
+* Added a confirmation dialog before deleting a section.
+* Added a dialog explaining that a file picker is required when a file picker isn't available for selecting wallpaper images or videos.
+* Added **Uncategorized** as the first category. By design, new apps are assigned to the first category, and empty categories are not displayed.
+* Added more packages to the **KNOWN** list and added a category for Amazon packages.
+* Added a new date/time format.
+* Added a couple of wallpapers.
+* Changed the Back button on the layout screen to open Settings. When leaving Settings, focus returns to its original location.
+* Changed **Menu → Apps** to hide banner icons, keeping the text aligned.
+* Changed several initial defaults: wallpaper, 12-hour clock, grid layout, menus on the left (new), and column layout (new).
+* **Customizable UI tweaks**
 
+  For the UI tweaks I made, I changed hard-coded values to variables saved and loaded with the configuration. This allows a user to change these settings by saving the configuration, making edits (all values in the **"ui"** group), then loading the configuration with the new values. Some of the tweaks made:
 
-**v1.0.0**
-- Initial release of Kitty Launcher, forked from Couchy Launcher v1.0.6.
-- Rebranded and customized as Kitty Launcher.
-- Added ...
+  * Added an inner black border to the focus ring.
+  * Changed the focus ring color to red when moving and purple otherwise.
+  * Changed the status bar focus color to purple to match the focus ring.
+  * Made section titles on the main screen larger, show mixed case.
+  * Made the focused app card larger.
+  * Set the background color on all non-banner icons to dark blue/grey instead of picking from 9 colors based on the package name hash.
+  * Added transparency to moving app cards.
+
 </details>
 
 ## License
