@@ -18,7 +18,12 @@ Builds:
     gradle:
       - yes
 
+Binaries: https://github.com/rwsmith1234/kitty-launcher/releases/download/v%v/Kitty-Launcher-v%v.apk
+
+AllowedAPKSigningKeys: 59ded7a60d0d9a2eaafa41c938b75ab8c46d7afcbf2fcf7b89abe3f1bbe8c3a4
+
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
 CurrentVersion: 1.0.0
 CurrentVersionCode: 1
+
